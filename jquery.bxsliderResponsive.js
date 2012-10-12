@@ -12,8 +12,15 @@
 			speed: 500,
 			delay: 2000,
 			controls: true,
+			nextText: 'Next',
+			prevText: 'Prev',
+			startText: 'Start',
+			stopText: 'Stop',
 			auto: false,
+			autoStart: true,
 			autoDirection: 'next',
+			autoControls: false,
+			autoControlsCombine: false,
 			onSomeEvent: function() {}
 		}
 
@@ -42,10 +49,12 @@
 			}
 			// store the current state of the slider (if in motion, working is true)
 			plugin.working = false;
+			// initialize the controls object
+			plugin.controls = {}
 			// perform all DOM modifications
 			setup();
 			// if auto is true, start the show
-			if(plugin.settings.auto) el.startAuto();
+			if(plugin.settings.auto && plugin.settings.autoStart) el.startAuto();
 		}
 
 		// performs all DOM and CSS modifications
@@ -65,6 +74,8 @@
 			setWrapDimensions();
 			// if controls are requested, add them
 			if(plugin.settings.controls) appendControls();
+			// if auto is true, and auto controls are requested, add them
+			if(plugin.settings.auto && plugin.settings.autoControls) appendControlsAuto();
 			// modify the newly added slide
 			plugin.active.el = applyNewElCss(plugin.active.el);
 			// replace el's content with the first requested slide
@@ -82,15 +93,35 @@
 		
 		// appends prev / next controls to the DOM
 		var appendControls = function(){
-			plugin.controls = {
-				next: $('<a class="bx-next" href="">next</a>'),
-				prev: $('<a class="bx-prev" href="">prev</a>')
-			}
+			plugin.controls.next = $('<a class="bx-next" href="">' + plugin.settings.nextText + '</a>');
+			plugin.controls.prev = $('<a class="bx-prev" href="">' + plugin.settings.prevText + '</a>');
 			// bind click actions to the controls
 			plugin.controls.next.bind('click', clickNextBind);
 			plugin.controls.prev.bind('click', clickPrevBind);
 			// add the controls to the DOM
-			plugin.wrap.after(plugin.controls.prev, plugin.controls.next);
+			plugin.controls.directionEl = $('<div class="bx-controls bx-controls-direction" />');
+			plugin.controls.directionEl.append(plugin.controls.prev).append(plugin.controls.next);
+			plugin.wrap.after(plugin.controls.directionEl);
+		}
+		
+		// appends start / stop auto controls to the DOM
+		var appendControlsAuto = function(){
+			plugin.controls.start = $('<a class="bx-start" href="">' + plugin.settings.startText + '</a>');
+			plugin.controls.stop = $('<a class="bx-stop" href="">' + plugin.settings.stopText + '</a>');
+			// add the controls to the DOM
+			plugin.controls.autoEl = $('<div class="bx-controls bx-controls-auto" />');
+			// bind click actions to the controls
+			plugin.controls.autoEl.delegate('.bx-start', 'click', clickStartBind);
+			plugin.controls.autoEl.delegate('.bx-stop', 'click', clickStopBind);
+			// if autoControlsCombine, insert only the "start" or "stop" control
+			if(plugin.settings.autoControlsCombine){
+				var autoEl = plugin.settings.autoStart ? plugin.controls.stop : plugin.controls.start;
+				plugin.controls.autoEl.append(autoEl);
+			// if autoControlsCombine is false, insert both controls
+			}else{
+				plugin.controls.autoEl.append(plugin.controls.start).append(plugin.controls.stop);
+			}
+			plugin.wrap.after(plugin.controls.autoEl);
 		}
 		
 		/**
@@ -100,6 +131,8 @@
 		 *  - DOM event object
 		 */
 		var clickNextBind = function(e){
+			// if auto show is running, stop it
+			if (plugin.settings.auto) el.stopAuto();
 			el.goToNextSlide();
 			e.preventDefault();
 		}
@@ -111,10 +144,34 @@
 		 *  - DOM event object
 		 */
 		var clickPrevBind = function(e){
+			// if auto show is running, stop it
+			if (plugin.settings.auto) el.stopAuto();
 			el.goToPrevSlide();
 			e.preventDefault();
 		}
 		
+		/**
+		 * click start binding
+		 *
+		 * @param e (event) 
+		 *  - DOM event object
+		 */
+		var clickStartBind = function(e){
+			el.startAuto();
+			e.preventDefault();
+		}
+		
+		/**
+		 * click stop binding
+		 *
+		 * @param e (event) 
+		 *  - DOM event object
+		 */
+		var clickStopBind = function(e){
+			el.stopAuto();
+			e.preventDefault();
+		}
+
 		/**
 		 * cleans up the old slide after a transition
 		 *
@@ -148,6 +205,23 @@
 				listStyle: 'none'
 			});
 			return newEl;
+		}
+		
+		/**
+		 * updates the auto controls state (either active, or combined switch)
+		 *
+		 * @param state (string) "start", "stop"
+		 *  - the new state of the auto show
+		 */
+		var updateAutoControls = function(state){
+			// if autoControlsCombine is true, replace the current control with the new state 
+			if(plugin.settings.autoControlsCombine){
+				plugin.controls.autoEl.html(plugin.controls[state]);
+			// if autoControlsCombine is false, apply the "active" class to the appropriate control 
+			}else{
+				plugin.controls.autoEl.children().removeClass('active');
+				plugin.controls.autoEl.find(':not(.bx-' + state + ')').addClass('active');
+			}
 		}
 		
 		/**
@@ -241,10 +315,25 @@
 		
 		// starts the auto show
 		el.startAuto = function(){
+			// if an interval already exists, disregard call
+			if(plugin.interval) return;
 			// create an interval
 			plugin.interval = setInterval(function(){
 				plugin.settings.autoDirection == 'next' ? el.goToNextSlide() : el.goToPrevSlide();
 			}, plugin.settings.delay);
+			// if auto controls are displayed
+			if (plugin.settings.autoControls) updateAutoControls('stop');
+		}
+		
+		// stops the auto show
+		el.stopAuto = function(){
+			// if no interval exists, disregard call
+			if(!plugin.interval) return;
+			// clear the interval
+			clearInterval(plugin.interval);
+			plugin.interval = null;
+			// if auto controls are displayed
+			if (plugin.settings.autoControls) updateAutoControls('start');
 		}
 		
 		// makes slideshow responsive
