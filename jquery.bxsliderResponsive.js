@@ -9,6 +9,7 @@
 
 		var defaults = {
 			mode: 'horizontal',
+			infiniteLoop: true,
 			speed: 500,
 			delay: 2000,
 			controls: true,
@@ -21,6 +22,8 @@
 			autoDirection: 'next',
 			autoControls: false,
 			autoControlsCombine: false,
+			autoHover: false,
+			autoDelay: 0,
 			onSomeEvent: function() {}
 		}
 
@@ -54,7 +57,7 @@
 			// perform all DOM modifications
 			setup();
 			// if auto is true, start the show
-			if(plugin.settings.auto && plugin.settings.autoStart) el.startAuto();
+			if(plugin.settings.auto && plugin.settings.autoStart) initAuto();
 		}
 
 		// performs all DOM and CSS modifications
@@ -113,14 +116,14 @@
 			// bind click actions to the controls
 			plugin.controls.autoEl.delegate('.bx-start', 'click', clickStartBind);
 			plugin.controls.autoEl.delegate('.bx-stop', 'click', clickStopBind);
-			// if autoControlsCombine, insert only the "start" or "stop" control
+			// if autoControlsCombine, insert only the "start" control
 			if(plugin.settings.autoControlsCombine){
-				var autoEl = plugin.settings.autoStart ? plugin.controls.stop : plugin.controls.start;
-				plugin.controls.autoEl.append(autoEl);
+				plugin.controls.autoEl.append(plugin.controls.start);
 			// if autoControlsCombine is false, insert both controls
 			}else{
 				plugin.controls.autoEl.append(plugin.controls.start).append(plugin.controls.stop);
 			}
+			// add the controls to the DOM
 			plugin.wrap.after(plugin.controls.autoEl);
 		}
 		
@@ -224,6 +227,39 @@
 			}
 		}
 		
+		// initialzes the auto process
+		var initAuto = function(){
+			// if autoDelay was supplied, launch the auto show using a setTimeout() call
+			if(plugin.settings.autoDelay > 0){
+				var timeout = setTimeout(el.startAuto, plugin.settings.autoDelay);
+			// if autoDelay was not supplied, start the auto show normally
+			}else{
+				el.startAuto();
+			}
+			// if autoHover is requested
+			if(plugin.settings.autoHover){
+				// on el hover
+				el.hover(function(){
+					// if the auto show is currently playing (has an active interval)
+					if(plugin.interval){
+						// stop the auto show and pass true agument which will prevent control update
+						el.stopAuto(true);
+						// create a new autoPaused value which will be used by the relative "mouseout" event
+						plugin.autoPaused = true;
+					}
+				}, function(){
+					// if the autoPaused value was created be the prior "mouseover" event
+					if(plugin.autoPaused){
+						// start the auto show and pass true agument which will prevent control update
+						el.startAuto(true);
+						// reset the autoPaused value
+						plugin.autoPaused = null;
+					}
+				});
+			}
+			
+		}
+		
 		/**
 		 * ===================================================================================
 		 * = PUBLIC FUNCTIONS
@@ -313,27 +349,37 @@
 			el.goToSlide(prevIndex, 'prev');
 		}
 		
-		// starts the auto show
-		el.startAuto = function(){
+		/**
+		 * starts the auto show
+		 *
+		 * @param preventControlUpdate (boolean) 
+		 *  - if true, auto controls state will not be updated
+		 */
+		el.startAuto = function(preventControlUpdate){
 			// if an interval already exists, disregard call
 			if(plugin.interval) return;
 			// create an interval
 			plugin.interval = setInterval(function(){
 				plugin.settings.autoDirection == 'next' ? el.goToNextSlide() : el.goToPrevSlide();
 			}, plugin.settings.delay);
-			// if auto controls are displayed
-			if (plugin.settings.autoControls) updateAutoControls('stop');
+			// if auto controls are displayed and preventControlUpdate is not true
+			if (plugin.settings.autoControls && preventControlUpdate != true) updateAutoControls('stop');
 		}
 		
-		// stops the auto show
-		el.stopAuto = function(){
+		/**
+		 * stops the auto show
+		 *
+		 * @param preventControlUpdate (boolean) 
+		 *  - if true, auto controls state will not be updated
+		 */
+		el.stopAuto = function(preventControlUpdate){
 			// if no interval exists, disregard call
 			if(!plugin.interval) return;
 			// clear the interval
 			clearInterval(plugin.interval);
 			plugin.interval = null;
-			// if auto controls are displayed
-			if (plugin.settings.autoControls) updateAutoControls('start');
+			// if auto controls are displayed and preventControlUpdate is not true
+			if (plugin.settings.autoControls && preventControlUpdate != true) updateAutoControls('start');
 		}
 		
 		// makes slideshow responsive
