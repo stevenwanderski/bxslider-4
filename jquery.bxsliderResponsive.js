@@ -1,7 +1,8 @@
-// jQuery Plugin Boilerplate
-// A boilerplate for jumpstarting jQuery plugins development
-// version 2.0, July 8th, 2011
-// by Stefan Gabos
+/**
+ * BxSlider v4.0 - Responsive!!
+ *
+ * Woot woot.
+ */
 
 ;(function($) {
 
@@ -9,9 +10,13 @@
 
 		var defaults = {
 			mode: 'horizontal',
+			childSelector: '',
 			infiniteLoop: true,
+			hideControlOnEnd: true,
 			speed: 500,
 			delay: 2000,
+			startSlide: 0,
+			pager: true,
 			controls: true,
 			nextText: 'Next',
 			prevText: 'Prev',
@@ -41,14 +46,14 @@
 			// merge user supplied options
 			plugin.settings = $.extend({}, defaults, options);
 			// store the immediate children
-			plugin.children = el.children();
+			plugin.children = el.children(plugin.settings.childSelector);
 			// store el's parent
 			plugin.parent = el.parent();
 			// store active slide information
 			plugin.active = {
-				index: 0,
-				el: plugin.children.eq(0).clone(),
-				width: plugin.children.eq(0).outerWidth()
+				index: plugin.settings.startSlide,
+				el: plugin.children.eq(plugin.settings.startSlide).clone(),
+				width: plugin.children.eq(plugin.settings.startSlide).outerWidth()
 			}
 			// store the current state of the slider (if in motion, working is true)
 			plugin.working = false;
@@ -79,6 +84,8 @@
 			if(plugin.settings.controls) appendControls();
 			// if auto is true, and auto controls are requested, add them
 			if(plugin.settings.auto && plugin.settings.autoControls) appendControlsAuto();
+			// if pager is requested, add it
+			if(plugin.settings.pager) appendPager();
 			// modify the newly added slide
 			plugin.active.el = applyNewElCss(plugin.active.el);
 			// replace el's content with the first requested slide
@@ -94,16 +101,37 @@
 			});
 		}
 		
+		// appends the pager
+		var appendPager = function(){
+			var pagerHtml = '';
+			plugin.children.each(function(index){
+			  pagerHtml += '<a href="" data-slide-index="' + index + '" class="bx-pager-link">' + (index + 1) + '</a>';
+			});
+			// create the pager DOM element
+			plugin.pagerEl = $('<div class="bx-pager" />');
+			// assign the pager click binding
+			plugin.pagerEl.delegate('.bx-pager-link', 'click', clickPagerBind);
+			// populate the pager element with pager links
+			plugin.pagerEl.html(pagerHtml);
+			// add the pager to the DOM
+			plugin.wrap.after(plugin.pagerEl);
+			// make the appropriate link active
+			updatePagerActive(plugin.settings.startSlide);
+		}
+		
 		// appends prev / next controls to the DOM
 		var appendControls = function(){
 			plugin.controls.next = $('<a class="bx-next" href="">' + plugin.settings.nextText + '</a>');
 			plugin.controls.prev = $('<a class="bx-prev" href="">' + plugin.settings.prevText + '</a>');
-			// bind click actions to the controls
-			plugin.controls.next.bind('click', clickNextBind);
-			plugin.controls.prev.bind('click', clickPrevBind);
 			// add the controls to the DOM
 			plugin.controls.directionEl = $('<div class="bx-controls bx-controls-direction" />');
+			// bind click actions to the controls
+			plugin.controls.directionEl.delegate('.bx-next', 'click', clickNextBind);
+			plugin.controls.directionEl.delegate('.bx-prev', 'click', clickPrevBind);
+			// add the controls to the DOM
 			plugin.controls.directionEl.append(plugin.controls.prev).append(plugin.controls.next);
+			// check for any updates to the controls (like hideControlOnEnd updates)
+			updateDirectionControls(plugin.settings.startSlide);
 			plugin.wrap.after(plugin.controls.directionEl);
 		}
 		
@@ -176,6 +204,31 @@
 		}
 
 		/**
+		 * click pager binding
+		 *
+		 * @param e (event) 
+		 *  - DOM event object
+		 */
+		var clickPagerBind = function(e){
+			var pagerLink = $(e.currentTarget);
+			var slideIndex = parseInt(pagerLink.attr('data-slide-index'));
+			// if clicked pager link is not active, continue with the goToSlide call
+			if(slideIndex != plugin.active.index) el.goToSlide(slideIndex);
+			e.preventDefault();
+		}
+		
+		/**
+		 * updates the pager links with an active class
+		 *
+		 * @param slideIndex (int) 
+		 *  - index of slide to make active
+		 */
+		var updatePagerActive = function(slideIndex){
+			plugin.pagerEl.children().removeClass('active');
+			plugin.pagerEl.children().eq(slideIndex).addClass('active');
+		}
+		
+		/**
 		 * cleans up the old slide after a transition
 		 *
 		 * @param newEl (jQuery object) 
@@ -196,21 +249,6 @@
 		}
 		
 		/**
-		 * modifies newly added slide's CSS
-		 *
-		 * @param newEl (jQuery object) 
-		 *  - the newly added element
-		 */
-		var applyNewElCss = function(newEl){
-			newEl.css({
-				float: 'left',
-				width: plugin.active.width,
-				listStyle: 'none'
-			});
-			return newEl;
-		}
-		
-		/**
 		 * updates the auto controls state (either active, or combined switch)
 		 *
 		 * @param state (string) "start", "stop"
@@ -225,6 +263,45 @@
 				plugin.controls.autoEl.children().removeClass('active');
 				plugin.controls.autoEl.find(':not(.bx-' + state + ')').addClass('active');
 			}
+		}
+		
+		/**
+		 * updates the direction controls (checks if either should be hidden)
+		 *
+		 * @param slideIndex (int) 
+		 *  - index of the newly requested slide
+		 */
+		var updateDirectionControls = function(slideIndex){
+			// if infiniteLoop is false and hideControlOnEnd is true
+			if(!plugin.settings.infiniteLoop && plugin.settings.hideControlOnEnd){
+				// clear the contents of the controls
+				plugin.controls.directionEl.empty();
+				// if first slide
+				if (slideIndex == 0){
+					plugin.controls.directionEl.append(plugin.controls.next);
+				// if last slide
+				}else if(slideIndex == plugin.children.length - 1){
+					plugin.controls.directionEl.append(plugin.controls.prev);
+				// if any slide in the middle
+				}else{
+					plugin.controls.directionEl.append(plugin.controls.prev, plugin.controls.next);
+				}
+			}
+		}
+		
+		/**
+		 * modifies newly added slide's CSS
+		 *
+		 * @param newEl (jQuery object) 
+		 *  - the newly added element
+		 */
+		var applyNewElCss = function(newEl){
+			newEl.css({
+				float: 'left',
+				width: plugin.active.width,
+				listStyle: 'none'
+			});
+			return newEl;
 		}
 		
 		// initialzes the auto process
@@ -284,6 +361,10 @@
 			var newSlide = plugin.children.eq(slideIndex).clone();
 			// apply CSS to the newly requested slide
 			newSlide = applyNewElCss(newSlide);
+			// update the pager with active class
+			updatePagerActive(slideIndex);
+			// check for direction control update
+			updateDirectionControls(slideIndex);
 			
 			// if slider is set to mode: "fade"
 			if(plugin.settings.mode == 'fade'){
@@ -310,6 +391,11 @@
 			// if slider is not set to mode: "fade"
 			}else{
 				
+				// determine direction of travel to destination slide
+				if(typeof direction == 'undefined'){
+					direction = slideIndex > plugin.active.index ? 'next' : 'prev';
+				}
+				
 				// if direction is "next"
 				if(direction == 'next'){
 					// append the newly requested element to the right side of the current element
@@ -335,6 +421,8 @@
 		
 		// transitions to the next slide in the show
 		el.goToNextSlide = function(){
+			// if infiniteLoop is false and slideIndex + 1 is the last slide, disregard call
+			if (!plugin.settings.infiniteLoop && plugin.active.index + 1 == plugin.children.length) return;
 			// if the next slide index is greater than the number of total slide, use zero
 			// if not, use active index + 1
 			var nextIndex = plugin.active.index + 1 == plugin.children.length ? 0 : plugin.active.index + 1;
@@ -343,6 +431,8 @@
 		
 		// transitions to the prev slide in the show
 		el.goToPrevSlide = function(){
+			// if infiniteLoop is false and slideIndex - 1 is the first slide, disregard call
+			if (!plugin.settings.infiniteLoop && plugin.active.index - 1 < 0) return;
 			// if the prev slide index is less than zero, use the last index
 			// if not, use active index - 1
 			var prevIndex = plugin.active.index - 1 < 0 ? plugin.children.length - 1 : plugin.active.index - 1;
