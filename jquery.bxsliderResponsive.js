@@ -86,7 +86,10 @@
 			slider.active.page = getCurrentPage();
 			
 			// make the appropriate link active
-			updatePagerActive(slider.settings.startSlide);
+			if (slider.settings.pager) updatePagerActive(slider.settings.startSlide);
+			
+			// check for any updates to the controls (like hideControlOnEnd updates)
+			if(slider.settings.controls) updateDirectionControls(slider.settings.startSlide);
 			
 			// if auto is true, start the show
 			if(slider.settings.auto && slider.settings.autoStart) initAuto();
@@ -102,7 +105,8 @@
 			// also strip any margin and padding from el
 			el.css({
 				width: slider.settings.mode == 'horizontal' ? '999999px' : 'auto',
-				height: slider.settings.mode == 'vertical' ? '999999px' : 'auto',
+				// height: slider.settings.mode == 'vertical' ? '999999px' : 'auto',
+				height: 0,
 				position: 'relative',
 				margin: 0,
 				padding: 0
@@ -117,30 +121,16 @@
 				overflow: 'hidden',
 				position: 'relative'
 			});
+			// apply css to all slider children
+			slider.children.each(function(index) {
+			  applyNewElCss($(this));
+			});
 			// if controls are requested, add them
 			if(slider.settings.controls) appendControls();
 			// if auto is true, and auto controls are requested, add them
 			if(slider.settings.auto && slider.settings.autoControls) appendControlsAuto();
-			// // modify the newly added slide
-			// slider.active.el = applyNewElCss(slider.active.el);
-			// replace el's content with the first requested slide
-			// el.html(slider.active.el);
-			
-			// el.empty();
-			// for(var i = 0; i < slider.settings.maxSlides; i++){
-			// 	var newEl = applyNewElCss(slider.children.eq(i).clone());
-			// 	el.append(newEl);
-			// };
-
-			slider.children.each(function(index) {
-			  applyNewElCss($(this));
-			});
-			
 			// if pager is requested, add it
 			if(slider.settings.pager) appendPager();
-			
-			var cutoff = slider.settings.moveSlides > 0 ? slider.settings.moveSlides : getNumberSlidesShowing(false);
-			slider.active.set = el.children().slice(0, cutoff);
 		}
 		
 		var getNumberSlidesShowing = function(includePartial){
@@ -157,9 +147,17 @@
 		}
 		
 		var getPagerQty = function(){
-			var pagerQty = Math.ceil(slider.children.length / getNumberSlidesShowing(false));
+			var pagerQty = 0;
 			if(slider.settings.moveSlides > 0){
-				pagerQty = (slider.children.length + 1) - getNumberSlidesShowing(false);
+				var breakPoint = 0;
+				var counter = 0
+				while (breakPoint < slider.children.length){
+					++pagerQty;
+					breakPoint = counter + getNumberSlidesShowing(false);
+					counter += slider.settings.moveSlides;
+				}
+			}else{
+				pagerQty = Math.ceil(slider.children.length / getNumberSlidesShowing(false));
 			}
 			return pagerQty;
 		}
@@ -170,6 +168,13 @@
 				currentPage = Math.ceil(slider.active.index / getNumberSlidesShowing(false));
 			}
 			return currentPage >= getPagerQty() ? getPagerQty() - 1 : currentPage;
+		}
+		
+		var getMoveBy = function(){
+			if(slider.settings.moveSlides > 0){
+				return slider.settings.moveSlides;
+			}
+			return getNumberSlidesShowing(false);
 		}
 		
 		var populatePager = function(){
@@ -241,8 +246,6 @@
 			slider.controls.directionEl.delegate('.bx-prev', 'click', clickPrevBind);
 			// add the control elements to the directionEl
 			slider.controls.directionEl.append(slider.controls.prev).append(slider.controls.next);
-			// check for any updates to the controls (like hideControlOnEnd updates)
-			updateDirectionControls(slider.settings.startSlide);
 			// if controls selector was supplied, populate it with the controls
 			if(slider.settings.controlsSelector){
 				$(slider.settings.controlsSelector).html(slider.controls.directionEl);
@@ -337,10 +340,10 @@
 			var pagerLink = $(e.currentTarget);
 			var pagerIndex = parseInt(pagerLink.attr('data-slide-index'));
 			
-			var slideIndex = slider.settings.moveSlides == 0 ? pagerIndex * getNumberSlidesShowing() : pagerIndex * slider.settings.moveSlides;
+			// var slideIndex = slider.settings.moveSlides == 0 ? pagerIndex * getNumberSlidesShowing() : pagerIndex * slider.settings.moveSlides;
 			
 			// if clicked pager link is not active, continue with the goToSlide call
-			if(slideIndex != slider.active.index) el.goToSlide(slideIndex);
+			if(pagerIndex != slider.active.index) el.goToSlide(pagerIndex);
 			e.preventDefault();
 		}
 		
@@ -356,7 +359,7 @@
 				return;
 			}
 			slider.pagerEl.children().removeClass('active');
-			slider.pagerEl.children().eq(getCurrentPage()).addClass('active');
+			slider.pagerEl.children().eq(slideIndex).addClass('active');
 		}
 		
 		/**
@@ -369,7 +372,7 @@
 		 *  - the newly added element's index
 		 */
 		var updateAfterSlideTransition = function(newEl, newIndex){
-			slider.active.index = newIndex;
+			// slider.active.index = newIndex;
 			// slider.active.set.remove();
 			// slider.active.set = el.children().slice(0, slider.settings.moveSlides > 0 ? slider.settings.moveSlides : getNumberSlidesShowing(false));
 			// slider.active.last  = newIndex;
@@ -415,10 +418,10 @@
 				// clear the contents of the controls
 				slider.controls.directionEl.empty();
 				// if first slide
-				if (slideIndex == 0){
+				if (slider.active.page == 0){
 					slider.controls.directionEl.append(slider.controls.next);
 				// if last slide
-				}else if(slideIndex == slider.children.length - 1){
+				}else if(slider.active.page == getPagerQty() - 1){
 					slider.controls.directionEl.append(slider.controls.prev);
 				// if any slide in the middle
 				}else{
@@ -435,19 +438,21 @@
 		 */
 		var applyNewElCss = function(newEl){
 			
-			var slideMaxThreashold = slider.settings.slideWidth * slider.settings.maxSlides;
-			var slideMinThreashold = slider.settings.slideWidth * slider.settings.minSlides;
 			var newElWidth = slider.settings.slideWidth;
 			var wrapWidth = slider.wrap.width();
-			if(wrapWidth > slideMaxThreashold){
-				newElWidth = wrapWidth / slider.settings.maxSlides;
-			}else if(wrapWidth < slideMinThreashold){
-				newElWidth = wrapWidth / slider.settings.minSlides;
-			}
 			
+			if(slider.settings.slideWidth == 0){
+				newElWidth = wrapWidth;
+			}else{
+				if(wrapWidth > slider.maxThreashold){
+					newElWidth = wrapWidth / slider.settings.maxSlides;
+				}else if(wrapWidth < slider.minThreashold){
+					newElWidth = wrapWidth / slider.settings.minSlides;
+				}
+			}
+
 			newEl.css({
 				float: slider.settings.mode == 'horizontal' ? 'left' : 'none',
-				// width: slider.settings.mode == 'horizontal' || slider.settings.mode == 'fade' ? slider.active.width : 'auto',
 				width: newElWidth,
 				listStyle: 'none'
 			});
@@ -535,12 +540,10 @@
 			slider.active.index = slideIndex;
 			slider.active.page = getCurrentPage();
 			
-			console.log(slider.active.page);
-			
 			// update the pager with active class
 			if(slider.settings.pager) updatePagerActive(slideIndex);
 			// // check for direction control update
-			// if(slider.settings.controls) updateDirectionControls(slideIndex);
+			if(slider.settings.controls) updateDirectionControls(slideIndex);
 			
 			// if slider is set to mode: "fade"
 			if(slider.settings.mode == 'fade'){
@@ -573,16 +576,17 @@
 					// if mode is "horizontal"
 					if(slider.settings.mode == 'horizontal'){
 						
-						if(slider.active.page == getPagerQty() - 1){
+						var requestEl = slider.settings.moveSlides == 0 ? slideIndex * getNumberSlidesShowing(false) : slideIndex * slider.settings.moveSlides;
+						var position = el.children().eq(requestEl).position();
+						var moveBy = -position.left;
+						slider.active.last = false;
+						
+						if(slider.active.index == getPagerQty() - 1){
 							
+							slider.active.last = true;
 							var lastChild = el.children(':last');
 							var position = lastChild.position();
 							moveBy = -(position.left - (slider.wrap.width() - lastChild.width()));
-							
-						}else{
-							
-							var position = el.children().eq(slideIndex).position();
-							var moveBy = -position.left;
 							
 						}
 						
@@ -590,53 +594,6 @@
 							newSlide = '';
 							updateAfterSlideTransition(newSlide, slideIndex);
 						});
-						
-						// var currentWidth = el.children(':first').width();
-						// console.log(currentWidth);
-						// var moveBy = currentWidth * slideIndex;
-						
-						// var wrapWidth = slider.wrap.width();
-						// var numberOfSlidesToMove = slider.settings.moveSlides > 0 ? slider.settings.moveSlides : getNumberSlidesShowing(false);
-						// var moveBy = numberOfSlidesToMove * el.children(':first').width();
-						// 
-						// var newLastIndex = '';
-						// 
-						// for (var i=1; i < numberOfSlidesToMove + 1; i++) {
-						// 	
-						// 	var slideIndex = slider.active.last + i
-						// 	if(slideIndex >= slider.children.length){
-						// 		slideIndex = slideIndex - slider.children.length;
-						// 	}
-						// 	
-						// 	newLastIndex = slideIndex;
-						// 	
-						// 	var newEl = applyNewElCss(slider.children.eq(slideIndex).clone());
-						// 	el.append(newEl);
-						// };
-						// 
-						// var newFirstIndex = newLastIndex - numberOfSlidesToMove;
-						// 
-						// el.animate({left: moveBy}, slider.settings.speed, slider.settings.easing, function(){
-						// 	newSlide = '';
-						// 	updateAfterSlideTransition(newSlide, slideIndex);
-						// 	// // reset el's left position to zero
-						// 	// el.css('left', 0);
-						// });
-						
-						// OLD
-						
-						// // apply any margins from slideMargin
-						// newSlide.css({
-						// 	marginLeft: slider.settings.slideMargin > 0 ? slider.settings.slideMargin : 0
-						// });
-						// 
-						// // append the newly requested element to the right side of the current element
-						// // then animate to the left
-						// el.append(newSlide).animate({left: -(slider.active.width + slider.settings.slideMargin)}, slider.settings.speed, slider.settings.easing, function(){
-						// 	updateAfterSlideTransition(newSlide, slideIndex);
-						// 	// reset el's left position to zero
-						// 	el.css('left', 0);
-						// });
 						
 					// if mode is "vertical"
 					}else if(slider.settings.mode == 'vertical'){
@@ -669,12 +626,12 @@
 					if(slider.settings.mode == 'horizontal'){
 						
 						var moveBy = 0;
+						slider.active.last = false;
 						
 						if(slideIndex > 0){
-							
-							var position = el.children().eq(slideIndex).position();
+							var requestEl = slider.settings.moveSlides == 0 ? slideIndex * getNumberSlidesShowing(false) : slideIndex * slider.settings.moveSlides;
+							var position = el.children().eq(requestEl).position();
 							moveBy = -position.left;
-							
 						}
 						
 						el.animate({left: moveBy}, slider.settings.speed, slider.settings.easing, function(){
@@ -730,11 +687,11 @@
 			// el.goToSlide(nextIndex, 'next');
 			
 			// if infiniteLoop is false and last page is showing, disregard call
-			if (!slider.settings.infiniteLoop && slider.active.page == getPagerQty() - 1) return;
+			if (!slider.settings.infiniteLoop && slider.active.index == getPagerQty() - 1) return;
 			
-			var pagerIndex = getCurrentPage() + 1;
-			var slideIndex = slider.settings.moveSlides == 0 ? pagerIndex * getNumberSlidesShowing() : pagerIndex * slider.settings.moveSlides;
-			el.goToSlide(slideIndex, 'next');
+			var pagerIndex = slider.active.index + 1;
+			// var slideIndex = slider.settings.moveSlides == 0 ? pagerIndex * getNumberSlidesShowing() : pagerIndex * slider.settings.moveSlides;
+			el.goToSlide(pagerIndex, 'next');
 			
 			// var wrapWidth = slider.wrap.width();
 			// var numberOfSlidesToMove = slider.settings.moveSlides > 0 ? slider.settings.moveSlides : getNumberSlidesShowing(false);
@@ -782,9 +739,9 @@
 			// if infiniteLoop is false and last page is showing, disregard call
 			if (!slider.settings.infiniteLoop && slider.active.page == 0) return;
 			
-			var pagerIndex = getCurrentPage() - 1;
-			var slideIndex = slider.settings.moveSlides == 0 ? pagerIndex * getNumberSlidesShowing() : pagerIndex * slider.settings.moveSlides;
-			el.goToSlide(slideIndex, 'next');
+			var pagerIndex = slider.active.index - 1;
+			// var slideIndex = slider.settings.moveSlides == 0 ? pagerIndex * getNumberSlidesShowing() : pagerIndex * slider.settings.moveSlides;
+			el.goToSlide(pagerIndex, 'next');
 			
 		}
 		
@@ -827,27 +784,26 @@
 		 */
 		$(window).resize(function(){
 			
-			slider.active.set = el.children().slice(0, slider.settings.moveSlides > 0 ? slider.settings.moveSlides : getNumberSlidesShowing(false));
-			
 			el.children().each(function(index) {
 			  applyNewElCss($(this));
 			});
 			
-			// if last slide
-			if(getCurrentPage() == getPagerQty() - 1){
-				
-				var lastChild = el.children(':last');
-				var position = lastChild.position();
-				el.css('left', -(position.left - (slider.wrap.width() - lastChild.width())));
-				
-			}else{
-				var position = el.children().eq(slider.active.index).position();
-				el.css('left', -position.left);
-			}
-			
 			if(slider.settings.pager){
 				populatePager();
 				updatePagerActive(slider.active.index);
+			}
+			
+			if (slider.active.last) slider.active.index = getPagerQty() - 1;
+			
+			// if last slide
+			if(slider.active.last){
+				var lastChild = el.children(':last');
+				var position = lastChild.position();
+				el.css('left', -(position.left - (slider.wrap.width() - lastChild.width())));
+			}else{
+				var position = el.children().eq(slider.active.index * getMoveBy()).position();
+				if (slider.active.index == getPagerQty()) slider.active.last = true;
+				if (position != undefined) el.css('left', -position.left);
 			}
 			
 			// // if mode is "horizontal", adjust all widths
