@@ -41,6 +41,7 @@
 			maxSlides: 1,
 			moveSlides: 0,
 			slideWidth: 0,
+			smoothHeightSpeed: 500,
 			onSomeEvent: function() {}
 		}
 
@@ -108,10 +109,11 @@
 			});
 			// store a namspace reference to .bx-wrapper
 			slider.wrap = el.parent();
+			
 			// make modifications to the wrapper (.bx-wrapper)
 			slider.wrap.css({
 				width: '100%',
-				height: slider.settings.mode == 'vertical' ? slider.active.height : 'auto',
+				height: getWrapHeight(),
 				overflow: 'hidden',
 				position: 'relative'
 			});
@@ -134,15 +136,41 @@
 			if(slider.settings.pager) appendPager();
 		}
 		
+		var getWrapHeight = function(max){
+			var height = 0;
+			var children = '';
+			if(slider.active.last){
+				children = el.children().slice(slider.children.length - slider.settings.minSlides, slider.children.length);
+			}else{
+				children = el.children().slice(slider.active.index, slider.settings.minSlides + slider.active.index);
+			}
+			children.each(function(index) {
+				if(max){
+					height = $(this).outerHeight() > height ? $(this).outerHeight() : height;
+				}else{
+			  	height += $(this).outerHeight();
+				}
+			});
+			// var height = slider.children.eq(slider.settings.startSlide).outerHeight() * slider.settings.minSlides
+			if(slider.settings.mode == 'vertical' && slider.settings.slideMargin > 0){
+				height += slider.settings.slideMargin * (slider.settings.minSlides - 1);
+			}
+			return height;
+		}
+		
 		var getNumberSlidesShowing = function(){
 			var slidesShowing = 0;
-			if(slider.wrap.width() < slider.minThreashold){
+			if(slider.settings.mode == 'horizontal'){
+				if(slider.wrap.width() < slider.minThreashold){
+					slidesShowing = slider.settings.minSlides;
+				}else if(slider.wrap.width() > slider.maxThreashold){
+					slidesShowing = slider.settings.maxSlides;
+				}else{
+					var childWidth = el.children(':first').width();
+					slidesShowing = Math.floor(slider.wrap.width() / childWidth);
+				}
+			}else if(slider.settings.mode == 'vertical'){
 				slidesShowing = slider.settings.minSlides;
-			}else if(slider.wrap.width() > slider.maxThreashold){
-				slidesShowing = slider.settings.maxSlides;
-			}else{
-				var childWidth = el.children(':first').width();
-				slidesShowing = Math.floor(slider.wrap.width() / childWidth);
 			}
 			return slidesShowing;
 		}
@@ -590,6 +618,10 @@
 						slider.active.last = false;
 						var moveBy = 0;
 						
+						if(slider.wrap.height() != getWrapHeight(true)){
+							slider.wrap.animate({height: getWrapHeight(true)}, slider.settings.smoothHeightSpeed);
+						}
+						
 						// if carousel mode and last slide
 						if(slider.carousel && slider.active.index >= getPagerQty() - 1){
 							slider.active.last = true;
@@ -613,23 +645,30 @@
 						
 						slider.active.last = slider.active.index >= getPagerQty() - 1;
 						
-						var requestEl = slideIndex * getMoveBy();
-						var position = el.children().eq(requestEl).position();
-						moveBy = -position.top;
+						if(slider.wrap.height() != getWrapHeight()){
+							slider.wrap.animate({height: getWrapHeight()}, slider.settings.smoothHeightSpeed);
+						}
+						
+						if(slider.carousel && slider.active.last){
+							
+							var lastChild = el.children().eq(slider.children.length - 1);
+							var position = lastChild.position();
+							moveBy = -(position.top - (slider.wrap.height() - lastChild.height()));
+							
+						}else{
+						
+							var requestEl = slideIndex * getMoveBy();
+							var position = el.children().eq(requestEl).position();
+							moveBy = -position.top;
+						
+						}
 						
 						// append the newly requested element to the right side of the current element
 						// then animate to the left
 						el.animate({top: moveBy}, slider.settings.speed, slider.settings.easing, function(){
 							updateAfterSlideTransition(slideIndex);
-							// reset el's left position to zero
-							// el.css('top', 0);
 						});
-						
-						// // check if the wrapper should use a new height (if the newly requested slide has a different height)
-						// if(newSlide.height() != slider.active.height){
-						// 	slider.wrap.height(newSlide.height());
-						// 	slider.active.height = newSlide.height();
-						// }
+
 						
 					}
 				
@@ -642,6 +681,10 @@
 						var moveBy = 0;
 						slider.active.last = false;
 						
+						if(slider.wrap.height() != getWrapHeight(true)){
+							slider.wrap.animate({height: getWrapHeight(true)}, slider.settings.smoothHeightSpeed);
+						}
+						
 						if(slideIndex > 0){
 							var requestEl = slideIndex * getMoveBy();
 							var position = el.children().eq(requestEl).position();
@@ -653,21 +696,14 @@
 							updateAfterSlideTransition(slideIndex);
 						});
 						
-						// // apply any margins from slideMargin
-						// newSlide.css({
-						// 	marginRight: slider.settings.slideMargin > 0 ? slider.settings.slideMargin : 0
-						// });
-						// 
-						// // prepend the newly requested element to the left side of the current element
-						// // then animate to the right
-						// el.prepend(newSlide).css('left', -(slider.active.width + slider.settings.slideMargin)).animate({left: 0}, slider.settings.speed, slider.settings.easing, function(){
-						// 	updateAfterSlideTransition(newSlide, slideIndex);
-						// });
-						
 					// if mode is "vertical"
 					}else if(slider.settings.mode == 'vertical'){
 						
 						slider.active.last = false;
+						
+						if(slider.wrap.height() != getWrapHeight()){
+							slider.wrap.animate({height: getWrapHeight()}, slider.settings.smoothHeightSpeed);
+						}
 						
 						var requestEl = slideIndex * getMoveBy();
 						var position = el.children().eq(requestEl).position();
@@ -678,12 +714,6 @@
 						el.animate({top: moveBy}, slider.settings.speed, slider.settings.easing, function(){
 							updateAfterSlideTransition(slideIndex);
 						});
-						
-						// // check if the wrapper should use a new height (if the newly requested slide has a different height)
-						// if(newSlide.height() != slider.active.height){
-						// 	slider.wrap.height(newSlide.height());
-						// 	slider.active.height = newSlide.height();
-						// }
 						
 					}
 				}
@@ -711,7 +741,7 @@
 			var pagerIndex = slider.active.index - 1;
 			// if carousel mode, infinite loop is true and "prev" was clicked while on the first slide, go to last slide
 			if (slider.carousel && slider.settings.infiniteLoop && pagerIndex < 0) pagerIndex = getPagerQty() - 1;
-			el.goToSlide(pagerIndex, 'next');
+			el.goToSlide(pagerIndex, 'prev');
 		}
 		
 		/**
