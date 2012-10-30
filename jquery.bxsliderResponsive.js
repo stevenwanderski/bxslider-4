@@ -36,6 +36,7 @@
 			autoControlsCombine: false,
 			autoHover: false,
 			autoDelay: 0,
+			captions: false,
 			ticker: false,
 			minSlides: 1,
 			maxSlides: 1,
@@ -43,11 +44,17 @@
 			slideWidth: 0,
 			adaptiveHeight: true,
 			adaptiveHeightSpeed: 500,
-			onSomeEvent: function() {}
+			touchEnabled: true,
+			swipeThreashold: 0,
+			onSliderLoad: function() {},
+			onSlideBefore: function() {},
+			onSlideAfter: function() {},
+			onSlideNext: function() {},
+			onSlidePrev: function() {}
 		}
 
 		var el = this;
-		slider = {}
+		var slider = {}
 		
 		/**
 		 * ===================================================================================
@@ -66,12 +73,7 @@
 			// store el's parent
 			slider.parent = el.parent();
 			// store active slide information
-			slider.active = {
-				index: slider.settings.startSlide,
-				el: slider.children.eq(slider.settings.startSlide).clone(),
-				width: slider.children.eq(slider.settings.startSlide).outerWidth(),
-				height: slider.children.eq(slider.settings.startSlide).outerHeight()
-			}
+			slider.active = { index: slider.settings.startSlide }
 			
 			slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1;
 			slider.minThreashold = (slider.settings.minSlides * slider.settings.slideWidth) + ((slider.settings.minSlides - 1) * slider.settings.slideMargin);
@@ -91,6 +93,10 @@
 			if(slider.settings.controls) updateDirectionControls(slider.settings.startSlide);
 			// if auto is true, start the show
 			if(slider.settings.auto && slider.settings.autoStart) initAuto();
+			// if touchEnabled is true
+			if(slider.settings.touchEnabled) initTouch();
+			// onSliderLoad callback
+			slider.settings.onSliderLoad();
 		}
 
 		/**
@@ -121,33 +127,57 @@
 			slider.children.each(function(index) {
 			  applyNewElCss($(this));
 			});
-			// preload all images, then assign the height to the wrapper
-			preloadImages(function(){
-				slider.wrap.animate({
-					height: getWrapHeight(slider.settings.mode != 'vertical', (!slider.settings.adaptiveHeight || slider.settings.ticker))
-				}, 100);
-			});
+			// if captions are requested, add them
+			if(slider.settings.captions) appendCaptions();
 			// if infinite loop, prepare additional slides
 			if(slider.settings.infiniteLoop && !slider.carousel && slider.settings.mode != 'fade'){
 				var cloneAppend = el.children(':first').clone().addClass('bx-clone');
 				var clonePrepend = el.children(':last').clone().addClass('bx-clone');
 				el.append(cloneAppend).prepend(clonePrepend);
-				if(slider.settings.mode == 'horizontal'){
-					el.css('left', -(el.children(':first').outerWidth() + slider.settings.slideMargin));
-				}else if(slider.settings.mode == 'vertical'){
-					el.css('top', -(el.children(':first').outerHeight() + slider.settings.slideMargin));
-				}
 			}
+			
+			// check if startSlide is last slide
+			slider.active.last = slider.settings.startSlide == getPagerQty() - 1
+			
+			if(slider.settings.mode == 'horizontal'){
+				var position = 0;
+				if(slider.carousel && slider.active.last){
+					var lastChild = el.children().eq(slider.children.length - 1);
+					position = lastChild.position().left - (slider.wrap.width() - lastChild.width());
+				}else{
+					position = el.children().not('.bx-clone').eq(slider.settings.startSlide * getMoveBy()).position().left;
+				}
+				el.css('left', -position);
+			}else if(slider.settings.mode == 'vertical'){
+				var position = 0;
+				if(slider.carousel && slider.active.last){
+					var lastShowingIndex = slider.children.length - slider.settings.minSlides;
+					position = el.children().eq(lastShowingIndex).position().top;
+				}else{
+					position = el.children().not('.bx-clone').eq(slider.settings.startSlide * getMoveBy()).position().top;
+				}
+				el.css('top', -(position));
+			}
+			
+			// preload all images, then assign the height to the wrapper
+			preloadImages(function(){
+				if (slider.settings.mode == 'vertical') slider.settings.adaptiveHeight = true;
+				slider.wrap.animate({
+					height: getWrapHeight(slider.settings.mode != 'vertical', (!slider.settings.adaptiveHeight || slider.settings.ticker))
+				}, 100);
+			});
 			// if mode is "fade", prepare the z-index on the showing element
 			if(slider.settings.mode == 'fade'){
 				el.children().eq(slider.settings.startSlide).css({zIndex: 50, display: 'block'});
 			}
-			// if controls are requested, add them
-			if(slider.settings.controls && !slider.settings.ticker) appendControls();
-			// if auto is true, and auto controls are requested, add them
-			if(slider.settings.auto && slider.settings.autoControls && !slider.settings.ticker) appendControlsAuto();
-			// if pager is requested, add it
-			if(slider.settings.pager && !slider.settings.ticker) appendPager();
+			if(!slider.settings.ticker){
+				// if controls are requested, add them
+				if(slider.settings.controls) appendControls();
+				// if auto is true, and auto controls are requested, add them
+				if(slider.settings.auto && slider.settings.autoControls) appendControlsAuto();
+				// if pager is requested, add it
+				if(slider.settings.pager) appendPager();
+			}
 		}
 		
 		var preloadImages = function(callback){
@@ -195,12 +225,12 @@
 		var getWrapHeight = function(max, allChildren){
 			var height = 0;
 			var children = '';
-			if(!slider.carousel){
+			if(allChildren){
+				children = el.children();
+			}else if(!slider.carousel){
 				children = el.children().not('.bx-clone').eq(slider.active.index);
 			}else{
-				if(allChildren){
-					children = el.children();
-				}else if(slider.active.last){
+				if(slider.active.last){
 					children = el.children().slice(slider.children.length - slider.settings.minSlides, slider.children.length);
 				}else{
 					children = el.children().slice(slider.active.index * getMoveBy(), slider.settings.minSlides + (slider.active.index * getMoveBy()));
@@ -347,6 +377,13 @@
 			}
 		}
 		
+		var appendCaptions = function(){
+			el.children().each(function(index){
+				var title = $(this).find('img:first').attr('title');
+				$(this).append('<div class="bx-caption">' + title + '</div>');
+			});
+		}
+		
 		/**
 		 * Click next binding
 		 *
@@ -454,6 +491,8 @@
 			}
 			// declare that the transition is complete
 			slider.working = false;
+			// onSlideAfter callback
+			slider.settings.onSlideAfter(el.children().eq(slider.active.index));
 		}
 		
 		/**
@@ -530,6 +569,29 @@
 				});
 			}
 			return newEl;
+		}
+		
+		var initTouch = function(){
+			slider.touch = {
+				start: {x: null, y: null},
+				end: {x: null, y: null}
+			}
+			slider.wrap.bind('touchstart', function(e){
+				var orig = e.originalEvent;
+				slider.touch.start.x = orig.changedTouches[0].pageX;
+			});
+			slider.wrap.bind('touchend', function(e){
+				var orig = e.originalEvent;
+				slider.touch.end.x = orig.changedTouches[0].pageX;
+				var distance = Math.abs(slider.touch.start.x - slider.touch.end.x);
+				if(distance >= slider.settings.swipeThreashold){
+					if(slider.touch.start.x > slider.touch.end.x){
+						el.goToNextSlide();
+					}else{
+						el.goToPrevSlide();
+					}
+				}
+			});
 		}
 		
 		/**
@@ -610,9 +672,9 @@
 		 * @param slideIndex (int) 
 		 *  - the destination slide's index (zero-based)
 		 */
-		el.goToSlide = function(slideIndex) {
+		el.goToSlide = function(slideIndex, direction) {
 			// if plugin is currently in motion, ignore request
-			if(slider.working) return;
+			if(slider.working || slider.active.index == slideIndex) return;
 			// declare that plugin is in motion
 			slider.working = true;
 			
@@ -622,6 +684,14 @@
 				slider.active.index = 0;
 			}else{
 				slider.active.index = slideIndex;
+			}
+			
+			// onSlideBefore, onSlideNext, onSlidePrev callbacks
+			slider.settings.onSlideBefore(el.children().eq(slider.active.index));
+			if(direction == 'next'){
+				slider.settings.onSlideNext(el.children().eq(slider.active.index));
+			}else if(direction == 'prev'){
+				slider.settings.onSlidePrev(el.children().eq(slider.active.index));
 			}
 			
 			// check if last slide
@@ -637,8 +707,8 @@
 				if(slider.settings.adaptiveHeight && slider.wrap.height() != getWrapHeight(true)){
 					slider.wrap.animate({height: getWrapHeight(true)}, slider.settings.adaptiveHeightSpeed);
 				}
+				el.children(':visible').fadeOut(slider.settings.speed).css({zIndex: 0});
 				el.children().eq(slider.active.index).css('zIndex', 51).fadeIn(slider.settings.speed, function(){
-					el.children().not($(this)).css({zIndex: 0, display: 'none'});
 					$(this).css('zIndex', 50);
 					updateAfterSlideTransition(slideIndex);
 				});
@@ -648,7 +718,7 @@
 					slider.wrap.animate({height: getWrapHeight(slider.settings.mode == 'horizontal')}, slider.settings.adaptiveHeightSpeed);
 				}
 				var moveBy = 0;
-				var position = '';
+				var position = {left: 0, top: 0};
 				// if carousel mode and last slide
 				if(slider.carousel && slider.active.last){
 					if(slider.settings.mode == 'horizontal'){
@@ -667,7 +737,7 @@
 					position = el.children().not('.bx-clone').eq(requestEl).position();
 				}
 				var animateProperty = slider.settings.mode == 'horizontal' ? {left: -(position.left - moveBy)} : {top: -position.top}
-				el.animate(animateProperty, slider.settings.speed, slider.settings.easing, function(){
+				el.animate(animateProperty, speed, slider.settings.easing, function(){
 					updateAfterSlideTransition(slideIndex);
 				});
 			}
@@ -680,10 +750,9 @@
 			// if infiniteLoop is false and last page is showing, disregard call
 			if (!slider.settings.infiniteLoop && slider.active.last) return;
 			var pagerIndex = slider.active.index + 1;
-			if(pagerIndex == 11) pagerIndex = 0;
 			// if carousel mode, infinite loop is true and "next" was clicked while on the last slide, go to slide 0
 			if (slider.carousel && slider.settings.infiniteLoop && pagerIndex >= getPagerQty()) pagerIndex = 0;
-			el.goToSlide(pagerIndex);
+			el.goToSlide(pagerIndex, 'next');
 		}
 		
 		/**
@@ -695,7 +764,7 @@
 			var pagerIndex = slider.active.index - 1;
 			// if carousel mode, infinite loop is true and "prev" was clicked while on the first slide, go to last slide
 			if (slider.carousel && slider.settings.infiniteLoop && pagerIndex < 0) pagerIndex = getPagerQty() - 1;
-			el.goToSlide(pagerIndex);
+			el.goToSlide(pagerIndex, 'prev');
 		}
 		
 		/**
@@ -729,6 +798,14 @@
 			slider.interval = null;
 			// if auto controls are displayed and preventControlUpdate is not true
 			if (slider.settings.autoControls && preventControlUpdate != true) updateAutoControls('start');
+		}
+		
+		el.getCurrentSlide = function(){
+			return slider.active.index;
+		}
+		
+		el.getSlideCount = function(){
+			return slider.children.length;
 		}
 		
 		/**
