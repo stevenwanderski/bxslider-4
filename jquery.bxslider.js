@@ -10,9 +10,9 @@
  * http://bxcreative.com
  */
 
-;(function($) {
+;(function($){
 
-	$.fn.bxSlider = function(options) {
+	$.fn.bxSlider = function(options){
 
 		var defaults = {
 			mode: 'horizontal',
@@ -31,8 +31,8 @@
 			buildPager: null,
 			controls: true,
 			controlsSelector: null,
-			nextText: '&gt;',
-			prevText: '&lt;',
+			nextText: 'Next',
+			prevText: 'Prev',
 			startText: 'Start',
 			stopText: 'Stop',
 			auto: false,
@@ -51,7 +51,7 @@
 			adaptiveHeight: true,
 			adaptiveHeightSpeed: 500,
 			touchEnabled: true,
-			swipeThreashold: 0,
+			swipeThreashold: 50,
 			onSliderLoad: function() {},
 			onSlideBefore: function() {},
 			onSlideAfter: function() {},
@@ -73,7 +73,7 @@
 		/**
 		 * Initializes namespace settings to be used throughout plugin
 		 */
-		var init = function() {
+		var init = function(){
 			// merge user supplied options
 			slider.settings = $.extend({}, defaults, options);
 			// store the original children
@@ -120,6 +120,7 @@
 			el.css({
 				width: slider.settings.mode == 'horizontal' ? '999999px' : 'auto',
 				height: 0,
+				overflow: 'hidden',
 				position: 'relative',
 				margin: 0,
 				padding: 0
@@ -134,6 +135,7 @@
 			// apply css to all slider children
 			slider.children.css({
 				float: slider.settings.mode == 'horizontal' ? 'left' : 'none',
+				position: 'relative',
 				width: getSlideWidth(),
 				listStyle: 'none',
 				marginRight: slider.settings.mode == 'horizontal' ? slider.settings.slideMargin : 0,
@@ -163,6 +165,7 @@
 			slider.active.last = slider.settings.startSlide == getPagerQty() - 1
 			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
 			preloadImages(function(){
+				el.css('overflow', 'visible');
 				// set the left / top position of "el"
 				setSlidePosition();
 				// if "vertical" mode, always use adaptiveHeight to prevent odd behavior
