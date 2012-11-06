@@ -1,0 +1,77 @@
+.bxslider {
+	position: relative;
+}
+
+.bxslider > .slider {
+	height: 0;
+	overflow: hidden;
+}
+
+.bxslider img {
+	width: 100%;
+	display: block;
+}
+
+.bxslider .bx-wrapper {
+	box-shadow: 0 0 5px #ccc;
+	border: solid #fff 5px;
+	position: relative;
+	left: -5px;
+}
+
+.bxslider .bx-pager {
+	margin-top: 15px;
+	text-align: center;
+}
+
+.bxslider .bx-pager a {
+	background: #666;
+	text-indent: -999999px;
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin: 0 5px;
+	border-radius: 5px;
+}
+
+.bxslider .bx-pager a:hover,
+.bxslider .bx-pager a.active {
+	background: #000;
+}
+
+.bxslider .bx-prev {
+	left: 10px;
+	background: url(images/bx_prev.png) no-repeat 0 -32px;
+}
+
+.bxslider .bx-next {
+	right: 10px;
+	background: url(images/bx_next.png) no-repeat 0 -32px;
+}
+
+.bxslider .bx-controls a {
+	position: absolute;
+	top: 50%;
+	margin-top: -32px;
+	width: 32px;
+	height: 32px;
+	display: none;
+	text-indent: -999999px;
+	z-index: 9999;
+}
+
+.bxslider .bx-controls a:hover {
+	background-position: 0 0;
+}
+
+.bxslider:hover .bx-controls a {
+	display: block;
+}
+
+
+
+
+
+
+
+
