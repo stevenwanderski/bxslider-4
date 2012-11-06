@@ -1,3 +1,17 @@
+.bx-clearfix:before,
+.bx-clearfix:after {
+	content: "";
+	display: table;
+} 
+
+.bx-clearfix:after {
+	clear: both;
+}
+
+.bx-clearfix {
+	zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+}
+
 .bxslider {
 	position: relative;
 }
@@ -13,6 +27,8 @@
 }
 
 .bxslider .bx-wrapper {
+	-moz-box-shadow: 0 0 5px #ccc;
+	-webkit-box-shadow: 0 0 5px #ccc;
 	box-shadow: 0 0 5px #ccc;
 	border: solid #fff 5px;
 	position: relative;
@@ -27,7 +43,7 @@
 .bxslider .bx-pager {
 	margin-top: 15px;
 	text-align: center;
-	font-size: 1em;
+	font-size: .85em;
 	font-family: Arial;
 	font-weight: bold;
 	color: #666;
@@ -47,6 +63,8 @@
 	width: 10px;
 	height: 10px;
 	margin: 0 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
 
@@ -112,12 +130,6 @@
 .bxslider .bx-controls-auto .bx-start.active,
 .bxslider .bx-controls-auto .bx-stop.active {
 	background-position: 0 0;
-}
-
-.bxslider .bx-controls.bx-has-controls-auto.bx-has-pager {
-	overflow: auto;
-	*height: 15px;
-	*overflow: visible;
 }
 
 .bxslider .bx-controls.bx-has-controls-auto.bx-has-pager .bx-pager {

@@ -98,7 +98,7 @@
 		 */
 		var setup = function(){
 			// wrap el in a wrapper
-			el.wrap('<div class="bx-wrapper loading" />');
+			el.wrap('<div class="bx-wrapper" />');
 			// store a namspace reference to .bx-wrapper
 			slider.wrap = el.parent();
 			// add loading gif
@@ -137,7 +137,7 @@
 				// prepare the z-index on the showing element
 				el.children().eq(slider.settings.startSlide).css({zIndex: 50, display: 'block'});
 			}
-			slider.controls.el = $('<div class="bx-controls" />');
+			slider.controls.el = $('<div class="bx-controls bx-clearfix" />');
 			// if captions are requested, add them
 			if(slider.settings.captions) appendCaptions();
 			// if infinite loop, prepare additional slides
@@ -201,7 +201,7 @@
 			}
 		}
 		
-		var getWrapHeight = function(max, allChildren){
+		var getWrapHeight = function(){
 			var height = 0;
 			var children = '';
 			// not vertical, adaptiveHeight is false, return all children
@@ -283,14 +283,6 @@
 				pagerQty = Math.ceil(slider.children.length / getNumberSlidesShowing());
 			}
 			return pagerQty;
-		}
-		
-		var getCurrentPage = function(){
-			var currentPage = slider.active.index;
-			if(slider.settings.moveSlides != 1){
-				currentPage = Math.ceil(slider.active.index / getNumberSlidesShowing());
-			}
-			return currentPage >= getPagerQty() ? getPagerQty() - 1 : currentPage;
 		}
 		
 		var getMoveBy = function(){
@@ -731,7 +723,6 @@
 		 * Transitions to the next slide in the show
 		 */
 		el.goToNextSlide = function(){
-			// slider.wrap.animate({height: 500}, 1000);
 			// if infiniteLoop is false and last page is showing, disregard call
 			if (!slider.settings.infiniteLoop && slider.active.last) return;
 			var pagerIndex = slider.active.index + 1;
