@@ -121,7 +121,7 @@
 .bxslider .bx-controls-direction a {
 	position: absolute;
 	top: 50%;
-	margin-top: -32px;
+	margin-top: -16px;
 	width: 32px;
 	height: 32px;
 	display: none;

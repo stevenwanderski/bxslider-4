@@ -448,7 +448,7 @@
 				$(slider.settings.controlsSelector).html(slider.controls.directionEl);
 			// if controls selector was not supplied, add it after the wrapper
 			}else{
-				slider.controls.el.addClass('bx-has-controls-direction').append(slider.controls.directionEl);
+				slider.viewport.append(slider.controls.directionEl);
 			}
 		}
 		
