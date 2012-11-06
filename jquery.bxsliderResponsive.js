@@ -72,7 +72,7 @@
 			slider.children = el.children(slider.settings.childSelector);
 			// store active slide information
 			slider.active = { index: slider.settings.startSlide }
-			
+			slider.loaded = false;
 			slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1;
 			slider.minThreashold = (slider.settings.minSlides * slider.settings.slideWidth) + ((slider.settings.minSlides - 1) * slider.settings.slideMargin);
 			slider.maxThreashold = (slider.settings.maxSlides * slider.settings.slideWidth) + ((slider.settings.maxSlides - 1) * slider.settings.slideMargin);
@@ -89,12 +89,8 @@
 			if (slider.settings.pager) updatePagerActive(slider.settings.startSlide);
 			// check for any updates to the controls (like hideControlOnEnd updates)
 			if (slider.settings.controls) updateDirectionControls(slider.settings.startSlide);
-			// if auto is true, start the show
-			if (slider.settings.auto && slider.settings.autoStart) initAuto();
 			// if touchEnabled is true
 			if (slider.settings.touchEnabled) initTouch();
-			// onSliderLoad callback
-			slider.settings.onSliderLoad();
 		}
 
 		/**
@@ -102,12 +98,12 @@
 		 */
 		var setup = function(){
 			// wrap el in a wrapper
-			el.wrap('<div class="bx-wrapper" />');
+			el.wrap('<div class="bx-wrapper loading" />');
 			// store a namspace reference to .bx-wrapper
 			slider.wrap = el.parent();
 			// add loading gif
-			// slider.loader = $('<div class="bx-loading"><img src="http://preloaders.net/preloaders/325/Sun.gif" /></div>');
-			// slider.wrap.prepend(slider.loader);
+			slider.loader = $('<div class="bx-loading" />');
+			slider.wrap.prepend(slider.loader);
 			// set el to a massive width, to hold any needed slides
 			// also strip any margin and padding from el
 			el.css({
@@ -120,7 +116,7 @@
 			// make modifications to the wrapper (.bx-wrapper)
 			slider.wrap.css({
 				width: '100%',
-				height: 0,
+				height: '50',
 				overflow: 'hidden',
 				position: 'relative'
 			});
@@ -141,6 +137,7 @@
 				// prepare the z-index on the showing element
 				el.children().eq(slider.settings.startSlide).css({zIndex: 50, display: 'block'});
 			}
+			slider.controls.el = $('<div class="bx-controls" />');
 			// if captions are requested, add them
 			if(slider.settings.captions) appendCaptions();
 			// if infinite loop, prepare additional slides
@@ -158,19 +155,31 @@
 				setSlidePosition();
 				if (slider.settings.mode == 'vertical') slider.settings.adaptiveHeight = true;
 				slider.wrap.animate({height: getWrapHeight()}, 200);
+				// if auto is true, start the show
+				if (slider.settings.auto && slider.settings.autoStart) initAuto();
+				// onSliderLoad callback
+				slider.settings.onSliderLoad();
+				slider.loaded = true;
 			});
 			
 			if(!slider.settings.ticker){
+				// if pager is requested, add it
+				if(slider.settings.pager) appendPager();
 				// if controls are requested, add them
 				if(slider.settings.controls) appendControls();
 				// if auto is true, and auto controls are requested, add them
 				if(slider.settings.auto && slider.settings.autoControls) appendControlsAuto();
-				// if pager is requested, add it
-				if(slider.settings.pager) appendPager();
+				// if any control option is requested, add the controls wrapper
+				if(slider.settings.controls || slider.settings.autoControls || slider.settings.pager) slider.wrap.after(slider.controls.el);
 			}
 		}
 		
 		var preloadImages = function(callback){
+			// setTimeout(function(){
+			// 	// remove loading
+			// 	slider.loader.remove();
+			// 	callback();
+			// }, 2000);
 			var images = el.find('img');
 			var loaded = 0;
 			if(images.length > 0){
@@ -179,6 +188,8 @@
 				  img.load(function(){
 						++loaded;
 						if(images.length == loaded){
+							// remove loading
+							slider.loader.remove();
 							callback();
 						}
 					});
@@ -218,9 +229,9 @@
 					height += slider.settings.slideMargin * (slider.settings.minSlides - 1);
 				}
 			}else{
-				height = Math.max.apply(null, children.map(function(){
+				height = Math.max.apply(Math, children.map(function(){
 					return $(this).outerHeight();
-				}));
+				}).get());
 			}
 			
 			return height;
@@ -317,7 +328,7 @@
 			for (var i=0; i < pagerQty; i++) {
 				// if a buildPager function is supplied, use it to get pager link value, else use index + 1
 				var linkContent = slider.settings.buildPager && $.isFunction(slider.settings.buildPager) ? slider.settings.buildPager(i, $(val)) : i + 1;
-				pagerHtml += '<a href="" data-slide-index="' + i + '" class="bx-pager-link">' + linkContent + '</a>';
+				pagerHtml += '<div class="bx-pager-item"><a href="" data-slide-index="' + i + '" class="bx-pager-link">' + linkContent + '</a></div>';
 			};
 			// populate the pager element with pager links
 			slider.pagerEl.html(pagerHtml);
@@ -336,7 +347,7 @@
 				$(slider.settings.pagerSelector).html(slider.pagerEl);
 			// if no pager selector was supplied, add it after the wrapper
 			}else{
-				slider.wrap.after(slider.pagerEl);
+				slider.controls.el.addClass('bx-has-pager').append(slider.pagerEl);
 			}
 			populatePager();
 		}
@@ -348,7 +359,7 @@
 			slider.controls.next = $('<a class="bx-next" href="">' + slider.settings.nextText + '</a>');
 			slider.controls.prev = $('<a class="bx-prev" href="">' + slider.settings.prevText + '</a>');
 			// add the controls to the DOM
-			slider.controls.directionEl = $('<div class="bx-controls bx-controls-direction" />');
+			slider.controls.directionEl = $('<div class="bx-controls-direction" />');
 			// bind click actions to the controls
 			slider.controls.directionEl.delegate('.bx-next', 'click', clickNextBind);
 			slider.controls.directionEl.delegate('.bx-prev', 'click', clickPrevBind);
@@ -359,7 +370,7 @@
 				$(slider.settings.controlsSelector).html(slider.controls.directionEl);
 			// if controls selector was not supplied, add it after the wrapper
 			}else{
-				slider.wrap.after(slider.controls.directionEl);
+				slider.controls.el.addClass('bx-has-controls-direction').append(slider.controls.directionEl);
 			}
 		}
 		
@@ -367,10 +378,10 @@
 		 * Appends start / stop auto controls to the DOM
 		 */
 		var appendControlsAuto = function(){
-			slider.controls.start = $('<a class="bx-start" href="">' + slider.settings.startText + '</a>');
-			slider.controls.stop = $('<a class="bx-stop" href="">' + slider.settings.stopText + '</a>');
+			slider.controls.start = $('<div class="bx-controls-auto-item"><a class="bx-start" href="">' + slider.settings.startText + '</a></div>');
+			slider.controls.stop = $('<div class="bx-controls-auto-item"><a class="bx-stop" href="">' + slider.settings.stopText + '</a></div>');
 			// add the controls to the DOM
-			slider.controls.autoEl = $('<div class="bx-controls bx-controls-auto" />');
+			slider.controls.autoEl = $('<div class="bx-controls-auto" />');
 			// bind click actions to the controls
 			slider.controls.autoEl.delegate('.bx-start', 'click', clickStartBind);
 			slider.controls.autoEl.delegate('.bx-stop', 'click', clickStopBind);
@@ -386,14 +397,15 @@
 				$(slider.settings.autoControlsSelector).html(slider.controls.autoEl);
 			// if auto controls selector was not supplied, add it after the wrapper
 			}else{
-				slider.wrap.after(slider.controls.autoEl);
+				slider.controls.el.addClass('bx-has-controls-auto').append(slider.controls.autoEl);
 			}
+			updateAutoControls(slider.settings.autoStart ? 'stop' : 'start');
 		}
 		
 		var appendCaptions = function(){
 			el.children().each(function(index){
 				var title = $(this).find('img:first').attr('title');
-				$(this).append('<div class="bx-caption">' + title + '</div>');
+				$(this).append('<div class="bx-caption"><span>' + title + '</span></div>');
 			});
 		}
 		
@@ -472,8 +484,8 @@
 				slider.pagerEl.html((slideIndex + 1) + slider.settings.pagerShortSeparator + slider.children.length);
 				return;
 			}
-			slider.pagerEl.children().removeClass('active');
-			slider.pagerEl.children().eq(slideIndex).addClass('active');
+			slider.pagerEl.find('a').removeClass('active');
+			slider.pagerEl.find('a').eq(slideIndex).addClass('active');
 		}
 		
 		/**
@@ -516,8 +528,8 @@
 				slider.controls.autoEl.html(slider.controls[state]);
 			// if autoControlsCombine is false, apply the "active" class to the appropriate control 
 			}else{
-				slider.controls.autoEl.children().removeClass('active');
-				slider.controls.autoEl.find(':not(.bx-' + state + ')').addClass('active');
+				slider.controls.autoEl.find('a').removeClass('active');
+				slider.controls.autoEl.find('a:not(.bx-' + state + ')').addClass('active');
 			}
 		}
 		
@@ -600,7 +612,6 @@
 					}
 				});
 			}
-			
 		}
 		
 		/**
@@ -786,15 +797,23 @@
 		 * Makes slideshow responsive
 		 * On window resize, update the slider widths
 		 */
+		var windowWidth = $(window).width();
+		var windowHeight = $(window).height();
 		$(window).resize(function(){
 			
-			if(!slider.working){
+			var windowWidthNew = $(window).width();
+			var windowHeightNew = $(window).height();
+			
+			if(windowWidth != windowWidthNew || windowHeight != windowHeightNew){
+				
+				windowWidth = windowWidthNew;
+				windowHeight = windowHeightNew;
 				
 				// resize all children in ratio to new screen size
 				el.children().width(getSlideWidth());
 
 				// adjust the height
-				slider.wrap.css('height', getWrapHeight());
+				if(slider.loaded) slider.wrap.css('height', getWrapHeight());
 			
 				// if active.last was true before the screen resize, we want
 				// to keep it last no matter what screen size we end on
