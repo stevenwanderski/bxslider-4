@@ -232,6 +232,8 @@
 				});
 			// if images do not exist, fire the callback function immediately
 			}else{
+				// remove the loading DOM element
+				slider.loader.remove();
 				callback();
 			}
 		}
