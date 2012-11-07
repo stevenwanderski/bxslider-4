@@ -1,4 +1,4 @@
-#bxSlider 4.0
+#Introducing bxSlider 4.0
 ##Completely re-written and now fully responsive!
 
 Please note that v4.0 is currently in beta as I test, test, test, and get a fresh new doc site up and running.
