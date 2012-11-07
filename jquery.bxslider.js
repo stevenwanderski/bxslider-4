@@ -2,12 +2,10 @@
  * BxSlider v4.0 - Fully loaded, responsive content slider
  * http://bxslider.com
  *
- * Written by: Steven Wanderski, 2012
- * http://stevenwanderski.com
- * (while drinking Belgian ales and listening to jazz)
+ * Copyright 2012, Steven Wanderski - http://stevenwanderski.com - http://bxcreative.com
+ * Written while drinking Belgian ales and listening to jazz
  *
- * CEO and founder of bxCreative, LTD
- * http://bxcreative.com
+ * Released under the WTFPL license - http://sam.zoy.org/wtfpl/
  */
 
 ;(function($){
@@ -53,6 +51,7 @@
 			adaptiveHeight: true,
 			adaptiveHeightSpeed: 500,
 			touchEnabled: true,
+			video: false,
 			swipeThreashold: 50,
 			onSliderLoad: function() {},
 			onSlideBefore: function() {},
@@ -64,7 +63,7 @@
 		// set a reference to our slider element
 		var el = this.children(':first');
 		// create a namespace to be used throughout the plugin
-		var slider = {}
+		slider = {}
 		
 		/**
 		 * ===================================================================================
@@ -162,7 +161,9 @@
 				el.append(cloneAppend).prepend(clonePrepend);
 			}
 			// check if startSlide is last slide
-			slider.active.last = slider.settings.startSlide == getPagerQty() - 1
+			slider.active.last = slider.settings.startSlide == getPagerQty() - 1;
+			// if video is true, set up the fitVids plugin
+			if(slider.settings.video) el.fitVids();
 			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
 			preloadImages(function(){
 				el.css('overflow', 'visible');
@@ -191,19 +192,21 @@
 		}
 		
 		/**
-		 * Preload all images
+		 * Preload all images and iframes
 		 *
 		 * @param callback (function) 
 		 *  - Function to be called after images are loaded
 		 */
 		var preloadImages = function(callback){
+			// slider.loader.remove();
+			// callback();
 			// setTimeout(function(){
 			// 	// remove loading
 			// 	slider.loader.remove();
 			// 	callback();
 			// }, 2000);
 			// get all the images
-			var images = el.find('img');
+			var images = slider.children.find('img, iframe');
 			// counter that stores loaded images
 			var loaded = 0;
 			// if images exist
@@ -601,10 +604,6 @@
 			}
 			// declare that the transition is complete
 			slider.working = false;
-			// make sure correct widths and positions are being used
-			// some browsers add a scroll bar when the viewport becomes too large - this often causes incorrect widths
-			slider.children.width(getSlideWidth());
-			setSlidePosition();
 			// onSlideAfter callback
 			slider.settings.onSlideAfter(slider.children.eq(slider.active.index));
 		}
@@ -835,6 +834,7 @@
 				}else if(slider.active.last && slider.active.index == 0){
 					// get the last clone position
 					position = el.find('.bx-clone:last').position();
+					slider.active.last = false;
 				// all other requests
 				}else if(slideIndex >= 0){
 					var requestEl = slideIndex * getMoveBy();
@@ -937,7 +937,7 @@
 				windowWidth = windowWidthNew;
 				windowHeight = windowHeightNew;
 				// resize all children in ratio to new screen size
-				slider.children.width(getSlideWidth());
+				slider.children.add(el.find('.bx-clone')).width(getSlideWidth());
 				// adjust the height
 				slider.viewport.css('height', getViewportHeight());
 				// if active.last was true before the screen resize, we want
