@@ -206,7 +206,7 @@
 			// 	callback();
 			// }, 2000);
 			// get all the images
-			var images = slider.children.find('img, iframe');
+			var images = slider.children.find('img[src!=""], iframe');
 			// counter that stores loaded images
 			var loaded = 0;
 			// if images exist
