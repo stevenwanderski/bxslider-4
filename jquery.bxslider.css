@@ -30,11 +30,12 @@
 
 .bxslider {
 	position: relative;
-	margin: 0;
+	margin: 0 0 60px;
 	padding: 0;
+	*zoom: 1;
 }
 
-.bxslider > .slider {
+.bxslider > .slides {
 	height: 0;
 	overflow: hidden;
 }
@@ -52,8 +53,14 @@
 	-webkit-box-shadow: 0 0 5px #ccc;
 	box-shadow: 0 0 5px #ccc;
 	border: solid #fff 5px;
-	position: relative;
 	left: -5px;
+}
+
+.bxslider .bx-pager,
+.bxslider .bx-controls-auto {
+	position: absolute;
+	bottom: -30px;
+	width: 100%;
 }
 
 /* LOADER */
@@ -66,7 +73,6 @@
 /* PAGER */
 
 .bxslider .bx-pager {
-	margin-top: 15px;
 	text-align: center;
 	font-size: .85em;
 	font-family: Arial;
@@ -136,7 +142,6 @@
 /* AUTO CONTROLS (START / STOP) */
 
 .bxslider .bx-controls-auto {
-	margin-top: 15px;
 	text-align: center;
 }
 
@@ -172,12 +177,12 @@
 
 .bxslider .bx-controls.bx-has-controls-auto.bx-has-pager .bx-pager {
 	text-align: left;
-	float: left;
 	width: 80%;
 }
 
 .bxslider .bx-controls.bx-has-controls-auto.bx-has-pager .bx-controls-auto {
-	float: right;
+	right: 0;
+	width: 35px;
 }
 
 /* IMAGE CAPTIONS */

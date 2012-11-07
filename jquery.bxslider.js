@@ -16,7 +16,7 @@
 
 		var defaults = {
 			mode: 'horizontal',
-			childSelector: '',
+			slideSelector: '',
 			infiniteLoop: true,
 			hideControlOnEnd: false,
 			speed: 500,
@@ -59,8 +59,8 @@
 			onSlidePrev: function() {}
 		}
 
-		// set a reference to our original slider element
-		var el = this;
+		// set a reference to our slider element
+		var el = this.children(':first');
 		// create a namespace to be used throughout the plugin
 		var slider = {}
 		
@@ -77,7 +77,7 @@
 			// merge user supplied options
 			slider.settings = $.extend({}, defaults, options);
 			// store the original children
-			slider.children = el.children(slider.settings.childSelector);
+			slider.children = el.children(slider.settings.slideSelector);
 			// store active slide information
 			slider.active = { index: slider.settings.startSlide }
 			// store if the slider has been fully loaded
@@ -152,7 +152,7 @@
 				el.children().eq(slider.settings.startSlide).css({zIndex: 50, display: 'block'});
 			}
 			// create an element to contain all slider controls (pager, start / stop, etc)
-			slider.controls.el = $('<div class="bx-controls bx-clearfix" />');
+			slider.controls.el = $('<div class="bx-controls" />');
 			// if captions are requested, add them
 			if(slider.settings.captions) appendCaptions();
 			// if infinite loop, prepare additional slides
@@ -448,7 +448,8 @@
 				$(slider.settings.controlsSelector).html(slider.controls.directionEl);
 			// if controls selector was not supplied, add it after the wrapper
 			}else{
-				slider.viewport.append(slider.controls.directionEl);
+				// slider.viewport.append(slider.controls.directionEl);
+				slider.controls.el.addClass('bx-has-controls-direction').append(slider.controls.directionEl);
 			}
 		}
 		
