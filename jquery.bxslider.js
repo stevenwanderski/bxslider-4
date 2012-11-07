@@ -30,9 +30,10 @@
 			pagerSelector: null,
 			buildPager: null,
 			controls: true,
-			controlsSelector: null,
 			nextText: 'Next',
 			prevText: 'Prev',
+			nextSelector: null,
+			prevSelector: null,
 			startText: 'Start',
 			stopText: 'Stop',
 			auto: false,
@@ -40,6 +41,7 @@
 			autoDirection: 'next',
 			autoControls: false,
 			autoControlsCombine: false,
+			autoControlsSelector: null,
 			autoHover: false,
 			autoDelay: 0,
 			captions: false,
@@ -80,8 +82,6 @@
 			slider.children = el.children(slider.settings.slideSelector);
 			// store active slide information
 			slider.active = { index: slider.settings.startSlide }
-			// store if the slider has been fully loaded
-			slider.loaded = false;
 			// store if the slider is in carousel mode (displaying / moving multiple slides)
 			slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1;
 			// calculate the min / max width threasholds based on min / max number of slides
@@ -176,8 +176,6 @@
 				if (slider.settings.auto && slider.settings.autoStart) initAuto();
 				// onSliderLoad callback
 				slider.settings.onSliderLoad();
-				// slider is now fully loaded
-				slider.loaded = true;
 			});
 			// only check for control addition if not in "ticker" mode
 			if(!slider.settings.ticker){
@@ -436,18 +434,23 @@
 		var appendControls = function(){
 			slider.controls.next = $('<a class="bx-next" href="">' + slider.settings.nextText + '</a>');
 			slider.controls.prev = $('<a class="bx-prev" href="">' + slider.settings.prevText + '</a>');
-			// add the controls to the DOM
-			slider.controls.directionEl = $('<div class="bx-controls-direction" />');
 			// bind click actions to the controls
-			slider.controls.directionEl.delegate('.bx-next', 'click', clickNextBind);
-			slider.controls.directionEl.delegate('.bx-prev', 'click', clickPrevBind);
-			// add the control elements to the directionEl
-			slider.controls.directionEl.append(slider.controls.prev).append(slider.controls.next);
-			// if controls selector was supplied, populate it with the controls
-			if(slider.settings.controlsSelector){
-				$(slider.settings.controlsSelector).html(slider.controls.directionEl);
-			// if controls selector was not supplied, add it after the wrapper
-			}else{
+			slider.controls.next.bind('click', clickNextBind);
+			slider.controls.prev.bind('click', clickPrevBind);
+			// if nextSlector was supplied, populate it
+			if(slider.settings.nextSelector){
+				$(slider.settings.nextSelector).append(slider.controls.next);
+			}
+			// if prevSlector was supplied, populate it
+			if(slider.settings.prevSelector){
+				$(slider.settings.prevSelector).append(slider.controls.prev);
+			}
+			// if no custom selectors were supplied
+			if(!slider.settings.nextSelector && !slider.settings.prevSelector){
+				// add the controls to the DOM
+				slider.controls.directionEl = $('<div class="bx-controls-direction" />');
+				// add the control elements to the directionEl
+				slider.controls.directionEl.append(slider.controls.prev).append(slider.controls.next);
 				// slider.viewport.append(slider.controls.directionEl);
 				slider.controls.el.addClass('bx-has-controls-direction').append(slider.controls.directionEl);
 			}
@@ -598,6 +601,10 @@
 			}
 			// declare that the transition is complete
 			slider.working = false;
+			// make sure correct widths and positions are being used
+			// some browsers add a scroll bar when the viewport becomes too large - this often causes incorrect widths
+			slider.children.width(getSlideWidth());
+			setSlidePosition();
 			// onSlideAfter callback
 			slider.settings.onSlideAfter(slider.children.eq(slider.active.index));
 		}
@@ -932,7 +939,7 @@
 				// resize all children in ratio to new screen size
 				slider.children.width(getSlideWidth());
 				// adjust the height
-				if(slider.loaded) slider.viewport.css('height', getViewportHeight());
+				slider.viewport.css('height', getViewportHeight());
 				// if active.last was true before the screen resize, we want
 				// to keep it last no matter what screen size we end on
 				if (slider.active.last) slider.active.index = getPagerQty() - 1;
