@@ -9,61 +9,71 @@
  */
 
 ;(function($){
+	
+	var defaults = {
+		mode: 'horizontal',
+		slideSelector: '',
+		sliderElement: '> .slides',
+		infiniteLoop: true,
+		hideControlOnEnd: false,
+		speed: 500,
+		delay: 2000,
+		easing: 'swing',
+		slideMargin: 0,
+		startSlide: 0,
+		pager: true,
+		pagerType: 'full',
+		pagerShortSeparator: ' / ',
+		pagerSelector: null,
+		buildPager: null,
+		controls: true,
+		nextText: 'Next',
+		prevText: 'Prev',
+		nextSelector: null,
+		prevSelector: null,
+		startText: 'Start',
+		stopText: 'Stop',
+		auto: false,
+		autoStart: true,
+		autoDirection: 'next',
+		autoControls: false,
+		autoControlsCombine: false,
+		autoControlsSelector: null,
+		autoHover: false,
+		autoDelay: 0,
+		captions: false,
+		ticker: false,
+		minSlides: 1,
+		maxSlides: 1,
+		moveSlides: 0,
+		slideWidth: 0,
+		adaptiveHeight: true,
+		adaptiveHeightSpeed: 500,
+		touchEnabled: true,
+		video: false,
+		swipeThreashold: 50,
+		useDirectElement: false,
+		onSliderLoad: function() {},
+		onSlideBefore: function() {},
+		onSlideAfter: function() {},
+		onSlideNext: function() {},
+		onSlidePrev: function() {}
+	}
 
 	$.fn.bxSlider = function(options){
-
-		var defaults = {
-			mode: 'horizontal',
-			slideSelector: '',
-			infiniteLoop: true,
-			hideControlOnEnd: false,
-			speed: 500,
-			delay: 2000,
-			easing: 'swing',
-			slideMargin: 0,
-			startSlide: 0,
-			pager: true,
-			pagerType: 'full',
-			pagerShortSeparator: ' / ',
-			pagerSelector: null,
-			buildPager: null,
-			controls: true,
-			nextText: 'Next',
-			prevText: 'Prev',
-			nextSelector: null,
-			prevSelector: null,
-			startText: 'Start',
-			stopText: 'Stop',
-			auto: false,
-			autoStart: true,
-			autoDirection: 'next',
-			autoControls: false,
-			autoControlsCombine: false,
-			autoControlsSelector: null,
-			autoHover: false,
-			autoDelay: 0,
-			captions: false,
-			ticker: false,
-			minSlides: 1,
-			maxSlides: 1,
-			moveSlides: 0,
-			slideWidth: 0,
-			adaptiveHeight: true,
-			adaptiveHeightSpeed: 500,
-			touchEnabled: true,
-			video: false,
-			swipeThreashold: 50,
-			onSliderLoad: function() {},
-			onSlideBefore: function() {},
-			onSlideAfter: function() {},
-			onSlideNext: function() {},
-			onSlidePrev: function() {}
+		
+		// support mutltiple elements
+		if(this.length > 1){
+			this.each(function(){$(this).bxSlider(options)});
+			return this;
 		}
-
+		
+		// create a namespace to be used throughout the plugin, and merge user-supplied options
+		var slider = {
+			settings: $.extend({}, defaults, options)
+		};
 		// set a reference to our slider element
-		var el = this.children(':first');
-		// create a namespace to be used throughout the plugin
-		slider = {}
+		var el = slider.settings.useDirectElement ? this : this.find(slider.settings.sliderElement);
 		
 		/**
 		 * ===================================================================================
@@ -75,8 +85,6 @@
 		 * Initializes namespace settings to be used throughout plugin
 		 */
 		var init = function(){
-			// merge user supplied options
-			slider.settings = $.extend({}, defaults, options);
 			// store the original children
 			slider.children = el.children(slider.settings.slideSelector);
 			// store active slide information
@@ -957,7 +965,6 @@
 			}
 		});
 		
-		// initialize the show
 		init();
 		
 		// returns the current jQuery object

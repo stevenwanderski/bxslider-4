@@ -14,20 +14,6 @@
 /** RESET AND LAYOUT
 ===================================*/
 
-.bx-clearfix:before,
-.bx-clearfix:after {
-	content: "";
-	display: table;
-} 
-
-.bx-clearfix:after {
-	clear: both;
-}
-
-.bx-clearfix {
-	zoom: 1;
-}
-
 .bxslider {
 	position: relative;
 	margin: 0 0 60px;
@@ -65,7 +51,7 @@
 
 /* LOADER */
 
-.bx-loading {
+.bxslider .bx-loading {
 	min-height: 50px;
 	background: url(images/bx_loader.gif) center center no-repeat;
 }
