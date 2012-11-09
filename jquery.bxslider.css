@@ -14,19 +14,19 @@
 /** RESET AND LAYOUT
 ===================================*/
 
-.bxslider {
+.bx-wrapper {
 	position: relative;
 	margin: 0 0 60px;
 	padding: 0;
 	*zoom: 1;
 }
 
-.bxslider > .slides {
+.bx-wrapper > .slides {
 	height: 0;
 	overflow: hidden;
 }
 
-.bxslider img {
+.bx-wrapper img {
 	width: 100%;
 	display: block;
 }
@@ -34,7 +34,7 @@
 /** THEME
 ===================================*/
 
-.bxslider .bx-viewport {
+.bx-wrapper .bx-viewport {
 	-moz-box-shadow: 0 0 5px #ccc;
 	-webkit-box-shadow: 0 0 5px #ccc;
 	box-shadow: 0 0 5px #ccc;
@@ -42,8 +42,8 @@
 	left: -5px;
 }
 
-.bxslider .bx-pager,
-.bxslider .bx-controls-auto {
+.bx-wrapper .bx-pager,
+.bx-wrapper .bx-controls-auto {
 	position: absolute;
 	bottom: -30px;
 	width: 100%;
@@ -51,14 +51,14 @@
 
 /* LOADER */
 
-.bxslider .bx-loading {
+.bx-wrapper .bx-loading {
 	min-height: 50px;
 	background: url(images/bx_loader.gif) center center no-repeat;
 }
 
 /* PAGER */
 
-.bxslider .bx-pager {
+.bx-wrapper .bx-pager {
 	text-align: center;
 	font-size: .85em;
 	font-family: Arial;
@@ -66,14 +66,14 @@
 	color: #666;
 }
 
-.bxslider .bx-pager .bx-pager-item,
-.bxslider .bx-controls-auto .bx-controls-auto-item {
+.bx-wrapper .bx-pager .bx-pager-item,
+.bx-wrapper .bx-controls-auto .bx-controls-auto-item {
 	display: inline-block;
 	*zoom: 1;
 	*display: inline;
 }
 
-.bxslider .bx-pager a {
+.bx-wrapper .bx-pager a {
 	background: #666;
 	text-indent: -999999px;
 	display: block;
@@ -85,32 +85,32 @@
 	border-radius: 5px;
 }
 
-.bxslider .bx-pager a:hover,
-.bxslider .bx-pager a.active {
+.bx-wrapper .bx-pager a:hover,
+.bx-wrapper .bx-pager a.active {
 	background: #000;
 }
 
 /* DIRECTION CONTROLS (NEXT / PREV) */
 
-.bxslider .bx-prev {
+.bx-wrapper .bx-prev {
 	left: 10px;
 	background: url(images/controls.png) no-repeat 0 -32px;
 }
 
-.bxslider .bx-next {
+.bx-wrapper .bx-next {
 	right: 10px;
 	background: url(images/controls.png) no-repeat -43px -32px;
 }
 
-.bxslider .bx-prev:hover {
+.bx-wrapper .bx-prev:hover {
 	background-position: 0 0;
 }
 
-.bxslider .bx-next:hover {
+.bx-wrapper .bx-next:hover {
 	background-position: -43px 0;
 }
 
-.bxslider .bx-controls-direction a {
+.bx-wrapper .bx-controls-direction a {
 	position: absolute;
 	top: 50%;
 	margin-top: -16px;
@@ -121,17 +121,17 @@
 	z-index: 9999;
 }
 
-.bxslider:hover .bx-controls-direction a {
+.bx-wrapper:hover .bx-controls-direction a {
 	display: block;
 }
 
 /* AUTO CONTROLS (START / STOP) */
 
-.bxslider .bx-controls-auto {
+.bx-wrapper .bx-controls-auto {
 	text-align: center;
 }
 
-.bxslider .bx-controls-auto .bx-start {
+.bx-wrapper .bx-controls-auto .bx-start {
 	display: block;
 	text-indent: -999999px;
 	width: 10px;
@@ -140,12 +140,12 @@
 	margin: 0 3px;
 }
 
-.bxslider .bx-controls-auto .bx-start:hover,
-.bxslider .bx-controls-auto .bx-start.active {
+.bx-wrapper .bx-controls-auto .bx-start:hover,
+.bx-wrapper .bx-controls-auto .bx-start.active {
 	background-position: -86px 0;
 }
 
-.bxslider .bx-controls-auto .bx-stop {
+.bx-wrapper .bx-controls-auto .bx-stop {
 	display: block;
 	text-indent: -999999px;
 	width: 9px;
@@ -154,26 +154,26 @@
 	margin: 0 3px;
 }
 
-.bxslider .bx-controls-auto .bx-stop:hover,
-.bxslider .bx-controls-auto .bx-stop.active {
+.bx-wrapper .bx-controls-auto .bx-stop:hover,
+.bx-wrapper .bx-controls-auto .bx-stop.active {
 	background-position: -86px -33px;
 }
 
 /* PAGER WITH AUTO-CONTROLS HYBRID LAYOUT */
 
-.bxslider .bx-controls.bx-has-controls-auto.bx-has-pager .bx-pager {
+.bx-wrapper .bx-controls.bx-has-controls-auto.bx-has-pager .bx-pager {
 	text-align: left;
 	width: 80%;
 }
 
-.bxslider .bx-controls.bx-has-controls-auto.bx-has-pager .bx-controls-auto {
+.bx-wrapper .bx-controls.bx-has-controls-auto.bx-has-pager .bx-controls-auto {
 	right: 0;
 	width: 35px;
 }
 
 /* IMAGE CAPTIONS */
 
-.bxslider .bx-caption {
+.bx-wrapper .bx-caption {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -182,7 +182,7 @@
 	width: 100%;
 }
 
-.bxslider .bx-caption span {
+.bx-wrapper .bx-caption span {
 	color: #fff;
 	font-family: Arial;
 	display: block;

@@ -13,7 +13,6 @@
 	var defaults = {
 		mode: 'horizontal',
 		slideSelector: '',
-		sliderElement: '> .slides',
 		infiniteLoop: true,
 		hideControlOnEnd: false,
 		speed: 500,
@@ -52,7 +51,6 @@
 		touchEnabled: true,
 		video: false,
 		swipeThreashold: 50,
-		useDirectElement: false,
 		onSliderLoad: function() {},
 		onSlideBefore: function() {},
 		onSlideAfter: function() {},
@@ -68,12 +66,10 @@
 			return this;
 		}
 		
-		// create a namespace to be used throughout the plugin, and merge user-supplied options
-		var slider = {
-			settings: $.extend({}, defaults, options)
-		};
+		// create a namespace to be used throughout the plugin
+		var slider = {};
 		// set a reference to our slider element
-		var el = slider.settings.useDirectElement ? this : this.find(slider.settings.sliderElement);
+		var el = this;
 		
 		/**
 		 * ===================================================================================
@@ -85,6 +81,8 @@
 		 * Initializes namespace settings to be used throughout plugin
 		 */
 		var init = function(){
+			// merge user-supplied options with the defaults
+			slider.settings = $.extend({}, defaults, options);
 			// store the original children
 			slider.children = el.children(slider.settings.slideSelector);
 			// store active slide information
@@ -116,7 +114,7 @@
 		 */
 		var setup = function(){
 			// wrap el in a wrapper
-			el.wrap('<div class="bx-viewport" />');
+			el.wrap('<div class="bx-wrapper"><div class="bx-viewport"></div></div>');
 			// store a namspace reference to .bx-viewport
 			slider.viewport = el.parent();
 			// add a loading div to display while images are loading
@@ -206,14 +204,7 @@
 		 *  - Function to be called after images are loaded
 		 */
 		var preloadImages = function(callback){
-			// slider.loader.remove();
-			// callback();
-			// setTimeout(function(){
-			// 	// remove loading
-			// 	slider.loader.remove();
-			// 	callback();
-			// }, 2000);
-			// get all the images
+			get all the images
 			var images = slider.children.find('img[src!=""], iframe');
 			// counter that stores loaded images
 			var loaded = 0;
