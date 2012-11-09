@@ -204,7 +204,7 @@
 		 *  - Function to be called after images are loaded
 		 */
 		var preloadImages = function(callback){
-			get all the images
+			// get all the images
 			var images = slider.children.find('img[src!=""], iframe');
 			// counter that stores loaded images
 			var loaded = 0;
