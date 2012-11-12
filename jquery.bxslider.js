@@ -26,8 +26,8 @@
 		adaptiveHeight: false,
 		adaptiveHeightSpeed: 500,
 		touchEnabled: true,
-		video: false,
 		swipeThreashold: 50,
+		video: false,
 		
 		// PAGER
 		pager: true,
@@ -42,9 +42,9 @@
 		prevText: 'Prev',
 		nextSelector: null,
 		prevSelector: null,
+		autoControls: false,
 		startText: 'Start',
 		stopText: 'Stop',
-		autoControls: false,
 		autoControlsCombine: false,
 		autoControlsSelector: null,
 		
