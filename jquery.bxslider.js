@@ -23,7 +23,7 @@
 		startSlide: 0,
 		captions: false,
 		ticker: false,
-		adaptiveHeight: true,
+		adaptiveHeight: false,
 		adaptiveHeightSpeed: 500,
 		touchEnabled: true,
 		video: false,
