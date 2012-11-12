@@ -510,7 +510,7 @@
 				// get the image title attribute
 				var title = $(this).find('img:first').attr('title');
 				// append the caption
-				$(this).append('<div class="bx-caption"><span>' + title + '</span></div>');
+				if (title != '') $(this).append('<div class="bx-caption"><span>' + title + '</span></div>');
 			});
 		}
 		
