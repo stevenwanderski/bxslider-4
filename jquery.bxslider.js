@@ -11,20 +11,32 @@
 ;(function($){
 	
 	var defaults = {
+		
+		// GENERAL
 		mode: 'horizontal',
 		slideSelector: '',
 		infiniteLoop: true,
 		hideControlOnEnd: false,
 		speed: 500,
-		delay: 2000,
 		easing: 'swing',
 		slideMargin: 0,
 		startSlide: 0,
+		captions: false,
+		ticker: false,
+		adaptiveHeight: true,
+		adaptiveHeightSpeed: 500,
+		touchEnabled: true,
+		video: false,
+		swipeThreashold: 50,
+		
+		// PAGER
 		pager: true,
 		pagerType: 'full',
 		pagerShortSeparator: ' / ',
 		pagerSelector: null,
 		buildPager: null,
+		
+		// CONTROLS
 		controls: true,
 		nextText: 'Next',
 		prevText: 'Prev',
@@ -32,25 +44,25 @@
 		prevSelector: null,
 		startText: 'Start',
 		stopText: 'Stop',
-		auto: false,
-		autoStart: true,
-		autoDirection: 'next',
 		autoControls: false,
 		autoControlsCombine: false,
 		autoControlsSelector: null,
+		
+		// AUTO
+		auto: false,
+		pause: 2000,
+		autoStart: true,
+		autoDirection: 'next',
 		autoHover: false,
 		autoDelay: 0,
-		captions: false,
-		ticker: false,
+		
+		// CAROUSEL
 		minSlides: 1,
 		maxSlides: 1,
 		moveSlides: 0,
 		slideWidth: 0,
-		adaptiveHeight: true,
-		adaptiveHeightSpeed: 500,
-		touchEnabled: true,
-		video: false,
-		swipeThreashold: 50,
+		
+		// CALLBACKS
 		onSliderLoad: function() {},
 		onSlideBefore: function() {},
 		onSlideAfter: function() {},
@@ -885,7 +897,7 @@
 			// create an interval
 			slider.interval = setInterval(function(){
 				slider.settings.autoDirection == 'next' ? el.goToNextSlide() : el.goToPrevSlide();
-			}, slider.settings.delay);
+			}, slider.settings.pause);
 			// if auto controls are displayed and preventControlUpdate is not true
 			if (slider.settings.autoControls && preventControlUpdate != true) updateAutoControls('stop');
 		}
