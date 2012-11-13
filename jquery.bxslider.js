@@ -50,7 +50,7 @@
 		
 		// AUTO
 		auto: false,
-		pause: 2000,
+		pause: 4000,
 		autoStart: true,
 		autoDirection: 'next',
 		autoHover: false,
