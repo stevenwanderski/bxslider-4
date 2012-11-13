@@ -644,17 +644,18 @@
 		var updateDirectionControls = function(){
 			// if infiniteLoop is false and hideControlOnEnd is true
 			if(!slider.settings.infiniteLoop && slider.settings.hideControlOnEnd){
-				// clear the contents of the controls
-				slider.controls.directionEl.empty();
 				// if first slide
 				if (slider.active.index == 0){
-					slider.controls.directionEl.append(slider.controls.next);
+					slider.controls.prev.hide();
+					slider.controls.next.show();
 				// if last slide
 				}else if(slider.active.index == getPagerQty() - 1){
-					slider.controls.directionEl.append(slider.controls.prev);
+					slider.controls.next.hide();
+					slider.controls.prev.show();
 				// if any slide in the middle
 				}else{
-					slider.controls.directionEl.append(slider.controls.prev, slider.controls.next);
+					slider.controls.prev.show();
+					slider.controls.next.show();
 				}
 			}
 		}

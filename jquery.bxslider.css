@@ -21,11 +21,6 @@
 	*zoom: 1;
 }
 
-.bx-wrapper > .slides {
-	height: 0;
-	overflow: hidden;
-}
-
 .bx-wrapper img {
 	width: 100%;
 	display: block;
@@ -64,6 +59,7 @@
 	font-family: Arial;
 	font-weight: bold;
 	color: #666;
+	padding-top: 20px;
 }
 
 .bx-wrapper .bx-pager .bx-pager-item,
