@@ -782,7 +782,7 @@
 		 * @param direction (string) 
 		 *  - INTERNAL USE ONLY - the direction of travel ("prev" / "next")
 		 */
-		el.goToSlide = function(slideIndex, direction) {
+		el.goToSlide = function(slideIndex, direction){
 			// if plugin is currently in motion, ignore request
 			if(slider.working || slider.active.index == slideIndex) return;
 			// declare that plugin is in motion
@@ -805,7 +805,7 @@
 				slider.settings.onSlidePrev(slider.children.eq(slider.active.index));
 			}
 			// check if last slide
-			slider.active.last = slideIndex >= getPagerQty() - 1;
+			slider.active.last = slider.active.index >= getPagerQty() - 1;
 			// update the pager with active class
 			if(slider.settings.pager) updatePagerActive(slider.active.index);
 			// // check for direction control update
@@ -844,8 +844,8 @@
 						var lastShowingIndex = slider.children.length - slider.settings.minSlides;
 						position = slider.children.eq(lastShowingIndex).position();
 					}
-				// if last slide and first slide is being requested
-				}else if(slider.active.last && slider.active.index == 0){
+				// if not carousel and infinite loop, and "Next" is clicked on the last slide
+				}else if(!slider.carousel && direction == 'next' && slider.active.index == 0){
 					// get the last clone position
 					position = el.find('.bx-clone:last').position();
 					slider.active.last = false;
