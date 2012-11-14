@@ -112,13 +112,12 @@
 	margin-top: -16px;
 	width: 32px;
 	height: 32px;
-	display: none;
 	text-indent: -999999px;
 	z-index: 9999;
 }
 
-.bx-wrapper:hover .bx-controls-direction a {
-	display: block;
+.bx-wrapper .bx-controls-direction a.disabled {
+	display: none;
 }
 
 /* AUTO CONTROLS (START / STOP) */

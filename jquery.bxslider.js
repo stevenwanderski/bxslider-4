@@ -182,6 +182,17 @@
 			slider.active.last = slider.settings.startSlide == getPagerQty() - 1;
 			// if video is true, set up the fitVids plugin
 			if(slider.settings.video) el.fitVids();
+			// only check for control addition if not in "ticker" mode
+			if(!slider.settings.ticker){
+				// if pager is requested, add it
+				if(slider.settings.pager) appendPager();
+				// if controls are requested, add them
+				if(slider.settings.controls) appendControls();
+				// if auto is true, and auto controls are requested, add them
+				if(slider.settings.auto && slider.settings.autoControls) appendControlsAuto();
+				// if any control option is requested, add the controls wrapper
+				if(slider.settings.controls || slider.settings.autoControls || slider.settings.pager) slider.viewport.after(slider.controls.el);
+			}
 			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
 			preloadImages(function(){
 				el.css('overflow', 'visible');
@@ -196,17 +207,6 @@
 				// onSliderLoad callback
 				slider.settings.onSliderLoad();
 			});
-			// only check for control addition if not in "ticker" mode
-			if(!slider.settings.ticker){
-				// if pager is requested, add it
-				if(slider.settings.pager) appendPager();
-				// if controls are requested, add them
-				if(slider.settings.controls) appendControls();
-				// if auto is true, and auto controls are requested, add them
-				if(slider.settings.auto && slider.settings.autoControls) appendControlsAuto();
-				// if any control option is requested, add the controls wrapper
-				if(slider.settings.controls || slider.settings.autoControls || slider.settings.pager) slider.viewport.after(slider.controls.el);
-			}
 		}
 		
 		/**
@@ -646,16 +646,16 @@
 			if(!slider.settings.infiniteLoop && slider.settings.hideControlOnEnd){
 				// if first slide
 				if (slider.active.index == 0){
-					slider.controls.prev.hide();
-					slider.controls.next.show();
+					slider.controls.prev.addClass('disabled');
+					slider.controls.next.removeClass('disabled');
 				// if last slide
 				}else if(slider.active.index == getPagerQty() - 1){
-					slider.controls.next.hide();
-					slider.controls.prev.show();
+					slider.controls.next.addClass('disabled');
+					slider.controls.prev.removeClass('disabled');
 				// if any slide in the middle
 				}else{
-					slider.controls.prev.show();
-					slider.controls.next.show();
+					slider.controls.prev.removeClass('disabled');
+					slider.controls.next.removeClass('disabled');
 				}
 			}
 		}
