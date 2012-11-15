@@ -448,4 +448,4 @@ slider = $('.bxslider').bxSlider();
 var slideQty = slider.getSlideCount();  
 ```
 
-Long live zep.
+Long live Zep.
