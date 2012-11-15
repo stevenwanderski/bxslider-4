@@ -35,6 +35,7 @@
 	box-shadow: 0 0 5px #ccc;
 	border: solid #fff 5px;
 	left: -5px;
+	background: #fff;
 }
 
 .bx-wrapper .bx-pager,
@@ -69,7 +70,7 @@
 	*display: inline;
 }
 
-.bx-wrapper .bx-pager a {
+.bx-wrapper .bx-pager.bx-default-pager a {
 	background: #666;
 	text-indent: -999999px;
 	display: block;
@@ -81,8 +82,8 @@
 	border-radius: 5px;
 }
 
-.bx-wrapper .bx-pager a:hover,
-.bx-wrapper .bx-pager a.active {
+.bx-wrapper .bx-pager.bx-default-pager a:hover,
+.bx-wrapper .bx-pager.bx-default-pager a.active {
 	background: #000;
 }
 

@@ -35,6 +35,7 @@
 		pagerShortSeparator: ' / ',
 		pagerSelector: null,
 		buildPager: null,
+		pagerCustom: null,
 		
 		// CONTROLS
 		controls: true,
@@ -416,8 +417,16 @@
 			pagerQty = getPagerQty();
 			// loop through each pager item
 			for(var i=0; i < pagerQty; i++){
+				var linkContent = '';
 				// if a buildPager function is supplied, use it to get pager link value, else use index + 1
-				var linkContent = slider.settings.buildPager && $.isFunction(slider.settings.buildPager) ? slider.settings.buildPager(i, $(val)) : i + 1;
+				if(slider.settings.buildPager && $.isFunction(slider.settings.buildPager)){
+					linkContent = slider.settings.buildPager(i);
+					slider.pagerEl.addClass('bx-custom-pager');
+				}else{
+					linkContent = i + 1;
+					slider.pagerEl.addClass('bx-default-pager');
+				}
+				// var linkContent = slider.settings.buildPager && $.isFunction(slider.settings.buildPager) ? slider.settings.buildPager(i) : i + 1;
 				// add the markup to the string
 				pagerHtml += '<div class="bx-pager-item"><a href="" data-slide-index="' + i + '" class="bx-pager-link">' + linkContent + '</a></div>';
 			};
@@ -429,19 +438,23 @@
 		 * Appends the pager to the controls element
 		 */
 		var appendPager = function(){
-			// create the pager DOM element
-			slider.pagerEl = $('<div class="bx-pager" />');
-			// assign the pager click binding
-			slider.pagerEl.delegate('.bx-pager-link', 'click', clickPagerBind);
-			// if a pager selector was supplied, populate it with the pager
-			if(slider.settings.pagerSelector){
-				$(slider.settings.pagerSelector).html(slider.pagerEl);
-			// if no pager selector was supplied, add it after the wrapper
+			if(!slider.settings.pagerCustom){
+				// create the pager DOM element
+				slider.pagerEl = $('<div class="bx-pager" />');
+				// if a pager selector was supplied, populate it with the pager
+				if(slider.settings.pagerSelector){
+					$(slider.settings.pagerSelector).html(slider.pagerEl);
+				// if no pager selector was supplied, add it after the wrapper
+				}else{
+					slider.controls.el.addClass('bx-has-pager').append(slider.pagerEl);
+				}
+				// populate the pager
+				populatePager();
 			}else{
-				slider.controls.el.addClass('bx-has-pager').append(slider.pagerEl);
+				slider.pagerEl = $(slider.settings.pagerCustom);
 			}
-			// populate the pager
-			populatePager();
+			// assign the pager click binding
+			slider.pagerEl.delegate('a', 'click', clickPagerBind);
 		}
 		
 		/**
@@ -959,8 +972,8 @@
 				if (slider.active.last) slider.active.index = getPagerQty() - 1;
 				// if the active index (page) no longer exists due to the resize, simply set the index as last
 				if (slider.active.index >= getPagerQty()) slider.active.last = true;
-				// if a pager is being displayed, update it
-				if(slider.settings.pager){
+				// if a pager is being displayed and a custom pager is not being used, update it
+				if(slider.settings.pager && !slider.settings.pagerCustom){
 					populatePager();
 					updatePagerActive(slider.active.index);
 				}
