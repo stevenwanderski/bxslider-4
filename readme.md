@@ -1,7 +1,7 @@
 #Introducing bxSlider 4.0
 ##The fully-loaded, responsive jQuery content slider
 
-##Why should I use this slider?
+###Why should I use this slider?
 * Fully responsive - will adapt to any device
 * Horizontal, vertical, and fade modes
 * Slides can contain images, video, or HTML content
