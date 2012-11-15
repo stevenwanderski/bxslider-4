@@ -194,7 +194,7 @@ options: jQuery selector
 ```
 
 **pagerCustom**  
-Parent element to be used as the pager. Parent element must contain a <code>&lt;a data-slide-index="x"&gt;</code> element for each slide. See example <a href="/examples/thumbnail-method-1">here</a>. Not for use with dynamic carousels.
+Parent element to be used as the pager. Parent element must contain a <code>&lt;a data-slide-index="x"&gt;</code> element for each slide. See example <a href="http://bxslider.com/examples/thumbnail-method-1">here</a>. Not for use with dynamic carousels.
 ```
 default: null  
 options: jQuery selector
@@ -204,7 +204,7 @@ options: jQuery selector
 If supplied, function is called on every slide element, and the returned value is used as the pager item markup.<br />See <a href="/examples">examples</a> for detailed implementation
 ```
 default: null  
-options: function(slideIndex, $slideElement)
+options: function(slideIndex)
 ```
 
 ###Controls
@@ -447,3 +447,5 @@ example:
 slider = $('.bxslider').bxSlider();
 var slideQty = slider.getSlideCount();  
 ```
+
+Long live zep.
