@@ -394,42 +394,56 @@ options: function($slideElement)
 
 **goToSlide**  
 Performs a slide transition to the supplied slide index (zero-based)
-```example:  
+```
+example:  
 slider = $('.bxslider').bxSlider();
-slider.goToSlide(3);```
+slider.goToSlide(3);  
+```
 
 **goToNextSlide**  
 Performs a "Next" slide transition
-```example:  
+```
+example:  
 slider = $('.bxslider').bxSlider();
-slider.goToNextSlide();```
+slider.goToNextSlide();  
+```
 
 **goToPrevSlide**  
 Performs a "Prev" slide transition
-```example:  
+```
+example:  
 slider = $('.bxslider').bxSlider();
-slider.goToPrevSlide();```
+slider.goToPrevSlide();  
+```
 
 **startAuto**  
 Starts the auto show. Provide an argument <code>false</code> to prevent the auto controls from being updated.
-```example:  
+```
+example:  
 slider = $('.bxslider').bxSlider();
-slider.startAuto();```
+slider.startAuto();  
+```
 
 **stopAuto**  
 Stops the auto show. Provide an argument <code>false</code> to prevent the auto controls from being updated.
-```example:  
+```
+example:  
 slider = $('.bxslider').bxSlider();
-slider.stopAuto();```
+slider.stopAuto();  
+```
 
 **getCurrentSlide**  
 Returns the current active slide
-```example:  
+```
+example:  
 slider = $('.bxslider').bxSlider();
-var current = slider.getCurrentSlide();```
+var current = slider.getCurrentSlide();  
+```
 
 **getSlideCount**  
 Returns the total number of slides in the slider
-```example:  
+```
+example:  
 slider = $('.bxslider').bxSlider();
-var slideQty = slider.getSlideCount();```
+var slideQty = slider.getSlideCount();  
+```
