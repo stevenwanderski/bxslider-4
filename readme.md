@@ -1,3 +1,61 @@
+#Introducing bxSlider 4.0
+##The fully-loaded, responsive jQuery content slider
+
+##Why should I use this slider?
+* Fully responsive - will adapt to any device
+* Horizontal, vertical, and fade modes
+* Slides can contain images, video, or HTML content
+* Full callback API and public methods
+* Small file size, fully themed, simple to implement
+* Browser support: Firefox, Chrome, Safari, iOS, Android, IE7+
+* Tons of configuration options
+
+For complete documentation, tons of examples, and a good time, visit:
+
+[http://bxslider.com](http://bxslider.com)
+
+Let's get on with it!
+
+##Installation
+
+###Step 1: Link required files
+
+First and most important, the jQuery library needs to be included (no need to download - link directly from Google). Next, download the package from this site and link the bxSlider CSS file (for the theme) and the bxSlider Javascript file.
+
+```html
+<!-- jQuery library (served from Google) -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<!-- bxSlider Javascript file -->
+<script src="/js/jquery.bxslider.min.js"></script>
+<!-- bxSlider CSS file -->
+<link href="/lib/jquery.bxslider.css" rel="stylesheet" />
+```
+
+###Step 2: Create HTML markup
+
+Create a `<ul class="bxslider">` element, with a `<li>` for each slide. Slides can contain images, video, or any other HTML content!
+
+```html
+<ul class="bxslider">
+  <li><img src="/images/pic1.jpg" /></li>
+  <li><img src="/images/pic2.jpg" /></li>
+  <li><img src="/images/pic3.jpg" /></li>
+  <li><img src="/images/pic4.jpg" /></li>
+</ul>
+```
+
+###Step 3: Call the bxSlider
+
+Call .bxslider() on `<ul class="bxslider">`. Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!
+
+```javascript
+$(document).ready(function(){
+  $('.bxslider').bxSlider();
+});
+```
+
+##Configuration options
+
 ###General
 
 **mode**  
