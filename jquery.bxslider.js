@@ -202,11 +202,12 @@
 				// if "vertical" mode, always use adaptiveHeight to prevent odd behavior
 				if (slider.settings.mode == 'vertical') slider.settings.adaptiveHeight = true;
 				// set the viewport height
-				slider.viewport.animate({height: getViewportHeight()}, 200);
+				slider.viewport.animate({height: getViewportHeight()}, 200, function(){
+					// onSliderLoad callback
+					slider.settings.onSliderLoad();
+				});
 				// if auto is true, start the show
 				if (slider.settings.auto && slider.settings.autoStart) initAuto();
-				// onSliderLoad callback
-				slider.settings.onSliderLoad();
 			});
 		}
 		
