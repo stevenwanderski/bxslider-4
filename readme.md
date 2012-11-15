@@ -14,6 +14,8 @@ For complete documentation, tons of examples, and a good time, visit:
 
 [http://bxslider.com](http://bxslider.com)
 
+Written by: Steven Wanderski - [http://bxslider.com](http://stevenwanderski.com)
+
 Let's get on with it!
 
 ##Installation
