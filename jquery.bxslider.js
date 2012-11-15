@@ -174,7 +174,7 @@
 			// if captions are requested, add them
 			if(slider.settings.captions) appendCaptions();
 			// if infinite loop, prepare additional slides
-			if(slider.settings.infiniteLoop && !slider.carousel && slider.settings.mode != 'fade'){
+			if(slider.settings.infiniteLoop && !slider.carousel && slider.settings.mode != 'fade' && !slider.settings.ticker){
 				var cloneAppend = slider.children.first().clone().addClass('bx-clone');
 				var clonePrepend = slider.children.last().clone().addClass('bx-clone');
 				el.append(cloneAppend).prepend(clonePrepend);
@@ -750,7 +750,7 @@
 			// if autoDirection is "prev", prepend a clone of the entire slider, and set the left position
 			}else{
 				el.prepend(slider.children.clone().addClass('bx-clone'));
-				el.css('left', -(slider.children.eq(slider.children.length).position().left));
+				el.css('left', -(slider.children.first().position().left));
 			}
 			// do not allow controls in ticker mode
 			slider.settings.pager = false;
@@ -768,7 +768,7 @@
 			var reset = 0;
 			// if "next" animate left position to last child, then reset left to 0
 			if(slider.settings.autoDirection == 'next'){
-				position = -(slider.children.eq(slider.children.length).position().left);
+				position = -(el.find('.bx-clone').first().position().left);
 			// if "prev" animate left position to 0, then reset left to first non-clone child
 			}else{
 				reset = -(slider.children.first().position().left);
