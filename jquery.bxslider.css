@@ -100,11 +100,11 @@
 }
 
 .bx-wrapper .bx-prev:hover {
-	background-position: 0 0;
+	background-position: 0 -32px;
 }
 
 .bx-wrapper .bx-next:hover {
-	background-position: -43px 0;
+	background-position: -43px -32px;
 }
 
 .bx-wrapper .bx-controls-direction a {
