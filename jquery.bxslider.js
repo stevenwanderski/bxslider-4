@@ -26,7 +26,7 @@
 		adaptiveHeight: false,
 		adaptiveHeightSpeed: 500,
 		touchEnabled: true,
-		swipeThreashold: 50,
+		swipeThreshold: 50,
 		video: false,
 		
 		// PAGER
@@ -102,10 +102,10 @@
 			slider.active = { index: slider.settings.startSlide }
 			// store if the slider is in carousel mode (displaying / moving multiple slides)
 			slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1;
-			// calculate the min / max width threasholds based on min / max number of slides
+			// calculate the min / max width thresholds based on min / max number of slides
 			// used to setup and update carousel slides dimensions
-			slider.minThreashold = (slider.settings.minSlides * slider.settings.slideWidth) + ((slider.settings.minSlides - 1) * slider.settings.slideMargin);
-			slider.maxThreashold = (slider.settings.maxSlides * slider.settings.slideWidth) + ((slider.settings.maxSlides - 1) * slider.settings.slideMargin);
+			slider.minThreshold = (slider.settings.minSlides * slider.settings.slideWidth) + ((slider.settings.minSlides - 1) * slider.settings.slideMargin);
+			slider.maxThreshold = (slider.settings.maxSlides * slider.settings.slideWidth) + ((slider.settings.maxSlides - 1) * slider.settings.slideMargin);
 			// store the current state of the slider (if currently animating, working is true)
 			slider.working = false;
 			// initialize the controls object
@@ -307,11 +307,11 @@
 			// if slide width was not supplied, use the viewport width (means not carousel)
 			if(slider.settings.slideWidth == 0){
 				newElWidth = wrapWidth;
-			// if carousel, use the threasholds to determine the width
+			// if carousel, use the thresholds to determine the width
 			}else{
-				if(wrapWidth > slider.maxThreashold){
+				if(wrapWidth > slider.maxThreshold){
 					newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.maxSlides - 1))) / slider.settings.maxSlides;
-				}else if(wrapWidth < slider.minThreashold){
+				}else if(wrapWidth < slider.minThreshold){
 					newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.minSlides - 1))) / slider.settings.minSlides;
 				}
 			}
@@ -324,13 +324,13 @@
 		var getNumberSlidesShowing = function(){
 			var slidesShowing = 1;
 			if(slider.settings.mode == 'horizontal'){
-				// if viewport is smaller than minThreashold, return minSlides
-				if(slider.viewport.width() < slider.minThreashold){
+				// if viewport is smaller than minThreshold, return minSlides
+				if(slider.viewport.width() < slider.minThreshold){
 					slidesShowing = slider.settings.minSlides;
-				// if viewport is larger than minThreashold, return maxSlides
-				}else if(slider.viewport.width() > slider.maxThreashold){
+				// if viewport is larger than minThreshold, return maxSlides
+				}else if(slider.viewport.width() > slider.maxThreshold){
 					slidesShowing = slider.settings.maxSlides;
-				// if viewport is between min / max threasholds, divide viewport width by first child width
+				// if viewport is between min / max thresholds, divide viewport width by first child width
 				}else{
 					var childWidth = slider.children.first().width();
 					slidesShowing = Math.floor(slider.viewport.width() / childWidth);
@@ -696,8 +696,8 @@
 				slider.touch.end.x = orig.changedTouches[0].pageX;
 				// calculate the distance of the swipe
 				var distance = Math.abs(slider.touch.start.x - slider.touch.end.x);
-				// if the distance is larger or equal to the swipe threashold, move the slide
-				if(distance >= slider.settings.swipeThreashold){
+				// if the distance is larger or equal to the swipe threshold, move the slide
+				if(distance >= slider.settings.swipeThreshold){
 					if(slider.touch.start.x > slider.touch.end.x){
 						el.goToNextSlide();
 					}else{
