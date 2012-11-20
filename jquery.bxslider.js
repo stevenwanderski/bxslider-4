@@ -23,6 +23,7 @@
 		startSlide: 0,
 		captions: false,
 		ticker: false,
+		tickerHover: false,
 		adaptiveHeight: false,
 		adaptiveHeightSpeed: 500,
 		touchEnabled: true,
@@ -751,12 +752,34 @@
 			// if autoDirection is "prev", prepend a clone of the entire slider, and set the left position
 			}else{
 				el.prepend(slider.children.clone().addClass('bx-clone'));
-				el.css('left', -(slider.children.first().position().left));
+				var position = slider.children.first().position();
+				var startPosition = slider.settings.mode == 'horizontal' ? {left: -position.left} : {top: -position.top};
+				el.css(startPosition);
 			}
 			// do not allow controls in ticker mode
 			slider.settings.pager = false;
 			slider.settings.controls = false;
 			slider.settings.autoControls = false;
+			// if autoHover is requested
+			if(slider.settings.tickerHover){
+				// on el hover
+				slider.viewport.hover(function(){
+					el.stop();
+				}, function(){
+					// calculate the total width of children (used to calculate the speed ratio)
+					var totalDimens = 0;
+					slider.children.each(function(index){
+					  totalDimens += slider.settings.mode == 'horizontal' ? $(this).outerWidth(true) : $(this).outerHeight(true);
+					});
+					// calculate the speed ratio (used to determine the new speed to finish the paused animation)
+					var ratio = slider.settings.speed / totalDimens;
+					// determine which property to use
+					var property = slider.settings.mode == 'horizontal' ? 'left' : 'top';
+					// calculate the new speed
+					var newSpeed = ratio * (totalDimens - (Math.abs(parseInt(el.css(property)))));
+					tickerLoop(newSpeed);
+				});
+			}
 			// start the ticker loop
 			tickerLoop();
 		}
@@ -764,18 +787,21 @@
 		/**
 		 * Runs a continuous loop, news ticker-style
 		 */
-		var tickerLoop = function(){
-			var position = 0;
-			var reset = 0;
+		var tickerLoop = function(resumeSpeed){
+			speed = resumeSpeed ? resumeSpeed : slider.settings.speed;
+			var position = {left: 0, top: 0};
+			var reset = {left: 0, top: 0};
 			// if "next" animate left position to last child, then reset left to 0
 			if(slider.settings.autoDirection == 'next'){
-				position = -(el.find('.bx-clone').first().position().left);
+				position = el.find('.bx-clone').first().position();
 			// if "prev" animate left position to 0, then reset left to first non-clone child
 			}else{
-				reset = -(slider.children.first().position().left);
+				reset = slider.children.first().position();
 			}
-			el.animate({left: position}, slider.settings.speed, 'linear', function(){
-				el.css('left', reset);
+			var animateProperty = slider.settings.mode == 'horizontal' ? {left: -position.left} : {top: -position.top};
+			var resetProperty = slider.settings.mode == 'horizontal' ? {left: -reset.left} : {top: -reset.top};
+			el.animate(animateProperty, speed, 'linear', function(){
+				el.css(resetProperty);
 				// run the recursive loop after animation
 				tickerLoop();
 			});
