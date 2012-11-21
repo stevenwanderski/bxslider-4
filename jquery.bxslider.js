@@ -676,39 +676,6 @@
 		}
 		
 		/**
-		 * Initializes touch events
-		 */
-		var initTouch = function(){
-			// initialize object to contain all touch values
-			slider.touch = {
-				start: {x: null, y: null},
-				end: {x: null, y: null}
-			}
-			// bind a "touchstart" event to the viewport
-			slider.viewport.bind('touchstart', function(e){
-				var orig = e.originalEvent;
-				// record the starting touch x coordinate
-				slider.touch.start.x = orig.changedTouches[0].pageX;
-			});
-			// bind a "touchend" event to the viewport
-			slider.viewport.bind('touchend', function(e){
-				var orig = e.originalEvent;
-				// record the ending touch x cooridinate
-				slider.touch.end.x = orig.changedTouches[0].pageX;
-				// calculate the distance of the swipe
-				var distance = Math.abs(slider.touch.start.x - slider.touch.end.x);
-				// if the distance is larger or equal to the swipe threshold, move the slide
-				if(distance >= slider.settings.swipeThreshold){
-					if(slider.touch.start.x > slider.touch.end.x){
-						el.goToNextSlide();
-					}else{
-						el.goToPrevSlide();
-					}
-				}
-			});
-		}
-		
-		/**
 		 * Initialzes the auto process
 		 */
 		var initAuto = function(){
@@ -805,6 +772,112 @@
 				// run the recursive loop after animation
 				tickerLoop();
 			});
+		}
+		
+		/**
+		 * Initializes touch events
+		 */
+		var initTouch = function(){
+			// initialize object to contain all touch values
+			slider.touch = {
+				start: {x: 0, y: 0},
+				end: {x: 0, y: 0}
+			}
+			slider.viewport.bind('touchstart', onTouchStart);
+		}
+		
+		/**
+		 * Event handler for "touchstart"
+		 *
+		 * @param e (event) 
+		 *  - DOM event object
+		 */
+		var onTouchStart = function(e){
+			if(slider.working){
+				e.preventDefault();
+			}else{
+				// record the original position when touch starts
+				slider.touch.originalPos = el.position();
+				var orig = e.originalEvent;
+				// record the starting touch x, y coordinates
+				// slider.touch.start = slider.settings.mode == 'horizontal' ? orig.changedTouches[0].pageX : orig.changedTouches[0].pageY;
+				slider.touch.start.x = orig.changedTouches[0].pageX;
+				slider.touch.start.y = orig.changedTouches[0].pageY;
+				// bind a "touchmove" event to the viewport
+				slider.viewport.bind('touchmove', onTouchMove);
+				// bind a "touchend" event to the viewport
+				slider.viewport.bind('touchend', onTouchEnd);
+			}
+		}
+		
+		/**
+		 * Event handler for "touchmove"
+		 *
+		 * @param e (event) 
+		 *  - DOM event object
+		 */
+		var onTouchMove = function(e){
+			e.preventDefault();
+			if(slider.settings.mode != 'fade'){
+				var orig = e.originalEvent;
+				// if horizontal, drag along x axis
+				if(slider.settings.mode == 'horizontal'){
+					var change = orig.changedTouches[0].pageX - slider.touch.start.x;
+					property = {left: slider.touch.originalPos.left + change};
+				// if vertical, drag along y axis
+				}else{
+					var change = orig.changedTouches[0].pageY - slider.touch.start.y;
+					property = {top: slider.touch.originalPos.top + change};
+				}
+				el.css(property);
+			}
+		}
+		
+		/**
+		 * Event handler for "touchend"
+		 *
+		 * @param e (event) 
+		 *  - DOM event object
+		 */
+		var onTouchEnd = function(e){
+			slider.viewport.unbind('touchmove', onTouchMove);
+			var orig = e.originalEvent;
+			var property;
+			// record end x, y positions
+			slider.touch.end.x = orig.changedTouches[0].pageX;
+			slider.touch.end.y = orig.changedTouches[0].pageY;
+			// if fade mode, check if absolute x distance clears the threshold
+			if(slider.settings.mode == 'fade'){
+				var distance = Math.abs(slider.touch.start.x - slider.touch.end.x);
+				if(distance >= slider.settings.swipeThreshold){
+					slider.touch.start.x > slider.touch.end.x ? el.goToNextSlide() : el.goToPrevSlide();
+					el.stopAuto();
+				}
+			// not fade mode
+			}else{
+				var distance = 0;
+				// calculate distance and el's animate property
+				if(slider.settings.mode == 'horizontal'){
+					distance = slider.touch.end.x - slider.touch.start.x;
+					property = {left: slider.touch.originalPos.left};
+				}else{
+					distance = slider.touch.end.x - slider.touch.start.x;
+					property = {top: slider.touch.originalPos.top};
+				}
+				// if not infinite loop and first / last slide, do not attempt a slide transition
+				if(!slider.settings.infiniteLoop && ((slider.active.index == 0 && distance > 0) || (slider.active.last && distance < 0))){
+					el.animate(property, 200);
+				}else{
+					// check if distance clears threshold
+					if(Math.abs(distance) >= slider.settings.swipeThreshold){
+						distance < 0 ? el.goToNextSlide() : el.goToPrevSlide();
+						el.stopAuto();
+					}else{
+						el.animate(property, 200);
+					}
+				}
+			}
+			slider.viewport.unbind('touchend', onTouchEnd);
 		}
 		
 		/**
