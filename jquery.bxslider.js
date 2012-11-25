@@ -130,7 +130,6 @@
 				}
 				return false;
 			}());
-			console.log(slider);
 			// perform all DOM / CSS modifications
 			setup();
 			// if ticker is true, start the ticker
@@ -157,7 +156,7 @@
 			// set el to a massive width, to hold any needed slides
 			// also strip any margin and padding from el
 			el.css({
-				width: slider.settings.mode == 'horizontal' ? '999999px' : 'auto',
+				width: slider.settings.mode == 'horizontal' ? '2800%' : 'auto',
 				height: 0,
 				overflow: 'hidden',
 				position: 'relative',
@@ -425,9 +424,31 @@
 				if (slider.active.index == getPagerQty() - 1) slider.active.last = true;
 				// set the repective position
 				if (position != undefined){
-					if (slider.settings.mode == 'horizontal') el.css('left', -position.left);
+					if (slider.settings.mode == 'horizontal') setPositionProperty(-position.left, 'reset');
 					else if (slider.settings.mode == 'vertical') el.css('top', -position.top);
 				}
+			}
+		}
+		
+		var setPositionProperty = function(value, type, duration){
+			// use CSS transform
+			if(slider.usingCSS){
+				el.css('-' + slider.cssPrefix + '-transition-duration', duration / 1000 + 's');
+				if(type == 'slide'){
+					el.css(slider.animProp, 'translate3d(' + value + 'px, 0, 0)');
+					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
+						updateAfterSlideTransition();
+						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+					});
+				}else if(type == 'reset'){
+					el.css(slider.animProp, 'translate3d(' + value + 'px, 0, 0)');
+				}
+				
+			// use JS animate
+			}else{
+				
+				
+				
 			}
 		}
 		
@@ -840,16 +861,20 @@
 			e.preventDefault();
 			if(slider.settings.mode != 'fade'){
 				var orig = e.originalEvent;
+				var value = 0;
 				// if horizontal, drag along x axis
 				if(slider.settings.mode == 'horizontal'){
 					var change = orig.changedTouches[0].pageX - slider.touch.start.x;
-					property = {left: slider.touch.originalPos.left + change};
+					// property = {left: slider.touch.originalPos.left + change};
+					value = slider.touch.originalPos.left + change;
 				// if vertical, drag along y axis
 				}else{
 					var change = orig.changedTouches[0].pageY - slider.touch.start.y;
-					property = {top: slider.touch.originalPos.top + change};
+					// property = {top: slider.touch.originalPos.top + change};
+					value = slider.touch.originalPos.top + change;
 				}
-				el.css(property);
+				// el.css(property);
+				setPositionProperty(value, 'reset', 0);
 			}
 		}
 		
@@ -862,7 +887,7 @@
 		var onTouchEnd = function(e){
 			slider.viewport.unbind('touchmove', onTouchMove);
 			var orig = e.originalEvent;
-			var property;
+			var value = 0;
 			// record end x, y positions
 			slider.touch.end.x = orig.changedTouches[0].pageX;
 			slider.touch.end.y = orig.changedTouches[0].pageY;
@@ -879,21 +904,25 @@
 				// calculate distance and el's animate property
 				if(slider.settings.mode == 'horizontal'){
 					distance = slider.touch.end.x - slider.touch.start.x;
-					property = {left: slider.touch.originalPos.left};
+					// property = {left: slider.touch.originalPos.left};
+					value = slider.touch.originalPos.left;
 				}else{
 					distance = slider.touch.end.x - slider.touch.start.x;
-					property = {top: slider.touch.originalPos.top};
+					// property = {top: slider.touch.originalPos.top};
+					value = slider.touch.originalPos.top;
 				}
 				// if not infinite loop and first / last slide, do not attempt a slide transition
 				if(!slider.settings.infiniteLoop && ((slider.active.index == 0 && distance > 0) || (slider.active.last && distance < 0))){
-					el.animate(property, 200);
+					// el.animate(property, 200);
+					setPositionProperty(value, 'reset', 200);
 				}else{
 					// check if distance clears threshold
 					if(Math.abs(distance) >= slider.settings.swipeThreshold){
 						distance < 0 ? el.goToNextSlide() : el.goToPrevSlide();
 						el.stopAuto();
 					}else{
-						el.animate(property, 200);
+						// el.animate(property, 200);
+						setPositionProperty(value, 'reset', 200);
 					}
 				}
 			}
@@ -988,10 +1017,12 @@
 					position = slider.children.eq(requestEl).position();
 				}
 				// plugin values to be animated
-				var animateProperty = slider.settings.mode == 'horizontal' ? {left: -(position.left - moveBy)} : {top: -position.top}
-				el.animate(animateProperty, slider.settings.speed, slider.settings.easing, function(){
-					updateAfterSlideTransition();
-				});
+				var value = slider.settings.mode == 'horizontal' ? -(position.left - moveBy) : -position.top;
+				setPositionProperty(value, 'slide', slider.settings.speed);
+				// var animateProperty = slider.settings.mode == 'horizontal' ? {left: -(position.left - moveBy)} : {top: -position.top}
+				// el.animate(animateProperty, slider.settings.speed, slider.settings.easing, function(){
+				// 	updateAfterSlideTransition();
+				// });
 			}
 		}
 		
