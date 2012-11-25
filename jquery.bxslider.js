@@ -29,6 +29,7 @@
 		touchEnabled: true,
 		swipeThreshold: 50,
 		video: false,
+		useCSS: true,
 		
 		// PAGER
 		pager: true,
@@ -110,7 +111,26 @@
 			// store the current state of the slider (if currently animating, working is true)
 			slider.working = false;
 			// initialize the controls object
-			slider.controls = {}
+			slider.controls = {};
+			// determine which property to use for transitions
+			slider.animProp = slider.settings.mode == 'vertical' ? 'top' : 'left';
+			// determine if hardware acceleration can be used
+			slider.usingCSS = slider.settings.useCSS && slider.settings.mode != 'fade' && (function(){
+				// create our test div element
+				var div = document.createElement('div');
+				// css transition properties
+				var props = ['WebkitTransform', 'MozTransform', 'OTransform', 'msTransform'];
+				// test for each property
+				for(var i in props){
+					if(div.style[props[i]] !== undefined){
+						slider.cssPrefix = props[i].replace('Transform', '').toLowerCase();
+						slider.animProp = '-' + slider.cssPrefix + '-transform';
+						return true;
+					}
+				}
+				return false;
+			}());
+			console.log(slider);
 			// perform all DOM / CSS modifications
 			setup();
 			// if ticker is true, start the ticker
