@@ -443,12 +443,17 @@
 				}else if(type == 'reset'){
 					el.css(slider.animProp, 'translate3d(' + value + 'px, 0, 0)');
 				}
-				
 			// use JS animate
 			}else{
-				
-				
-				
+				if(type == 'slide'){
+					var animateObj = {};
+					animateObj[slider.animProp] = value;
+					el.animate(animateObj, duration, slider.settings.easing, function(){
+						updateAfterSlideTransition();
+					});
+				}else if(type == 'reset'){
+					el.css(slider.animProp, value)
+				}
 			}
 		}
 		
@@ -658,18 +663,17 @@
 		var updateAfterSlideTransition = function(){
 			// if not carousel and infinte loop is true
 			if(!slider.carousel && slider.settings.infiniteLoop){
+				var position = '';
 				// last slide
 				if(slider.active.index == 0){
 					// set the new position
-					var position = slider.children.eq(0).position();
-					if (slider.settings.mode == 'horizontal') { el.css('left', -position.left); }
-					else if (slider.settings.mode == 'vertical') { el.css('top', -position.top); }
+					position = slider.children.eq(0).position();
 				}else if(slider.active.index == slider.children.length - 1){
 					// set the new position
-					var position = slider.children.eq(slider.children.length - 1).position();
-					if (slider.settings.mode == 'horizontal') { el.css('left', -position.left); }
-					else if (slider.settings.mode == 'vertical') { el.css('top', -position.top); }
+					position = slider.children.eq(slider.children.length - 1).position();
 				}
+				if (slider.settings.mode == 'horizontal') { setPositionProperty(-position.left, 'reset', 0);; }
+				else if (slider.settings.mode == 'vertical') { setPositionProperty(-position.top, 'reset', 0);; }
 			}
 			// declare that the transition is complete
 			slider.working = false;
