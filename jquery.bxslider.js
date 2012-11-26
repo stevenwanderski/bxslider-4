@@ -119,11 +119,11 @@
 				// create our test div element
 				var div = document.createElement('div');
 				// css transition properties
-				var props = ['WebkitTransform', 'MozTransform', 'OTransform', 'msTransform'];
+				var props = ['WebkitPerspective', 'MozPerspective', 'OPerspective', 'msPerspective'];
 				// test for each property
 				for(var i in props){
 					if(div.style[props[i]] !== undefined){
-						slider.cssPrefix = props[i].replace('Transform', '').toLowerCase();
+						slider.cssPrefix = props[i].replace('Perspective', '').toLowerCase();
 						slider.animProp = '-' + slider.cssPrefix + '-transform';
 						return true;
 					}
@@ -431,6 +431,7 @@
 		}
 		
 		var setPositionProperty = function(value, type, duration){
+			// console.log(slider.controls.el[0].style);
 			// use CSS transform
 			if(slider.usingCSS){
 				el.css('-' + slider.cssPrefix + '-transition-duration', duration / 1000 + 's');
@@ -443,6 +444,8 @@
 				}else if(type == 'reset'){
 					el.css(slider.animProp, 'translate3d(' + value + 'px, 0, 0)');
 				}
+				// slider.controls.el[0].style['-webkit-transform'] = 'translate3d(0,0,0)';
+				// $('.bx-wrapper .bx-controls-direction a').css('-webkit-transform', 'translate3d(0,0,0)');
 			// use JS animate
 			}else{
 				if(type == 'slide'){

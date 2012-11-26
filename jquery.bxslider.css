@@ -72,7 +72,7 @@
 
 .bx-wrapper .bx-pager.bx-default-pager a {
 	background: #666;
-	text-indent: -999999px;
+	text-indent: -9999px;
 	display: block;
 	width: 10px;
 	height: 10px;
@@ -113,7 +113,7 @@
 	margin-top: -16px;
 	width: 32px;
 	height: 32px;
-	text-indent: -999999px;
+	text-indent: -9999px;
 	z-index: 9999;
 }
 
@@ -129,7 +129,7 @@
 
 .bx-wrapper .bx-controls-auto .bx-start {
 	display: block;
-	text-indent: -999999px;
+	text-indent: -9999px;
 	width: 10px;
 	height: 11px;
 	background: url(images/controls.png) -86px -11px no-repeat;
@@ -143,7 +143,7 @@
 
 .bx-wrapper .bx-controls-auto .bx-stop {
 	display: block;
-	text-indent: -999999px;
+	text-indent: -9999px;
 	width: 9px;
 	height: 11px;
 	background: url(images/controls.png) -86px -44px no-repeat;
