@@ -464,7 +464,7 @@
 					el.css(slider.animProp, value)
 				}else if(type == 'ticker'){
 					el.animate(animateObj, speed, 'linear', function(){
-						el.css(slider.animProp, propValue);
+						setPositionProperty(params['resetValue'], 'reset', 0);
 						// run the recursive loop after animation
 						tickerLoop();
 					});
@@ -791,20 +791,24 @@
 			if(slider.settings.tickerHover){
 				// on el hover
 				slider.viewport.hover(function(){
-					el.stop();
+					slider.usingCSS ? el.css('-' + slider.cssPrefix + '-animation-play-state', 'paused') : el.stop();
 				}, function(){
-					// calculate the total width of children (used to calculate the speed ratio)
-					var totalDimens = 0;
-					slider.children.each(function(index){
-					  totalDimens += slider.settings.mode == 'horizontal' ? $(this).outerWidth(true) : $(this).outerHeight(true);
-					});
-					// calculate the speed ratio (used to determine the new speed to finish the paused animation)
-					var ratio = slider.settings.speed / totalDimens;
-					// determine which property to use
-					var property = slider.settings.mode == 'horizontal' ? 'left' : 'top';
-					// calculate the new speed
-					var newSpeed = ratio * (totalDimens - (Math.abs(parseInt(el.css(property)))));
-					tickerLoop(newSpeed);
+					if(slider.usingCSS){
+						el.css('-' + slider.cssPrefix + '-animation-play-state', 'running');
+					}else{
+						// calculate the total width of children (used to calculate the speed ratio)
+						var totalDimens = 0;
+						slider.children.each(function(index){
+						  totalDimens += slider.settings.mode == 'horizontal' ? $(this).outerWidth(true) : $(this).outerHeight(true);
+						});
+						// calculate the speed ratio (used to determine the new speed to finish the paused animation)
+						var ratio = slider.settings.speed / totalDimens;
+						// determine which property to use
+						var property = slider.settings.mode == 'horizontal' ? 'left' : 'top';
+						// calculate the new speed
+						var newSpeed = ratio * (totalDimens - (Math.abs(parseInt(el.css(property)))));
+						tickerLoop(newSpeed);
+					}
 				});
 			}
 			// start the ticker loop
@@ -1150,7 +1154,7 @@
 					updatePagerActive(slider.active.index);
 				}
 				// update the slide position
-				setSlidePosition();
+				if(!slider.settings.ticker) setSlidePosition();
 			}
 		});
 		
