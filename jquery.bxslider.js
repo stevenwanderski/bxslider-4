@@ -408,13 +408,13 @@
 					var lastChild = slider.children.last();
 					var position = lastChild.position();
 					// set the left position
-					el.css('left', -(position.left - (slider.viewport.width() - lastChild.width())));
+					setPositionProperty(-(position.left - (slider.viewport.width() - lastChild.width())), 'reset', 0);
 				}else if(slider.settings.mode == 'vertical'){
 					// get the last showing index's position
 					var lastShowingIndex = slider.children.length - slider.settings.minSlides;
 					var position = slider.children.eq(lastShowingIndex).position();
 					// set the top position
-					el.css('top', -position.top);
+					setPositionProperty(-position.top, 'reset', 0);
 				}
 			// if not last slide
 			}else{
@@ -424,38 +424,50 @@
 				if (slider.active.index == getPagerQty() - 1) slider.active.last = true;
 				// set the repective position
 				if (position != undefined){
-					if (slider.settings.mode == 'horizontal') setPositionProperty(-position.left, 'reset');
-					else if (slider.settings.mode == 'vertical') el.css('top', -position.top);
+					if (slider.settings.mode == 'horizontal') setPositionProperty(-position.left, 'reset', 0);
+					else if (slider.settings.mode == 'vertical') setPositionProperty(-position.top, 'reset', 0);
 				}
 			}
 		}
 		
-		var setPositionProperty = function(value, type, duration){
-			// console.log(slider.controls.el[0].style);
+		var setPositionProperty = function(value, type, duration, params){
 			// use CSS transform
 			if(slider.usingCSS){
+				var propValue = slider.settings.mode == 'vertical' ? 'translate3d(0, ' + value + 'px, 0)' : 'translate3d(' + value + 'px, 0, 0)';
 				el.css('-' + slider.cssPrefix + '-transition-duration', duration / 1000 + 's');
 				if(type == 'slide'){
-					el.css(slider.animProp, 'translate3d(' + value + 'px, 0, 0)');
+					el.css(slider.animProp, propValue);
 					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
-						updateAfterSlideTransition();
 						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+						updateAfterSlideTransition();
 					});
 				}else if(type == 'reset'){
-					el.css(slider.animProp, 'translate3d(' + value + 'px, 0, 0)');
+					el.css(slider.animProp, propValue);
+				}else if(type == 'ticker'){
+					el.css('-' + slider.cssPrefix + '-transition-timing-function', 'linear');
+					el.css(slider.animProp, propValue);
+					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
+						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+						setPositionProperty(params['resetValue'], 'reset', 0);
+						tickerLoop();
+					});
 				}
-				// slider.controls.el[0].style['-webkit-transform'] = 'translate3d(0,0,0)';
-				// $('.bx-wrapper .bx-controls-direction a').css('-webkit-transform', 'translate3d(0,0,0)');
 			// use JS animate
 			}else{
+				var animateObj = {};
+				animateObj[slider.animProp] = value;
 				if(type == 'slide'){
-					var animateObj = {};
-					animateObj[slider.animProp] = value;
 					el.animate(animateObj, duration, slider.settings.easing, function(){
 						updateAfterSlideTransition();
 					});
 				}else if(type == 'reset'){
 					el.css(slider.animProp, value)
+				}else if(type == 'ticker'){
+					el.animate(animateObj, speed, 'linear', function(){
+						el.css(slider.animProp, propValue);
+						// run the recursive loop after animation
+						tickerLoop();
+					});
 				}
 			}
 		}
@@ -813,13 +825,15 @@
 			}else{
 				reset = slider.children.first().position();
 			}
-			var animateProperty = slider.settings.mode == 'horizontal' ? {left: -position.left} : {top: -position.top};
-			var resetProperty = slider.settings.mode == 'horizontal' ? {left: -reset.left} : {top: -reset.top};
-			el.animate(animateProperty, speed, 'linear', function(){
-				el.css(resetProperty);
-				// run the recursive loop after animation
-				tickerLoop();
-			});
+			var animateProperty = slider.settings.mode == 'horizontal' ? -position.left : -position.top;
+			var resetValue = slider.settings.mode == 'horizontal' ? -reset.left : -reset.top;
+			var params = {resetValue: resetValue};
+			setPositionProperty(animateProperty, 'ticker', speed, params);
+			// el.animate(animateProperty, speed, 'linear', function(){
+			// 	el.css(resetProperty);
+			// 	// run the recursive loop after animation
+			// 	tickerLoop();
+			// });
 		}
 		
 		/**
