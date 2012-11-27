@@ -18,7 +18,7 @@
 		infiniteLoop: true,
 		hideControlOnEnd: false,
 		speed: 500,
-		easing: 'swing',
+		easing: null,
 		slideMargin: 0,
 		startSlide: 0,
 		captions: false,
@@ -163,6 +163,13 @@
 				margin: 0,
 				padding: 0
 			});
+			// if using CSS, add the easing property
+			if(slider.usingCSS && slider.settings.easing){
+				el.css('-' + slider.cssPrefix + '-transition-timing-function', slider.settings.easing);
+			// if not using CSS and no easing value was supplied, use the default JS animation easing (swing)
+			}else if(!slider.settings.easing){
+				slider.settings.easing = 'swing';
+			}
 			// make modifications to the viewport (.bx-viewport)
 			slider.viewport.css({
 				width: '100%',
@@ -773,6 +780,7 @@
 		 * Initialzes the ticker process
 		 */
 		var initTicker = function(){
+			var startPosition = 0;
 			// if autoDirection is "next", append a clone of the entire slider
 			if(slider.settings.autoDirection == 'next'){
 				el.append(slider.children.clone().addClass('bx-clone'));
@@ -780,9 +788,9 @@
 			}else{
 				el.prepend(slider.children.clone().addClass('bx-clone'));
 				var position = slider.children.first().position();
-				var startPosition = slider.settings.mode == 'horizontal' ? {left: -position.left} : {top: -position.top};
-				el.css(startPosition);
+				startPosition = slider.settings.mode == 'horizontal' ? -position.left : -position.top;
 			}
+			setPositionProperty(startPosition, 'reset', 0);
 			// do not allow controls in ticker mode
 			slider.settings.pager = false;
 			slider.settings.controls = false;
