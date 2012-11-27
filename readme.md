@@ -172,6 +172,13 @@ default: false
 options: boolean (true / false)
 ```
 
+**useCSS**  
+If true, CSS transitions will be used for horizontal and vertical slide animations (this uses native hardware acceleration). If false, jQuery animate() will be used.
+```
+default: true  
+options: boolean (true / false)
+```
+
 ###Pager
 
 **pager**  
