@@ -437,25 +437,51 @@
 			}
 		}
 		
+		/**
+		 * Sets the el's animating property position (which in turn will sometimes animate el).
+		 * If using CSS, sets the transform property. If not using CSS, sets the top / left property.
+		 *
+		 * @param value (int) 
+		 *  - the animating property's value
+		 *
+		 * @param type (string) 'slider', 'reset', 'ticker'
+		 *  - the type of instance for which the function is being
+		 *
+		 * @param duration (int) 
+		 *  - the amount of time (in ms) the transition should occupy
+		 *
+		 * @param params (array) optional
+		 *  - an optional parameter containing any variables that need to be passed in
+		 */
 		var setPositionProperty = function(value, type, duration, params){
 			// use CSS transform
 			if(slider.usingCSS){
+				// determine the translate3d value
 				var propValue = slider.settings.mode == 'vertical' ? 'translate3d(0, ' + value + 'px, 0)' : 'translate3d(' + value + 'px, 0, 0)';
+				// add the CSS transition-duration
 				el.css('-' + slider.cssPrefix + '-transition-duration', duration / 1000 + 's');
 				if(type == 'slide'){
+					// set the property value
 					el.css(slider.animProp, propValue);
+					// bind a callback method - executes when CSS transition completes
 					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
+						// unbind the callback
 						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
 						updateAfterSlideTransition();
 					});
 				}else if(type == 'reset'){
 					el.css(slider.animProp, propValue);
 				}else if(type == 'ticker'){
+					// make the transition use 'linear'
 					el.css('-' + slider.cssPrefix + '-transition-timing-function', 'linear');
 					el.css(slider.animProp, propValue);
+					// bind a callback method - executes when CSS transition completes
 					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
+						// unbind the callback
 						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+						// reset the position
 						setPositionProperty(params['resetValue'], 'reset', 0);
+						// start the loop again
 						tickerLoop();
 					});
 				}
@@ -837,11 +863,6 @@
 			var resetValue = slider.settings.mode == 'horizontal' ? -reset.left : -reset.top;
 			var params = {resetValue: resetValue};
 			setPositionProperty(animateProperty, 'ticker', speed, params);
-			// el.animate(animateProperty, speed, 'linear', function(){
-			// 	el.css(resetProperty);
-			// 	// run the recursive loop after animation
-			// 	tickerLoop();
-			// });
 		}
 		
 		/**
@@ -870,7 +891,6 @@
 				slider.touch.originalPos = el.position();
 				var orig = e.originalEvent;
 				// record the starting touch x, y coordinates
-				// slider.touch.start = slider.settings.mode == 'horizontal' ? orig.changedTouches[0].pageX : orig.changedTouches[0].pageY;
 				slider.touch.start.x = orig.changedTouches[0].pageX;
 				slider.touch.start.y = orig.changedTouches[0].pageY;
 				// bind a "touchmove" event to the viewport
@@ -894,15 +914,12 @@
 				// if horizontal, drag along x axis
 				if(slider.settings.mode == 'horizontal'){
 					var change = orig.changedTouches[0].pageX - slider.touch.start.x;
-					// property = {left: slider.touch.originalPos.left + change};
 					value = slider.touch.originalPos.left + change;
 				// if vertical, drag along y axis
 				}else{
 					var change = orig.changedTouches[0].pageY - slider.touch.start.y;
-					// property = {top: slider.touch.originalPos.top + change};
 					value = slider.touch.originalPos.top + change;
 				}
-				// el.css(property);
 				setPositionProperty(value, 'reset', 0);
 			}
 		}
@@ -933,16 +950,13 @@
 				// calculate distance and el's animate property
 				if(slider.settings.mode == 'horizontal'){
 					distance = slider.touch.end.x - slider.touch.start.x;
-					// property = {left: slider.touch.originalPos.left};
 					value = slider.touch.originalPos.left;
 				}else{
 					distance = slider.touch.end.y - slider.touch.start.y;
-					// property = {top: slider.touch.originalPos.top};
 					value = slider.touch.originalPos.top;
 				}
 				// if not infinite loop and first / last slide, do not attempt a slide transition
 				if(!slider.settings.infiniteLoop && ((slider.active.index == 0 && distance > 0) || (slider.active.last && distance < 0))){
-					// el.animate(property, 200);
 					setPositionProperty(value, 'reset', 200);
 				}else{
 					// check if distance clears threshold
@@ -1048,10 +1062,6 @@
 				// plugin values to be animated
 				var value = slider.settings.mode == 'horizontal' ? -(position.left - moveBy) : -position.top;
 				setPositionProperty(value, 'slide', slider.settings.speed);
-				// var animateProperty = slider.settings.mode == 'horizontal' ? {left: -(position.left - moveBy)} : {top: -position.top}
-				// el.animate(animateProperty, slider.settings.speed, slider.settings.easing, function(){
-				// 	updateAfterSlideTransition();
-				// });
 			}
 		}
 		
