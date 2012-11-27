@@ -936,7 +936,7 @@
 					// property = {left: slider.touch.originalPos.left};
 					value = slider.touch.originalPos.left;
 				}else{
-					distance = slider.touch.end.x - slider.touch.start.x;
+					distance = slider.touch.end.y - slider.touch.start.y;
 					// property = {top: slider.touch.originalPos.top};
 					value = slider.touch.originalPos.top;
 				}
