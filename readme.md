@@ -110,10 +110,10 @@ options: boolean (true / false)
 ```
 
 **easing**  
-The type of "easing" to use during transitions. Include <code>plugins/jquery.easing.1.3.js</code> for many options.<br />See <a href="http://gsgd.co.uk/sandbox/jquery/easing/" target="_blank">http://gsgd.co.uk/sandbox/jquery/easing/</a> for more info
+The type of "easing" to use during transitions. If using CSS transitions, include a value for the <code>transition-timing-function</code> property. If not using CSS transitions, you may include <code>plugins/jquery.easing.1.3.js</code> for many options.<br />See <a href="http://gsgd.co.uk/sandbox/jquery/easing/" target="_blank">http://gsgd.co.uk/sandbox/jquery/easing/</a> for more info.
 ```
-default: 'swing'  
-options: 'swing', 'linear' (see the above file for more options)
+default: null  
+options: if using CSS: 'linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier(n,n,n,n)'. If not using CSS: 'swing', 'linear' (see the above file for more options)
 ```
 
 **captions**  
@@ -125,6 +125,13 @@ options: boolean (true / false)
 
 **ticker**  
 Use slider in ticker mode (similar to a news ticker)
+```
+default: false  
+options: boolean (true / false)
+```
+
+**tickerHover**  
+Ticker will pause when mouse hovers over slider. Note: this functionality does NOT work if using CSS transitions!
 ```
 default: false  
 options: boolean (true / false)
@@ -151,7 +158,7 @@ default: true
 options: boolean (true / false)
 ```
 
-**swipeThreashold**  
+**swipeThreshold**  
 Amount of pixels a touch swipe needs to exceed in order to execute a slide transition. Note: only used if <code>touchEnabled: true</code>
 ```
 default: 500  
@@ -196,14 +203,14 @@ options: jQuery selector
 ```
 
 **pagerCustom**  
-Parent element to be used as the pager. Parent element must contain a <code>&lt;a data-slide-index="x"&gt;</code> element for each slide. See example <a href="http://bxslider.com/examples/thumbnail-method-1">here</a>. Not for use with dynamic carousels.
+Parent element to be used as the pager. Parent element must contain a <code>&lt;a data-slide-index="x"&gt;</code> element for each slide. See example <a href="/examples/thumbnail-method-1">here</a>. Not for use with dynamic carousels.
 ```
 default: null  
 options: jQuery selector
 ```
 
 **buildPager**  
-If supplied, function is called on every slide element, and the returned value is used as the pager item markup.<br />See <a href="/examples">examples</a> for detailed implementation
+If supplied, function is called on every slide element, and the returned value is used as the pager item markup.<br />See <a href="http://bxslider.com/examples">examples</a> for detailed implementation
 ```
 default: null  
 options: function(slideIndex)
@@ -360,36 +367,36 @@ options: integer
 **onSliderLoad**  
 Executes immediately after the slider is fully loaded
 ```
-default: null  
-options: function()
+default: function(){}  
+options: function(){ // your code here }
 ```
 
 **onSlideBefore**  
 Executes immediately before each slide transition. Function argument is the target (next) slide element.
 ```
-default: null  
-options: function($slideElement)
+default: function(){}  
+options: function($slideElement){ // your code here }
 ```
 
 **onSlideAfter**  
 Executes immediately after each slide transition. Function argument is the current slide element (when transition completes).
 ```
-default: null  
-options: function($slideElement)
+default: function(){}  
+options: function($slideElement){ // your code here }
 ```
 
 **onSlideNext**  
 Executes immediately before each "Next" slide transition. Function argument is the target (next) slide element.
 ```
-default: null  
-options: function($slideElement)
+default: function(){}  
+options: function($slideElement){ // your code here }
 ```
 
 **onSlidePrev**  
 Executes immediately before each "Prev" slide transition. Function argument is the target (prev) slide element.
 ```
-default: null  
-options: function($slideElement)
+default: function(){}  
+options: function($slideElement){ // your code here }
 ```
 
 ###Public methods
