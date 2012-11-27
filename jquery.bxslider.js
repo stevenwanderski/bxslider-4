@@ -132,14 +132,6 @@
 			}());
 			// perform all DOM / CSS modifications
 			setup();
-			// if ticker is true, start the ticker
-			if (slider.settings.ticker) initTicker();
-			// if pager is requested, make the appropriate pager link active
-			if (slider.settings.pager) updatePagerActive(slider.settings.startSlide);
-			// check for any updates to the controls (like hideControlOnEnd updates)
-			if (slider.settings.controls) updateDirectionControls();
-			// if touchEnabled is true, setup the touch events
-			if (slider.settings.touchEnabled && !slider.settings.ticker) initTouch();
 		}
 
 		/**
@@ -238,6 +230,14 @@
 				});
 				// if auto is true, start the show
 				if (slider.settings.auto && slider.settings.autoStart) initAuto();
+				// if ticker is true, start the ticker
+				if (slider.settings.ticker) initTicker();
+				// if pager is requested, make the appropriate pager link active
+				if (slider.settings.pager) updatePagerActive(slider.settings.startSlide);
+				// check for any updates to the controls (like hideControlOnEnd updates)
+				if (slider.settings.controls) updateDirectionControls();
+				// if touchEnabled is true, setup the touch events
+				if (slider.settings.touchEnabled && !slider.settings.ticker) initTouch();
 			});
 		}
 		
