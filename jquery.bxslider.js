@@ -139,7 +139,7 @@
 			// check for any updates to the controls (like hideControlOnEnd updates)
 			if (slider.settings.controls) updateDirectionControls();
 			// if touchEnabled is true, setup the touch events
-			if (slider.settings.touchEnabled) initTouch();
+			if (slider.settings.touchEnabled && !slider.settings.ticker) initTouch();
 		}
 
 		/**
@@ -788,27 +788,23 @@
 			slider.settings.controls = false;
 			slider.settings.autoControls = false;
 			// if autoHover is requested
-			if(slider.settings.tickerHover){
+			if(slider.settings.tickerHover && !slider.usingCSS){
 				// on el hover
 				slider.viewport.hover(function(){
-					slider.usingCSS ? el.css('-' + slider.cssPrefix + '-animation-play-state', 'paused') : el.stop();
+					el.stop();
 				}, function(){
-					if(slider.usingCSS){
-						el.css('-' + slider.cssPrefix + '-animation-play-state', 'running');
-					}else{
-						// calculate the total width of children (used to calculate the speed ratio)
-						var totalDimens = 0;
-						slider.children.each(function(index){
-						  totalDimens += slider.settings.mode == 'horizontal' ? $(this).outerWidth(true) : $(this).outerHeight(true);
-						});
-						// calculate the speed ratio (used to determine the new speed to finish the paused animation)
-						var ratio = slider.settings.speed / totalDimens;
-						// determine which property to use
-						var property = slider.settings.mode == 'horizontal' ? 'left' : 'top';
-						// calculate the new speed
-						var newSpeed = ratio * (totalDimens - (Math.abs(parseInt(el.css(property)))));
-						tickerLoop(newSpeed);
-					}
+					// calculate the total width of children (used to calculate the speed ratio)
+					var totalDimens = 0;
+					slider.children.each(function(index){
+					  totalDimens += slider.settings.mode == 'horizontal' ? $(this).outerWidth(true) : $(this).outerHeight(true);
+					});
+					// calculate the speed ratio (used to determine the new speed to finish the paused animation)
+					var ratio = slider.settings.speed / totalDimens;
+					// determine which property to use
+					var property = slider.settings.mode == 'horizontal' ? 'left' : 'top';
+					// calculate the new speed
+					var newSpeed = ratio * (totalDimens - (Math.abs(parseInt(el.css(property)))));
+					tickerLoop(newSpeed);
 				});
 			}
 			// start the ticker loop
