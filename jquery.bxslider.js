@@ -193,10 +193,13 @@
 			// if captions are requested, add them
 			if(slider.settings.captions) appendCaptions();
 			// if infinite loop, prepare additional slides
-			if(slider.settings.infiniteLoop && !slider.carousel && slider.settings.mode != 'fade' && !slider.settings.ticker){
-				var cloneAppend = slider.children.first().clone().addClass('bx-clone');
-				var clonePrepend = slider.children.last().clone().addClass('bx-clone');
-				el.append(cloneAppend).prepend(clonePrepend);
+			if(slider.settings.infiniteLoop && slider.settings.mode != 'fade' && !slider.settings.ticker){
+				var sliceAppend = slider.children.slice(0, slider.settings.maxSlides).clone().addClass('bx-clone');
+				var slicePrepend = slider.children.slice(-slider.settings.maxSlides).clone().addClass('bx-clone');
+				el.append(sliceAppend).prepend(slicePrepend);
+				// var cloneAppend = slider.children.first().clone().addClass('bx-clone');
+				// var clonePrepend = slider.children.last().clone().addClass('bx-clone');
+				// el.append(cloneAppend).prepend(clonePrepend);
 			}
 			// check if startSlide is last slide
 			slider.active.last = slider.settings.startSlide == getPagerQty() - 1;
@@ -671,16 +674,24 @@
 		 * Performs needed actions after a slide transition
 		 */
 		var updateAfterSlideTransition = function(){
-			// if not carousel and infinte loop is true
-			if(!slider.carousel && slider.settings.infiniteLoop){
+			// if infinte loop is true
+			if(slider.settings.infiniteLoop){
 				var position = '';
 				// last slide
 				if(slider.active.index == 0){
 					// set the new position
 					position = slider.children.eq(0).position();
-				}else if(slider.active.index == slider.children.length - 1){
-					// set the new position
-					position = slider.children.eq(slider.children.length - 1).position();
+				}else if(slider.active.index == getPagerQty() - 1){
+					if(slider.carousel){
+						// get the last child position
+						var lastChild = slider.children.eq(slider.children.length - 1);
+						position = lastChild.position();
+						// calculate the position of the last slide
+						position.left -= slider.viewport.width() - lastChild.width();
+					}else{
+						// set the new position
+						position = slider.children.eq(slider.children.length - 1).position();
+					}
 				}
 				if (slider.settings.mode == 'horizontal') { setPositionProperty(-position.left, 'reset', 0);; }
 				else if (slider.settings.mode == 'vertical') { setPositionProperty(-position.top, 'reset', 0);; }
@@ -958,9 +969,9 @@
 			slider.oldIndex = slider.active.index;
 			// if slideIndex is less than zero, set active index to last child (this happens during infinite loop)
 			if(slideIndex < 0){
-				slider.active.index = slider.children.length - 1;
+				slider.active.index = getPagerQty() - 1;
 			// if slideIndex is greater than children length, set active index to 0 (this happens during infinite loop)
-			}else if(slideIndex >= slider.children.length){
+			}else if(slideIndex >= getPagerQty()){
 				slider.active.index = 0;
 			// set active index to requested slide
 			}else{
@@ -1000,8 +1011,14 @@
 				}
 				var moveBy = 0;
 				var position = {left: 0, top: 0};
-				// if carousel mode and last slide
-				if(slider.carousel && slider.active.last){
+				if(slider.carousel && slider.active.last && direction == 'prev'){
+					// get the last child position
+					var lastChild = el.children('.bx-clone').eq(slider.settings.maxSlides - 1);
+					position = lastChild.position();
+					// calculate the position of the last slide
+					moveBy = slider.viewport.width() - lastChild.width();
+					
+				}else if(slider.carousel && slider.active.last){
 					if(slider.settings.mode == 'horizontal'){
 						// get the last child position
 						var lastChild = slider.children.eq(slider.children.length - 1);
@@ -1013,10 +1030,10 @@
 						var lastShowingIndex = slider.children.length - slider.settings.minSlides;
 						position = slider.children.eq(lastShowingIndex).position();
 					}
-				// if not carousel and infinite loop, and "Next" is clicked on the last slide
-				}else if(!slider.carousel && direction == 'next' && slider.active.index == 0){
+				// if infinite loop and "Next" is clicked on the last slide
+				}else if(direction == 'next' && slider.active.index == 0){
 					// get the last clone position
-					position = el.find('.bx-clone:last').position();
+					position = el.find('.bx-clone').eq(slider.settings.maxSlides).position();
 					slider.active.last = false;
 				// all other requests
 				}else if(slideIndex >= 0){
@@ -1037,7 +1054,7 @@
 			if (!slider.settings.infiniteLoop && slider.active.last) return;
 			var pagerIndex = slider.active.index + 1;
 			// if carousel mode, infinite loop is true and "next" was clicked while on the last slide, go to slide 0
-			if (slider.carousel && slider.settings.infiniteLoop && pagerIndex >= getPagerQty()) pagerIndex = 0;
+			// if (slider.carousel && slider.settings.infiniteLoop && pagerIndex >= getPagerQty()) pagerIndex = 0;
 			el.goToSlide(pagerIndex, 'next');
 		}
 		
@@ -1049,7 +1066,7 @@
 			if (!slider.settings.infiniteLoop && slider.active.index == 0) return;
 			var pagerIndex = slider.active.index - 1;
 			// if carousel mode, infinite loop is true and "prev" was clicked while on the first slide, go to last slide
-			if (slider.carousel && slider.settings.infiniteLoop && pagerIndex < 0) pagerIndex = getPagerQty() - 1;
+			// if (slider.carousel && slider.settings.infiniteLoop && pagerIndex < 0) pagerIndex = getPagerQty() - 1;
 			el.goToSlide(pagerIndex, 'prev');
 		}
 		
