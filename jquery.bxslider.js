@@ -688,7 +688,7 @@
 			// declare that the transition is complete
 			slider.working = false;
 			// onSlideAfter callback
-			slider.settings.onSlideAfter(slider.children.eq(slider.active.index));
+			slider.settings.onSlideAfter(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 		}
 		
 		/**
@@ -954,6 +954,8 @@
 			if(slider.working || slider.active.index == slideIndex) return;
 			// declare that plugin is in motion
 			slider.working = true;
+			// store the old index
+			slider.oldIndex = slider.active.index;
 			// if slideIndex is less than zero, set active index to last child (this happens during infinite loop)
 			if(slideIndex < 0){
 				slider.active.index = slider.children.length - 1;
@@ -965,11 +967,11 @@
 				slider.active.index = slideIndex;
 			}
 			// onSlideBefore, onSlideNext, onSlidePrev callbacks
-			slider.settings.onSlideBefore(slider.children.eq(slider.active.index));
+			slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			if(direction == 'next'){
-				slider.settings.onSlideNext(slider.children.eq(slider.active.index));
+				slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			}else if(direction == 'prev'){
-				slider.settings.onSlidePrev(slider.children.eq(slider.active.index));
+				slider.settings.onSlidePrev(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			}
 			// check if last slide
 			slider.active.last = slider.active.index >= getPagerQty() - 1;
