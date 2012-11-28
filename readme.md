@@ -102,7 +102,7 @@ default: true
 options: boolean (true / false)
 ```
 
-**hideControlsOnEnd**  
+**hideControlOnEnd**  
 If <code>true</code>, "Next" control will be hidden on last slide and vice-versa<br/>Note: Only used when <code>infiniteLoop: false</code>
 ```
 default: false  
@@ -375,35 +375,53 @@ options: integer
 Executes immediately after the slider is fully loaded
 ```
 default: function(){}  
-options: function(){ // your code here }
+options: function(currentIndex){ // your code here }
+arguments:  
+  currentIndex: element index of the current slide
 ```
 
 **onSlideBefore**  
-Executes immediately before each slide transition. Function argument is the target (next) slide element.
+Executes immediately before each slide transition.
 ```
 default: function(){}  
-options: function($slideElement){ // your code here }
+options: function($slideElement, oldIndex, newIndex){ // your code here }
+arguments:  
+  $slideElement: jQuery element of the destination element
+  oldIndex: element index of the previous slide (before the transition)
+  newIndex: element index of the destination slide (after the transition)
 ```
 
 **onSlideAfter**  
 Executes immediately after each slide transition. Function argument is the current slide element (when transition completes).
 ```
 default: function(){}  
-options: function($slideElement){ // your code here }
+options: function($slideElement, oldIndex, newIndex){ // your code here }
+arguments:  
+  $slideElement: jQuery element of the destination element
+  oldIndex: element index of the previous slide (before the transition)
+  newIndex: element index of the destination slide (after the transition)
 ```
 
 **onSlideNext**  
 Executes immediately before each "Next" slide transition. Function argument is the target (next) slide element.
 ```
 default: function(){}  
-options: function($slideElement){ // your code here }
+options: function($slideElement, oldIndex, newIndex){ // your code here }
+arguments:  
+  $slideElement: jQuery element of the destination element
+  oldIndex: element index of the previous slide (before the transition)
+  newIndex: element index of the destination slide (after the transition)
 ```
 
 **onSlidePrev**  
 Executes immediately before each "Prev" slide transition. Function argument is the target (prev) slide element.
 ```
 default: function(){}  
-options: function($slideElement){ // your code here }
+options: function($slideElement, oldIndex, newIndex){ // your code here }
+arguments:  
+  $slideElement: jQuery element of the destination element
+  oldIndex: element index of the previous slide (before the transition)
+  newIndex: element index of the destination slide (after the transition)
 ```
 
 ###Public methods
