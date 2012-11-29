@@ -130,6 +130,8 @@
 				}
 				return false;
 			}());
+			// if vertical mode always make maxSlides and minSlides equal
+			if(slider.settings.mode == 'vertical') slider.settings.maxSlides = slider.settings.minSlides;
 			// perform all DOM / CSS modifications
 			setup();
 		}
@@ -194,8 +196,9 @@
 			if(slider.settings.captions) appendCaptions();
 			// if infinite loop, prepare additional slides
 			if(slider.settings.infiniteLoop && slider.settings.mode != 'fade' && !slider.settings.ticker){
-				var sliceAppend = slider.children.slice(0, slider.settings.maxSlides).clone().addClass('bx-clone');
-				var slicePrepend = slider.children.slice(-slider.settings.maxSlides).clone().addClass('bx-clone');
+				var slice = slider.settings.mode == 'vertical' ? slider.settings.minSlides : slider.settings.maxSlides;
+				var sliceAppend = slider.children.slice(0, slice).clone().addClass('bx-clone');
+				var slicePrepend = slider.children.slice(-slice).clone().addClass('bx-clone');
 				el.append(sliceAppend).prepend(slicePrepend);
 				// var cloneAppend = slider.children.first().clone().addClass('bx-clone');
 				// var clonePrepend = slider.children.last().clone().addClass('bx-clone');
@@ -681,17 +684,19 @@
 				if(slider.active.index == 0){
 					// set the new position
 					position = slider.children.eq(0).position();
-				}else if(slider.active.index == getPagerQty() - 1){
-					if(slider.carousel){
-						// get the last child position
-						var lastChild = slider.children.eq(slider.children.length - 1);
-						position = lastChild.position();
-						// calculate the position of the last slide
-						position.left -= slider.viewport.width() - lastChild.width();
-					}else{
-						// set the new position
-						position = slider.children.eq(slider.children.length - 1).position();
-					}
+				// horizontal carousel, last slide
+				}else if(slider.active.index == getPagerQty() - 1 && slider.carousel && slider.settings.mode == 'horizontal'){
+					// get the last child position
+					var lastChild = slider.children.eq(slider.children.length - 1);
+					position = lastChild.position();
+					// calculate the position of the last slide
+					position.left -= slider.viewport.width() - lastChild.width();
+				// vertical carousel, last slide
+				}else if(slider.active.index == getPagerQty() - 1 && slider.carousel && slider.settings.mode == 'vertical'){
+					position = slider.children.eq(slider.settings.minSlides - 1).position();
+				// last slide
+				}else if(slider.active.index == slider.children.length - 1){
+					position = slider.children.eq(slider.children.length - 1).position();
 				}
 				if (slider.settings.mode == 'horizontal') { setPositionProperty(-position.left, 'reset', 0);; }
 				else if (slider.settings.mode == 'vertical') { setPositionProperty(-position.top, 'reset', 0);; }
@@ -1011,13 +1016,14 @@
 				}
 				var moveBy = 0;
 				var position = {left: 0, top: 0};
-				if(slider.carousel && slider.active.last && direction == 'prev'){
+				// horizontal carousel, going previous while on first slide (infiniteLoop mode)
+				if(slider.carousel && slider.active.last && direction == 'prev' && slider.settings.mode == 'horizontal'){
 					// get the last child position
 					var lastChild = el.children('.bx-clone').eq(slider.settings.maxSlides - 1);
 					position = lastChild.position();
 					// calculate the position of the last slide
 					moveBy = slider.viewport.width() - lastChild.width();
-					
+				// all carousels, going to the last slide
 				}else if(slider.carousel && slider.active.last){
 					if(slider.settings.mode == 'horizontal'){
 						// get the last child position
@@ -1035,7 +1041,7 @@
 					// get the last clone position
 					position = el.find('.bx-clone').eq(slider.settings.maxSlides).position();
 					slider.active.last = false;
-				// all other requests
+				// normal non-zero requests
 				}else if(slideIndex >= 0){
 					var requestEl = slideIndex * getMoveBy();
 					position = slider.children.eq(requestEl).position();
@@ -1053,8 +1059,6 @@
 			// if infiniteLoop is false and last page is showing, disregard call
 			if (!slider.settings.infiniteLoop && slider.active.last) return;
 			var pagerIndex = slider.active.index + 1;
-			// if carousel mode, infinite loop is true and "next" was clicked while on the last slide, go to slide 0
-			// if (slider.carousel && slider.settings.infiniteLoop && pagerIndex >= getPagerQty()) pagerIndex = 0;
 			el.goToSlide(pagerIndex, 'next');
 		}
 		
@@ -1065,8 +1069,6 @@
 			// if infiniteLoop is false and last page is showing, disregard call
 			if (!slider.settings.infiniteLoop && slider.active.index == 0) return;
 			var pagerIndex = slider.active.index - 1;
-			// if carousel mode, infinite loop is true and "prev" was clicked while on the first slide, go to last slide
-			// if (slider.carousel && slider.settings.infiniteLoop && pagerIndex < 0) pagerIndex = getPagerQty() - 1;
 			el.goToSlide(pagerIndex, 'prev');
 		}
 		
