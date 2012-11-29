@@ -264,7 +264,7 @@
 				// if carousel, return a slice of children
 				}else{
 					// get the individual slide index
-					var currentIndex = slider.active.index * slider.settings.maxSlides;
+					var currentIndex = slider.settings.moveSlides == 1 ? slider.active.index : slider.active.index * getMoveBy();
 					// add the current slide to the children
 					children = slider.children.eq(currentIndex);
 					// cycle through the remaining "showing" slides
@@ -349,16 +349,19 @@
 			var pagerQty = 0;
 			// if moveSlides is specified by the user
 			if(slider.settings.moveSlides > 0){
-				pagerQty = slider.children.length / getMoveBy();
-				// // use a while loop to determine pages
-				// var breakPoint = 0;
-				// var counter = 0
-				// // when breakpoint goes above children length, counter is the number of pages
-				// while (breakPoint < slider.children.length){
-				// 	++pagerQty;
-				// 	breakPoint = counter + getNumberSlidesShowing();
-				// 	counter += slider.settings.moveSlides <= getNumberSlidesShowing() ? slider.settings.moveSlides : getNumberSlidesShowing();
-				// }
+				if(slider.settings.infiniteLoop){
+					pagerQty = slider.children.length / getMoveBy();
+				}else{
+					// use a while loop to determine pages
+					var breakPoint = 0;
+					var counter = 0
+					// when breakpoint goes above children length, counter is the number of pages
+					while (breakPoint < slider.children.length){
+						++pagerQty;
+						breakPoint = counter + getNumberSlidesShowing();
+						counter += slider.settings.moveSlides <= getNumberSlidesShowing() ? slider.settings.moveSlides : getNumberSlidesShowing();
+					}
+				}
 			// if moveSlides is 0 (auto) divide children length by sides showing, then round up
 			}else{
 				pagerQty = Math.ceil(slider.children.length / getNumberSlidesShowing());
@@ -1015,8 +1018,21 @@
 				}
 				var moveBy = 0;
 				var position = {left: 0, top: 0};
-				// horizontal carousel, going previous while on first slide (infiniteLoop mode)
-				if(slider.carousel && slider.active.last && direction == 'prev'){
+				// if carousel and not infinite loop
+				if(!slider.settings.infiniteLoop && slider.carousel && slider.active.last){
+					if(slider.settings.mode == 'horizontal'){
+						// get the last child position
+						var lastChild = slider.children.eq(slider.children.length - 1);
+						position = lastChild.position();
+						// calculate the position of the last slide
+						moveBy = slider.viewport.width() - lastChild.width();
+					}else{
+						// get last showing index position
+						var lastShowingIndex = slider.children.length - slider.settings.minSlides;
+						position = slider.children.eq(lastShowingIndex).position();
+					}
+					// horizontal carousel, going previous while on first slide (infiniteLoop mode)
+				}else if(slider.carousel && slider.active.last && direction == 'prev'){
 					// get the last child position
 					var eq = slider.settings.moveSlides == 1 ? slider.settings.maxSlides - getMoveBy() : ((getPagerQty() - 1) * getMoveBy()) - (slider.children.length - slider.settings.maxSlides);
 					var lastChild = el.children('.bx-clone').eq(eq);
