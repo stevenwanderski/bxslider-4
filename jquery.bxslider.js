@@ -21,6 +21,7 @@
 		easing: null,
 		slideMargin: 0,
 		startSlide: 0,
+		randomStart: false,
 		captions: false,
 		ticker: false,
 		tickerHover: false,
@@ -102,6 +103,8 @@
 			slider.settings = $.extend({}, defaults, options);
 			// store the original children
 			slider.children = el.children(slider.settings.slideSelector);
+			// if random start, set the startSlide setting to random number
+			if(slider.settings.randomStart) slider.settings.startSlide = Math.floor(Math.random() * slider.children.length);
 			// store active slide information
 			slider.active = { index: slider.settings.startSlide }
 			// store if the slider is in carousel mode (displaying / moving multiple slides)
