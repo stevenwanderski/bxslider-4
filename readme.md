@@ -88,6 +88,13 @@ default: 0
 options: integer
 ```
 
+**randomStart**  
+Start slider on a random slide
+```
+default: false  
+options: boolean (true / false)
+```
+
 **slideSelector**  
 Element to use as slides (ex. <code>'div.slide'</code>).<br />Note: by default, bxSlider will use all immediate children of the slider element
 ```
