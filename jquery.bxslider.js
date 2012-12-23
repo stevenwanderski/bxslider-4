@@ -9,6 +9,8 @@
  */
 
 ;(function($){
+
+	var plugin = {};
 	
 	var defaults = {
 		
@@ -88,6 +90,7 @@
 		var slider = {};
 		// set a reference to our slider element
 		var el = this;
+		plugin.el = this;
 		
 		/**
 		 * ===================================================================================
@@ -155,12 +158,8 @@
 			// set el to a massive width, to hold any needed slides
 			// also strip any margin and padding from el
 			el.css({
-				width: slider.settings.mode == 'horizontal' ? '2800%' : 'auto',
-				height: 0,
-				overflow: 'hidden',
+				width: slider.settings.mode == 'horizontal' ? slider.children.length * 215 + '%' : 'auto',
 				position: 'relative',
-				margin: 0,
-				padding: 0
 			});
 			// if using CSS, add the easing property
 			if(slider.usingCSS && slider.settings.easing){
@@ -179,12 +178,12 @@
 			// apply css to all slider children
 			slider.children.css({
 				float: slider.settings.mode == 'horizontal' ? 'left' : 'none',
-				position: 'relative',
 				width: getSlideWidth(),
 				listStyle: 'none',
-				marginRight: slider.settings.mode == 'horizontal' ? slider.settings.slideMargin : 0,
-				marginBottom: slider.settings.mode == 'vertical' ? slider.settings.slideMargin: 0
 			});
+			// if slideMargin is supplied, add the css
+			if(slider.settings.mode == 'horizontal' && slider.settings.slideMargin > 0) slider.children.css('marginRight', slider.settings.slideMargin);
+			if(slider.settings.mode == 'vertical' && slider.settings.slideMargin > 0) slider.children.css('marginBottom', slider.settings.slideMargin);
 			// if "fade" mode, add positioning and z-index CSS
 			if(slider.settings.mode == 'fade'){
 				slider.children.css({
@@ -205,9 +204,6 @@
 				var sliceAppend = slider.children.slice(0, slice).clone().addClass('bx-clone');
 				var slicePrepend = slider.children.slice(-slice).clone().addClass('bx-clone');
 				el.append(sliceAppend).prepend(slicePrepend);
-				// var cloneAppend = slider.children.first().clone().addClass('bx-clone');
-				// var clonePrepend = slider.children.last().clone().addClass('bx-clone');
-				// el.append(cloneAppend).prepend(clonePrepend);
 			}
 			// check if startSlide is last slide
 			slider.active.last = slider.settings.startSlide == getPagerQty() - 1;
@@ -228,8 +224,6 @@
 			el.children().imagesLoaded(function(){
 				// remove the loading DOM element
 				slider.loader.remove();
-				// make el visible
-				el.css('overflow', 'visible');
 				// set the left / top position of "el"
 				setSlidePosition();
 				// if "vertical" mode, always use adaptiveHeight to prevent odd behavior
