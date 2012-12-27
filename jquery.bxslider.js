@@ -677,8 +677,8 @@
 			}
 			// remove all pager active classes
 			slider.pagerEl.find('a').removeClass('active');
-			// apply the active class
-			slider.pagerEl.find('a').eq(slideIndex).addClass('active');
+			// apply the active class for all pagers
+			slider.pagerEl.each(function(i, el) { $(el).find('a').eq(slideIndex).addClass('active'); });
 		}
 		
 		/**
