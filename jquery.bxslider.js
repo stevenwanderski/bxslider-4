@@ -171,16 +171,17 @@
 			// make modifications to the viewport (.bx-viewport)
 			slider.viewport.css({
 				width: '100%',
-				height: '50',
+				// height: '50',
 				overflow: 'hidden',
 				position: 'relative'
 			});
 			// apply css to all slider children
 			slider.children.css({
 				float: slider.settings.mode == 'horizontal' ? 'left' : 'none',
-				width: getSlideWidth(),
 				listStyle: 'none',
 			});
+			// apply the calculated width after the float is applied to prevent scrollbar interference
+			slider.children.width(getSlideWidth());
 			// if slideMargin is supplied, add the css
 			if(slider.settings.mode == 'horizontal' && slider.settings.slideMargin > 0) slider.children.css('marginRight', slider.settings.slideMargin);
 			if(slider.settings.mode == 'vertical' && slider.settings.slideMargin > 0) slider.children.css('marginBottom', slider.settings.slideMargin);
@@ -229,10 +230,9 @@
 				// if "vertical" mode, always use adaptiveHeight to prevent odd behavior
 				if (slider.settings.mode == 'vertical') slider.settings.adaptiveHeight = true;
 				// set the viewport height
-				slider.viewport.animate({height: getViewportHeight()}, 200, function(){
-					// onSliderLoad callback
-					slider.settings.onSliderLoad(slider.active.index);
-				});
+				slider.viewport.height(getViewportHeight());
+				// onSliderLoad callback
+				slider.settings.onSliderLoad(slider.active.index);
 				// if auto is true, start the show
 				if (slider.settings.auto && slider.settings.autoStart) initAuto();
 				// if ticker is true, start the ticker
