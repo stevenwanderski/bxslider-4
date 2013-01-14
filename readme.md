@@ -376,7 +376,7 @@ default: 0
 options: integer
 ```
 
-**noClones**  
+**clones**  
 By default, first and last slide are cloned, this undoes that.
 ```
 default: true  
