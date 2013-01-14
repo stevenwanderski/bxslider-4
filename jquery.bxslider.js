@@ -67,6 +67,7 @@
 		maxSlides: 1,
 		moveSlides: 0,
 		slideWidth: 0,
+		clones: true,
 		
 		// CALLBACKS
 		onSliderLoad: function() {},
@@ -199,7 +200,7 @@
 			// if captions are requested, add them
 			if(slider.settings.captions) appendCaptions();
 			// if infinite loop, prepare additional slides
-			if(slider.settings.infiniteLoop && slider.settings.mode != 'fade' && !slider.settings.ticker){
+			if(slider.settings.infiniteLoop && slider.settings.mode != 'fade' && !slider.settings.ticker && !slider.settings.clones){
 				var slice = slider.settings.mode == 'vertical' ? slider.settings.minSlides : slider.settings.maxSlides;
 				var sliceAppend = slider.children.slice(0, slice).clone().addClass('bx-clone');
 				var slicePrepend = slider.children.slice(-slice).clone().addClass('bx-clone');

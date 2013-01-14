@@ -376,6 +376,14 @@ default: 0
 options: integer
 ```
 
+**clones**  
+By default, first and last slide are cloned, this undoes that.
+```
+default: true  
+options: boolean (true / false)
+```
+
+
 ###Callbacks
 
 **onSliderLoad**  
