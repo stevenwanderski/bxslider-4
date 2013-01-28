@@ -178,6 +178,7 @@
 			slider.children.css({
 				float: slider.settings.mode == 'horizontal' ? 'left' : 'none',
 				listStyle: 'none',
+				position: 'relative'
 			});
 			// apply the calculated width after the float is applied to prevent scrollbar interference
 			slider.children.width(getSlideWidth());
