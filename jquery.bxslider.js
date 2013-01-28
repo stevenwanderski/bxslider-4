@@ -246,6 +246,8 @@
 				slider.settings.onSliderLoad(slider.active.index);
 				// slider has been fully initialized
 				slider.initialized = true;
+				// bind the resize call to the window
+				$(window).bind('resize', resizeWindow);
 				// if auto is true, start the show
 				if (slider.settings.auto && slider.settings.autoStart) initAuto();
 				// if ticker is true, start the ticker
@@ -1190,8 +1192,6 @@
 			el.destroySlider();
 			init();
 		}
-		
-		$(window).bind('resize', resizeWindow);
 		
 		init();
 		
