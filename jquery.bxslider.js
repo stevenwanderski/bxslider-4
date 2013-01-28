@@ -170,7 +170,7 @@
 			// also strip any margin and padding from el
 			el.css({
 				width: slider.settings.mode == 'horizontal' ? slider.children.length * 215 + '%' : 'auto',
-				position: 'relative',
+				position: 'relative'
 			});
 			// if using CSS, add the easing property
 			if(slider.usingCSS && slider.settings.easing){
@@ -187,7 +187,7 @@
 			});
 			// apply css to all slider children
 			slider.children.css({
-				float: slider.settings.mode == 'horizontal' ? 'left' : 'none',
+				'float': slider.settings.mode == 'horizontal' ? 'left' : 'none',
 				listStyle: 'none',
 				position: 'relative'
 			});
