@@ -1117,6 +1117,14 @@
 		el.getSlideCount = function(){
 			return slider.children.length;
 		}
+
+		el.destroyShow = function(){
+			// console.log(this);
+			$('.bx-clone', this).remove();
+			slider.children.removeAttr('style');
+			this.removeAttr('style').unwrap().unwrap();
+			slider.controls.el.remove();
+		}
 		
 		/**
 		 * Makes slideshow responsive
