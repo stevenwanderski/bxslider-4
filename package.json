@@ -1,0 +1,52 @@
+{
+  "name": "jquery-bxSlider4",
+  "version": "0.0.1",
+  "description": "jQuery custom content slider",
+  "homepage": "http://bxslider.com",
+  "keywords": [
+    "jquery",
+    "slider",
+    "carousel",
+    "gallery"
+  ],
+  "categories": [
+    "UI",
+    "DOM",
+    "Effects"
+  ],
+  "jam": {
+    "dependencies": {
+      "jquery": ">1.4.2"
+    },
+    "shim": {
+      "jquery-bxSlider4": {
+        "deps": [ "jquery" ]
+      }
+    },
+    "main": "jquery.bxslider.js"
+  },
+  "maintainers": [
+    {
+      "name": "Rok Garbas",
+      "email": "rok@garbas.si",
+      "web": "http://garbas.si"
+    },
+    {
+      "name": "Steven Wanderski",
+      "web": "http://bxCreative.com"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/wandoledzep/bxslider.git"
+    }
+  ],
+  "github": "https://github.com/garbas/bxslider.git"
+}
