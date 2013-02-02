@@ -1,5 +1,5 @@
 /**
- * BxSlider v4.0 - Fully loaded, responsive content slider
+ * BxSlider v4.0 - Fully loaded, responsive content slider 
  * http://bxslider.com
  *
  * Copyright 2012, Steven Wanderski - http://stevenwanderski.com - http://bxcreative.com
