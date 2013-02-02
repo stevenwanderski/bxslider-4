@@ -403,7 +403,7 @@
 		 */
 		var setSlidePosition = function(){
 			// if last slide
-			if(slider.active.last){
+			if(slider.active.last && !slider.settings.infiniteLoop){
 				if (slider.settings.mode == 'horizontal'){
 					// get the last child's position
 					var lastChild = slider.children.last();
