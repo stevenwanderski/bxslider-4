@@ -115,6 +115,9 @@
 			slider.settings = $.extend({}, defaults, options);
 			// store the original children
 			slider.children = el.children(slider.settings.slideSelector);
+			// check if actual number of slides is less than minSlides / maxSlides
+			if(slider.children.length < slider.settings.minSlides) slider.settings.minSlides = slider.children.length;
+			if(slider.children.length < slider.settings.maxSlides) slider.settings.maxSlides = slider.children.length;
 			// if random start, set the startSlide setting to random number
 			if(slider.settings.randomStart) slider.settings.startSlide = Math.floor(Math.random() * slider.children.length);
 			// store active slide information
