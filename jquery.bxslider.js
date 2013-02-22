@@ -904,7 +904,6 @@
 		 *  - DOM event object
 		 */
 		var onTouchMove = function(e){
-			e.preventDefault();
 			if(slider.settings.mode != 'fade'){
 				var orig = e.originalEvent;
 				var value = 0;
