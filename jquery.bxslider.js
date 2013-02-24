@@ -402,8 +402,8 @@
 		 * Sets the slider's (el) left or top position
 		 */
 		var setSlidePosition = function(){
-			// if last slide
-			if(slider.active.last && !slider.settings.infiniteLoop){
+			// if last slide, not infinite loop, and number of children is larger than specified maxSlides
+			if(slider.children.length > slider.settings.maxSlides && slider.active.last && !slider.settings.infiniteLoop){
 				if (slider.settings.mode == 'horizontal'){
 					// get the last child's position
 					var lastChild = slider.children.last();
