@@ -158,20 +158,6 @@ default: 500
 options: integer
 ```
 
-**touchEnabled**  
-If <code>true</code>, slider will allow touch swipe transitions
-```
-default: true  
-options: boolean (true / false)
-```
-
-**swipeThreshold**  
-Amount of pixels a touch swipe needs to exceed in order to execute a slide transition. Note: only used if <code>touchEnabled: true</code>
-```
-default: 500  
-options: integer
-```
-
 **video**  
 If any slides contain video, set this to <code>true</code>. Also, include <code>plugins/jquery.fitvids.js</code><br />See <a href="http://fitvidsjs.com/" target="_blank">http://fitvidsjs.com/</a> for more info
 ```
@@ -183,6 +169,41 @@ options: boolean (true / false)
 If true, CSS transitions will be used for horizontal and vertical slide animations (this uses native hardware acceleration). If false, jQuery animate() will be used.
 ```
 default: true  
+options: boolean (true / false)
+```
+
+**touchEnabled**  
+If <code>true</code>, slider will allow touch swipe transitions
+```
+default: true  
+options: boolean (true / false)
+```
+
+**swipeThreshold**  
+Amount of pixels a touch swipe needs to exceed in order to execute a slide transition. Note: only used if <code>touchEnabled: true</code>
+```
+default: 50  
+options: integer
+```
+
+**oneToOneTouch**  
+If <code>true</code>, non-fade slides follow the finger as it swipes
+```
+default: true  
+options: boolean (true / false)
+```
+
+**preventDefaultSwipeX**  
+If <code>true</code>, touch screen will not move along the x-axis as the finger swipes
+```
+default: true  
+options: boolean (true / false)
+```
+
+**preventDefaultSwipeY**  
+If <code>true</code>, touch screen will not move along the y-axis as the finger swipes
+```
+default: false  
 options: boolean (true / false)
 ```
 
@@ -487,6 +508,22 @@ Returns the total number of slides in the slider
 example:  
 slider = $('.bxslider').bxSlider();
 var slideQty = slider.getSlideCount();  
+```
+
+**reloadSlider**  
+Reload the slider. Useful when adding slides on the fly. Accepts an optional settings object. <a href="/examples/reload-slider-settings">See here for an example.</a>
+```
+example:  
+slider = $('.bxslider').bxSlider();
+slider.reloadSlider();  
+```
+
+**destroySlider**  
+Destroy the slider. This reverts all slider elements back to their original state (before calling the slider).
+```
+example:  
+slider = $('.bxslider').bxSlider();
+slider.destroySlider();  
 ```
 
 Long live Zep.
