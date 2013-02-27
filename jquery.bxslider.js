@@ -29,10 +29,15 @@
 		tickerHover: false,
 		adaptiveHeight: false,
 		adaptiveHeightSpeed: 500,
-		touchEnabled: true,
-		swipeThreshold: 50,
 		video: false,
 		useCSS: true,
+
+		// TOUCH
+		touchEnabled: true,
+		swipeThreshold: 50,
+		oneToOneTouch: true,
+		preventDefaultSwipeX: true,
+		preventDefaultSwipeY: false,
 		
 		// PAGER
 		pager: true,
@@ -904,9 +909,18 @@
 		 *  - DOM event object
 		 */
 		var onTouchMove = function(e){
-			e.preventDefault();
-			if(slider.settings.mode != 'fade'){
-				var orig = e.originalEvent;
+			var orig = e.originalEvent;
+			// if scrolling on y axis, do not prevent default
+			var xMovement = Math.abs(orig.changedTouches[0].pageX - slider.touch.start.x);
+			var yMovement = Math.abs(orig.changedTouches[0].pageY - slider.touch.start.y);
+			// x axis swipe
+			if((xMovement * 3) > yMovement && slider.settings.preventDefaultSwipeX){
+				e.preventDefault();
+			// y axis swipe
+			}else if((yMovement * 3) > xMovement && slider.settings.preventDefaultSwipeY){
+				e.preventDefault();
+			}
+			if(slider.settings.mode != 'fade' && slider.settings.oneToOneTouch){
 				var value = 0;
 				// if horizontal, drag along x axis
 				if(slider.settings.mode == 'horizontal'){
