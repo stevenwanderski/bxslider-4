@@ -31,6 +31,7 @@
 		adaptiveHeightSpeed: 500,
 		video: false,
 		useCSS: true,
+		preloadImages: 'all',
 
 		// TOUCH
 		touchEnabled: true,
@@ -229,6 +230,8 @@
 			slider.active.last = slider.settings.startSlide == getPagerQty() - 1;
 			// if video is true, set up the fitVids plugin
 			if(slider.settings.video) el.fitVids();
+			// set the default preload selector (all)
+			var preloadSelector = el.children();
 			// only check for control addition if not in "ticker" mode
 			if(!slider.settings.ticker){
 				// if pager is requested, add it
@@ -239,34 +242,44 @@
 				if(slider.settings.auto && slider.settings.autoControls) appendControlsAuto();
 				// if any control option is requested, add the controls wrapper
 				if(slider.settings.controls || slider.settings.autoControls || slider.settings.pager) slider.viewport.after(slider.controls.el);
+				// check for "visible" preloader
+				if (slider.settings.preloadImages == "visible") {
+					//preload images of only initially visible slides
+					preloadSelector = slider.children.slice(slider.settings.startSlide, slider.settings.startSlide + getNumberSlidesShowing());
+				}
 			}
 			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
-			el.children().imagesLoaded(function(){
-				// remove the loading DOM element
-				slider.loader.remove();
-				// set the left / top position of "el"
-				setSlidePosition();
-				// if "vertical" mode, always use adaptiveHeight to prevent odd behavior
-				if (slider.settings.mode == 'vertical') slider.settings.adaptiveHeight = true;
-				// set the viewport height
-				slider.viewport.height(getViewportHeight());
-				// onSliderLoad callback
-				slider.settings.onSliderLoad(slider.active.index);
-				// slider has been fully initialized
-				slider.initialized = true;
-				// bind the resize call to the window
-				$(window).bind('resize', resizeWindow);
-				// if auto is true, start the show
-				if (slider.settings.auto && slider.settings.autoStart) initAuto();
-				// if ticker is true, start the ticker
-				if (slider.settings.ticker) initTicker();
-				// if pager is requested, make the appropriate pager link active
-				if (slider.settings.pager) updatePagerActive(slider.settings.startSlide);
-				// check for any updates to the controls (like hideControlOnEnd updates)
-				if (slider.settings.controls) updateDirectionControls();
-				// if touchEnabled is true, setup the touch events
-				if (slider.settings.touchEnabled && !slider.settings.ticker) initTouch();
-			});
+			preloadSelector.imagesLoaded(start);
+		}
+
+		/**
+		 * Start the slider
+		 */
+		var start = function(){
+			// remove the loading DOM element
+			slider.loader.remove();
+			// set the left / top position of "el"
+			setSlidePosition();
+			// if "vertical" mode, always use adaptiveHeight to prevent odd behavior
+			if (slider.settings.mode == 'vertical') slider.settings.adaptiveHeight = true;
+			// set the viewport height
+			slider.viewport.height(getViewportHeight());
+			// onSliderLoad callback
+			slider.settings.onSliderLoad(slider.active.index);
+			// slider has been fully initialized
+			slider.initialized = true;
+			// bind the resize call to the window
+			$(window).bind('resize', resizeWindow);
+			// if auto is true, start the show
+			if (slider.settings.auto && slider.settings.autoStart) initAuto();
+			// if ticker is true, start the ticker
+			if (slider.settings.ticker) initTicker();
+			// if pager is requested, make the appropriate pager link active
+			if (slider.settings.pager) updatePagerActive(slider.settings.startSlide);
+			// check for any updates to the controls (like hideControlOnEnd updates)
+			if (slider.settings.controls) updateDirectionControls();
+			// if touchEnabled is true, setup the touch events
+			if (slider.settings.touchEnabled && !slider.settings.ticker) initTouch();
 		}
 		
 		/**
