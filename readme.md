@@ -1,5 +1,10 @@
-#Introducing bxSlider 4.0
+#bxSlider 4.1
 ##The fully-loaded, responsive jQuery content slider
+
+### New in 4.1!
+* Carousel mode (minSlides / maxSlides) re-written to be more intuitive
+* SlideWidth now acts as it should (slides respect the width value)
+* SlideWidth now properly parsed: accepts string ("600px") or integer (600)
 
 ###Why should I use this slider?
 * Fully responsive - will adapt to any device

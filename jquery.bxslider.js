@@ -119,6 +119,9 @@
 		var init = function(){
 			// merge user-supplied options with the defaults
 			slider.settings = $.extend({}, defaults, options);
+			// parse slideWidth setting
+			slider.settings.slideWidth = parseInt(slider.settings.slideWidth);
+			console.log(slider.settings.slideWidth);
 			// store the original children
 			slider.children = el.children(slider.settings.slideSelector);
 			// check if actual number of slides is less than minSlides / maxSlides
