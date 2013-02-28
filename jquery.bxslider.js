@@ -188,11 +188,16 @@
 			}else if(!slider.settings.easing){
 				slider.settings.easing = 'swing';
 			}
+			var slidesShowing = getNumberSlidesShowing();
 			// make modifications to the viewport (.bx-viewport)
 			slider.viewport.css({
 				width: '100%',
 				overflow: 'hidden',
 				position: 'relative'
+			});
+			slider.viewport.parent().css({
+				maxWidth: getViewportWidth(),
+				width: '100%'
 			});
 			// apply css to all slider children
 			slider.children.css({
@@ -281,6 +286,17 @@
 			// if touchEnabled is true, setup the touch events
 			if (slider.settings.touchEnabled && !slider.settings.ticker) initTouch();
 		}
+
+		var getViewportWidth = function(){
+			var width = slider.viewport.width();
+			if(slider.settings.slideWidth > 0){
+				width = slider.settings.slideWidth;
+				if(slider.settings.mode == 'horizontal' && getNumberSlidesShowing() > 1){
+					width = (slider.settings.slideWidth * getNumberSlidesShowing()) + (slider.settings.slideMargin * (getNumberSlidesShowing() - 1));
+				}
+			}
+			return width;
+		}
 		
 		/**
 		 * Returns the calculated height of the viewport, used to determine either adaptiveHeight or the maxHeight value
@@ -335,22 +351,35 @@
 		 * Returns the calculated width to be applied to each slide
 		 */
 		var getSlideWidth = function(){
-			// start with any user-supplied slide width
-			var newElWidth = slider.settings.slideWidth;
-			// get the current viewport width
-			var wrapWidth = slider.viewport.width();
-			// if slide width was not supplied, use the viewport width (means not carousel)
-			if(slider.settings.slideWidth == 0){
-				newElWidth = wrapWidth;
-			// if carousel, use the thresholds to determine the width
-			}else{
-				if(wrapWidth > slider.maxThreshold){
-					newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.maxSlides - 1))) / slider.settings.maxSlides;
-				}else if(wrapWidth < slider.minThreshold){
-					newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.minSlides - 1))) / slider.settings.minSlides;
+
+			var width = getViewportWidth();
+			if(slider.settings.mode == 'horizontal' && slider.settings.slideWidth > 0){
+				var wrapWidth = slider.viewport.width();
+				if(wrapWidth < slider.minThreshold){
+					var wrapWidthMinusMargin = wrapWidth - (slider.settings.slideMargin * (getNumberSlidesShowing() - 1));
+					width = wrapWidthMinusMargin / slider.settings.minSlides;
+				}else{
+					width = slider.settings.slideWidth;
 				}
 			}
-			return newElWidth;
+			return width;
+
+			// // start with any user-supplied slide width
+			// var newElWidth = slider.settings.slideWidth;
+			// // get the current viewport width
+			// var wrapWidth = slider.viewport.width();
+			// // if slide width was not supplied, use the viewport width (means not carousel)
+			// if(slider.settings.slideWidth == 0){
+			// 	newElWidth = wrapWidth;
+			// // if carousel, use the thresholds to determine the width
+			// }else{
+			// 	if(wrapWidth > slider.maxThreshold){
+			// 		newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.maxSlides - 1))) / slider.settings.maxSlides;
+			// 	}else if(wrapWidth < slider.minThreshold){
+			// 		newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.minSlides - 1))) / slider.settings.minSlides;
+			// 	}
+			// }
+			// return newElWidth;
 		}
 		
 		/**
