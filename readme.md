@@ -2,9 +2,10 @@
 ##The fully-loaded, responsive jQuery content slider
 
 ### New in 4.1!
-* Carousel mode (minSlides / maxSlides) re-written to be more intuitive
-* SlideWidth now acts as it should (slides respect the width value)
-* SlideWidth now properly parsed: accepts string ("600px") or integer (600)
+* Carousel mode (minSlides / maxSlides) was re-written to be more intuitive.
+* SlideWidth now acts as it should (slides respect the width value).
+* SlideWidth now properly parsed: accepts string ("600px") or integer (600).
+* Slider now only needs to load visible slides (by default) in order to initialize which results in much faster loading. A "preloadImages" setting allows for configuration.
 
 ###Why should I use this slider?
 * Fully responsive - will adapt to any device
@@ -180,7 +181,7 @@ options: boolean (true / false)
 **preloadImages**  
 If 'all', preloads all images before starting the slider. If 'visible', preloads only images in the initially visible slides before starting the slider (tip: use 'visible' if all slides are identical dimensions)
 ```
-default: all  
+default: 'visible'  
 options: 'all', 'visible'
 ```
 

@@ -121,7 +121,6 @@
 			slider.settings = $.extend({}, defaults, options);
 			// parse slideWidth setting
 			slider.settings.slideWidth = parseInt(slider.settings.slideWidth);
-			console.log(slider.settings.slideWidth);
 			// store the original children
 			slider.children = el.children(slider.settings.slideSelector);
 			// check if actual number of slides is less than minSlides / maxSlides
@@ -133,6 +132,8 @@
 			slider.active = { index: slider.settings.startSlide }
 			// store if the slider is in carousel mode (displaying / moving multiple slides)
 			slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1;
+			// if carousel, force preloadImages = 'all'
+			if(slider.carousel) slider.settings.preloadImages = 'all';
 			// calculate the min / max width thresholds based on min / max number of slides
 			// used to setup and update carousel slides dimensions
 			slider.minThreshold = (slider.settings.minSlides * slider.settings.slideWidth) + ((slider.settings.minSlides - 1) * slider.settings.slideMargin);
@@ -199,8 +200,7 @@
 				position: 'relative'
 			});
 			slider.viewport.parent().css({
-				maxWidth: getViewportMaxWidth(),
-				width: '100%'
+				maxWidth: getViewportMaxWidth()
 			});
 			// apply css to all slider children
 			slider.children.css({
@@ -208,7 +208,7 @@
 				listStyle: 'none',
 				position: 'relative'
 			});
-			// // apply the calculated width after the float is applied to prevent scrollbar interference
+			// apply the calculated width after the float is applied to prevent scrollbar interference
 			slider.children.width(getSlideWidth());
 			// if slideMargin is supplied, add the css
 			if(slider.settings.mode == 'horizontal' && slider.settings.slideMargin > 0) slider.children.css('marginRight', slider.settings.slideMargin);
@@ -239,7 +239,7 @@
 			// if video is true, set up the fitVids plugin
 			if(slider.settings.video) el.fitVids();
 			// set the default preload selector (visible)
-			var preloadSelector = slider.children.slice(slider.settings.startSlide, slider.settings.startSlide + getNumberSlidesShowing());;
+			var preloadSelector = slider.children.eq(slider.settings.startSlide);
 			if (slider.settings.preloadImages == "all") preloadSelector = el.children();
 			// only check for control addition if not in "ticker" mode
 			if(!slider.settings.ticker){
@@ -397,7 +397,6 @@
 			}else if(slider.settings.mode == 'vertical'){
 				slidesShowing = slider.settings.minSlides;
 			}
-			// console.log(slidesShowing);
 			return slidesShowing;
 		}
 		
