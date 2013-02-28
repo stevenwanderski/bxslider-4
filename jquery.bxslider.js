@@ -31,7 +31,7 @@
 		adaptiveHeightSpeed: 500,
 		video: false,
 		useCSS: true,
-		preloadImages: 'all',
+		preloadImages: 'visible',
 
 		// TOUCH
 		touchEnabled: true,
@@ -196,7 +196,7 @@
 				position: 'relative'
 			});
 			slider.viewport.parent().css({
-				maxWidth: getViewportWidth(),
+				maxWidth: getViewportMaxWidth(),
 				width: '100%'
 			});
 			// apply css to all slider children
@@ -205,7 +205,7 @@
 				listStyle: 'none',
 				position: 'relative'
 			});
-			// apply the calculated width after the float is applied to prevent scrollbar interference
+			// // apply the calculated width after the float is applied to prevent scrollbar interference
 			slider.children.width(getSlideWidth());
 			// if slideMargin is supplied, add the css
 			if(slider.settings.mode == 'horizontal' && slider.settings.slideMargin > 0) slider.children.css('marginRight', slider.settings.slideMargin);
@@ -235,8 +235,9 @@
 			slider.active.last = slider.settings.startSlide == getPagerQty() - 1;
 			// if video is true, set up the fitVids plugin
 			if(slider.settings.video) el.fitVids();
-			// set the default preload selector (all)
-			var preloadSelector = el.children();
+			// set the default preload selector (visible)
+			var preloadSelector = slider.children.slice(slider.settings.startSlide, slider.settings.startSlide + getNumberSlidesShowing());;
+			if (slider.settings.preloadImages == "all") preloadSelector = el.children();
 			// only check for control addition if not in "ticker" mode
 			if(!slider.settings.ticker){
 				// if pager is requested, add it
@@ -247,11 +248,6 @@
 				if(slider.settings.auto && slider.settings.autoControls) appendControlsAuto();
 				// if any control option is requested, add the controls wrapper
 				if(slider.settings.controls || slider.settings.autoControls || slider.settings.pager) slider.viewport.after(slider.controls.el);
-				// check for "visible" preloader
-				if (slider.settings.preloadImages == "visible") {
-					//preload images of only initially visible slides
-					preloadSelector = slider.children.slice(slider.settings.startSlide, slider.settings.startSlide + getNumberSlidesShowing());
-				}
 			}
 			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
 			preloadSelector.imagesLoaded(start);
@@ -269,6 +265,8 @@
 			if (slider.settings.mode == 'vertical') slider.settings.adaptiveHeight = true;
 			// set the viewport height
 			slider.viewport.height(getViewportHeight());
+			// make sure everything is positioned just right (same as a window resize)
+			el.updateDimensions();
 			// onSliderLoad callback
 			slider.settings.onSliderLoad(slider.active.index);
 			// slider has been fully initialized
@@ -286,17 +284,6 @@
 			// if touchEnabled is true, setup the touch events
 			if (slider.settings.touchEnabled && !slider.settings.ticker) initTouch();
 		}
-
-		var getViewportWidth = function(){
-			var width = slider.viewport.width();
-			if(slider.settings.slideWidth > 0){
-				width = slider.settings.slideWidth;
-				if(slider.settings.mode == 'horizontal' && getNumberSlidesShowing() > 1){
-					width = (slider.settings.slideWidth * getNumberSlidesShowing()) + (slider.settings.slideMargin * (getNumberSlidesShowing() - 1));
-				}
-			}
-			return width;
-		}
 		
 		/**
 		 * Returns the calculated height of the viewport, used to determine either adaptiveHeight or the maxHeight value
@@ -305,7 +292,7 @@
 			var height = 0;
 			// first determine which children (slides) should be used in our height calculation
 			var children = $();
-			// if mode is not "vertical", adaptiveHeight is always false, so return all children
+			// if mode is not "vertical" and adaptiveHeight is false, include all children
 			if(slider.settings.mode != 'vertical' && !slider.settings.adaptiveHeight){
 				children = slider.children;
 			}else{
@@ -346,40 +333,44 @@
 			}
 			return height;
 		}
-		
-		/**
-		 * Returns the calculated width to be applied to each slide
-		 */
-		var getSlideWidth = function(){
 
-			var width = getViewportWidth();
-			if(slider.settings.mode == 'horizontal' && slider.settings.slideWidth > 0){
-				var wrapWidth = slider.viewport.width();
-				if(wrapWidth < slider.minThreshold){
-					var wrapWidthMinusMargin = wrapWidth - (slider.settings.slideMargin * (getNumberSlidesShowing() - 1));
-					width = wrapWidthMinusMargin / slider.settings.minSlides;
+		/**
+		 * Returns the calculated width to be used for the outer wrapper / viewport
+		 */
+		var getViewportMaxWidth = function(){
+			var width = '100%';
+			if(slider.settings.slideWidth > 0){
+				if(slider.settings.mode == 'horizontal'){
+					width = (slider.settings.maxSlides * slider.settings.slideWidth) + ((slider.settings.maxSlides - 1) * slider.settings.slideMargin);
 				}else{
 					width = slider.settings.slideWidth;
 				}
 			}
 			return width;
-
-			// // start with any user-supplied slide width
-			// var newElWidth = slider.settings.slideWidth;
-			// // get the current viewport width
-			// var wrapWidth = slider.viewport.width();
-			// // if slide width was not supplied, use the viewport width (means not carousel)
-			// if(slider.settings.slideWidth == 0){
-			// 	newElWidth = wrapWidth;
-			// // if carousel, use the thresholds to determine the width
-			// }else{
-			// 	if(wrapWidth > slider.maxThreshold){
-			// 		newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.maxSlides - 1))) / slider.settings.maxSlides;
-			// 	}else if(wrapWidth < slider.minThreshold){
-			// 		newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.minSlides - 1))) / slider.settings.minSlides;
-			// 	}
-			// }
-			// return newElWidth;
+		}
+		
+		/**
+		 * Returns the calculated width to be applied to each slide
+		 */
+		var getSlideWidth = function(){
+			// start with any user-supplied slide width
+			var newElWidth = slider.settings.slideWidth;
+			// get the current viewport width
+			var wrapWidth = slider.viewport.width();
+			// if slide width was not supplied, or is larger than the viewport use the viewport width
+			if(slider.settings.slideWidth == 0 ||
+				(slider.settings.slideWidth > wrapWidth && !slider.carousel) ||
+				slider.settings.mode == 'vertical'){
+				newElWidth = wrapWidth;
+			// if carousel, use the thresholds to determine the width
+			}else if(slider.settings.maxSlides > 1 && slider.settings.mode == 'horizontal'){
+				if(wrapWidth > slider.maxThreshold){
+					// newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.maxSlides - 1))) / slider.settings.maxSlides;
+				}else if(wrapWidth < slider.minThreshold){
+					newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.minSlides - 1))) / slider.settings.minSlides;
+				}
+			}
+			return newElWidth;
 		}
 		
 		/**
@@ -387,7 +378,7 @@
 		 */
 		var getNumberSlidesShowing = function(){
 			var slidesShowing = 1;
-			if(slider.settings.mode == 'horizontal'){
+			if(slider.settings.mode == 'horizontal' && slider.settings.slideWidth > 0){
 				// if viewport is smaller than minThreshold, return minSlides
 				if(slider.viewport.width() < slider.minThreshold){
 					slidesShowing = slider.settings.minSlides;
@@ -403,6 +394,7 @@
 			}else if(slider.settings.mode == 'vertical'){
 				slidesShowing = slider.settings.minSlides;
 			}
+			// console.log(slidesShowing);
 			return slidesShowing;
 		}
 		
@@ -1036,10 +1028,14 @@
 				// set the new window dimens
 				windowWidth = windowWidthNew;
 				windowHeight = windowHeightNew;
-				// resize all children in ratio to new screen size
-				slider.children.add(el.find('.bx-clone')).width(getSlideWidth());
-				// adjust the height
-				slider.viewport.css('height', getViewportHeight());
+
+				el.updateDimensions();
+
+				// // resize all children in ratio to new screen size
+				// slider.children.add(el.find('.bx-clone')).width(getSlideWidth());
+				// // adjust the height
+				// slider.viewport.css('height', getViewportHeight());
+
 				// if active.last was true before the screen resize, we want
 				// to keep it last no matter what screen size we end on
 				if (slider.active.last) slider.active.index = getPagerQty() - 1;
@@ -1050,8 +1046,6 @@
 					populatePager();
 					updatePagerActive(slider.active.index);
 				}
-				// update the slide position
-				if(!slider.settings.ticker) setSlidePosition();
 			}
 		}
 		
@@ -1221,6 +1215,15 @@
 		 */
 		el.getSlideCount = function(){
 			return slider.children.length;
+		}
+
+		el.updateDimensions = function(){
+			// resize all children in ratio to new screen size
+			slider.children.add(el.find('.bx-clone')).width(getSlideWidth());
+			// adjust the height
+			slider.viewport.css('height', getViewportHeight());
+			// update the slide position
+			if(!slider.settings.ticker) setSlidePosition();
 		}
 
 		/**
