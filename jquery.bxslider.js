@@ -791,13 +791,17 @@
 			// if infiniteLoop is false and hideControlOnEnd is true
 			if(!slider.settings.infiniteLoop && slider.settings.hideControlOnEnd){
 				// if first slide
-				if (slider.active.index == 0){
+				if (slider.active.index == 0 && slider.active.index != getPagerQty() - 1){
 					slider.controls.prev.addClass('disabled');
 					slider.controls.next.removeClass('disabled');
 				// if last slide
-				}else if(slider.active.index == getPagerQty() - 1){
+				}else if(slider.active.index == getPagerQty() - 1 && slider.active.index != 0 ){
 					slider.controls.next.addClass('disabled');
 					slider.controls.prev.removeClass('disabled');
+				// if any slide in the middle
+				}else if(slider.active.index == getPagerQty() - 1 && slider.active.index == 0){
+					slider.controls.next.addClass('disabled');
+					slider.controls.prev.addClass('disabled');
 				// if any slide in the middle
 				}else{
 					slider.controls.prev.removeClass('disabled');
