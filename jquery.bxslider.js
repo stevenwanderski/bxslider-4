@@ -803,6 +803,10 @@
 					slider.controls.prev.removeClass('disabled');
 					slider.controls.next.removeClass('disabled');
 				}
+			// if slider has only one page, disable controls
+			}else if(getPagerQty() == 1){
+				slider.controls.prev.addClass('disabled');
+				slider.controls.next.addClass('disabled');
 			}
 		}
 		
