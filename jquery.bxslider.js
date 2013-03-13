@@ -84,7 +84,7 @@
 
 	$.fn.bxSlider = function(options){
 		
-		if(this.length == 0) this;
+		if(this.length == 0) return this;
 		
 		// support mutltiple elements
 		if(this.length > 1){
