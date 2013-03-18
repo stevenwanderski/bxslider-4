@@ -665,10 +665,10 @@
 		 *  - DOM event object
 		 */
 		var clickNextBind = function(e){
+			e.preventDefault();
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			el.goToNextSlide();
-			e.preventDefault();
 		}
 		
 		/**
@@ -678,10 +678,10 @@
 		 *  - DOM event object
 		 */
 		var clickPrevBind = function(e){
+			e.preventDefault();
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			el.goToPrevSlide();
-			e.preventDefault();
 		}
 		
 		/**
