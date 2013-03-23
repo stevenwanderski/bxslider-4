@@ -251,6 +251,9 @@
 				if(slider.settings.auto && slider.settings.autoControls) appendControlsAuto();
 				// if any control option is requested, add the controls wrapper
 				if(slider.settings.controls || slider.settings.autoControls || slider.settings.pager) slider.viewport.after(slider.controls.el);
+			// if ticker mode, do not allow a pager
+			}else{
+				slider.settings.pager = false;
 			}
 			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
 			preloadSelector.imagesLoaded(start);
@@ -545,7 +548,7 @@
 		 */
 		var populatePager = function(){
 			var pagerHtml = '';
-			pagerQty = getPagerQty();
+			var pagerQty = getPagerQty();
 			// loop through each pager item
 			for(var i=0; i < pagerQty; i++){
 				var linkContent = '';
@@ -1225,6 +1228,7 @@
 			if (slider.active.last) slider.active.index = getPagerQty() - 1;
 			// if the active index (page) no longer exists due to the resize, simply set the index as last
 			if (slider.active.index >= getPagerQty()) slider.active.last = true;
+			console.log(slider.settings.pager);
 			// if a pager is being displayed and a custom pager is not being used, update it
 			if(slider.settings.pager && !slider.settings.pagerCustom){
 				populatePager();
