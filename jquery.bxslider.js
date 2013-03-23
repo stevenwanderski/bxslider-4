@@ -1228,7 +1228,6 @@
 			if (slider.active.last) slider.active.index = getPagerQty() - 1;
 			// if the active index (page) no longer exists due to the resize, simply set the index as last
 			if (slider.active.index >= getPagerQty()) slider.active.last = true;
-			console.log(slider.settings.pager);
 			// if a pager is being displayed and a custom pager is not being used, update it
 			if(slider.settings.pager && !slider.settings.pagerCustom){
 				populatePager();
