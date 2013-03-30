@@ -1138,9 +1138,16 @@
 					var requestEl = slideIndex * getMoveBy();
 					position = slider.children.eq(requestEl).position();
 				}
-				// plugin values to be animated
-				var value = slider.settings.mode == 'horizontal' ? -(position.left - moveBy) : -position.top;
-				setPositionProperty(value, 'slide', slider.settings.speed);
+				
+				/* If the position doesn't exist 
+				 * (e.g. if you destroy the slider on a next click),
+				 * it doesn't throw an error.
+				 */
+                if ("undefined" !== typeof(position)) {
+                    var value = slider.settings.mode == 'horizontal' ? -(position.left - moveBy) : -position.top;
+                    // plugin values to be animated
+                    setPositionProperty(value, 'slide', slider.settings.speed);
+                }
 			}
 		}
 		
@@ -1163,6 +1170,13 @@
 			var pagerIndex = parseInt(slider.active.index) - 1;
 			el.goToSlide(pagerIndex, 'prev');
 		}
+
+		/**
+		 * Returns our Slider controls element
+		 */
+		el.getControlsEl = function() {
+            return slider.controls.el[0];
+        }
 		
 		/**
 		 * Starts the auto show
