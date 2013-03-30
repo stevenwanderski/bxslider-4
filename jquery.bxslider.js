@@ -1163,6 +1163,13 @@
 			var pagerIndex = parseInt(slider.active.index) - 1;
 			el.goToSlide(pagerIndex, 'prev');
 		}
+
+		/**
+		 * Returns our Slider controls element
+		 */
+		el.getControlsEl = function() {
+            return slider.controls.el[0];
+        }
 		
 		/**
 		 * Starts the auto show
