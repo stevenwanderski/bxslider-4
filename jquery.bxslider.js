@@ -791,8 +791,10 @@
 		 * Updates the direction controls (checks if either should be hidden)
 		 */
 		var updateDirectionControls = function(){
-			// if infiniteLoop is false and hideControlOnEnd is true
-			if(!slider.settings.infiniteLoop && slider.settings.hideControlOnEnd){
+			if(getPagerQty() == 1){
+				slider.controls.prev.addClass('disabled');
+				slider.controls.next.addClass('disabled');
+			}else if(!slider.settings.infiniteLoop && slider.settings.hideControlOnEnd){
 				// if first slide
 				if (slider.active.index == 0){
 					slider.controls.prev.addClass('disabled');
@@ -806,10 +808,6 @@
 					slider.controls.prev.removeClass('disabled');
 					slider.controls.next.removeClass('disabled');
 				}
-			// if slider has only one page, disable controls
-			}else if(getPagerQty() == 1){
-				slider.controls.prev.addClass('disabled');
-				slider.controls.next.addClass('disabled');
 			}
 		}
 		
