@@ -411,7 +411,7 @@
 			// if moveSlides is specified by the user
 			if(slider.settings.moveSlides > 0){
 				if(slider.settings.infiniteLoop){
-					pagerQty = slider.children.length / getMoveBy();
+					pagerQty = Math.ceil(slider.children.length / getMoveBy());
 				}else{
 					// use a while loop to determine pages
 					var breakPoint = 0;
