@@ -1131,7 +1131,7 @@
 				// if infinite loop and "Next" is clicked on the last slide
 				}else if(direction == 'next' && slider.active.index == 0){
 					// get the last clone position
-					position = el.find('.bx-clone').eq(slider.settings.maxSlides).position();
+					position = el.find('> .bx-clone').eq(slider.settings.maxSlides).position();
 					slider.active.last = false;
 				// normal non-zero requests
 				}else if(slideIndex >= 0){
