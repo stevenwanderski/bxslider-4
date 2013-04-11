@@ -32,6 +32,7 @@
 		video: false,
 		useCSS: true,
 		preloadImages: 'visible',
+		responsive: true,
 
 		// TOUCH
 		touchEnabled: true,
@@ -277,8 +278,12 @@
 			slider.settings.onSliderLoad(slider.active.index);
 			// slider has been fully initialized
 			slider.initialized = true;
-			// bind the resize call to the window
-			$(window).bind('resize', resizeWindow);
+
+			if (slider.settings.responsive) {
+				// bind the resize call to the window
+				$(window).bind('resize', resizeWindow);				
+			}
+
 			// if auto is true, start the show
 			if (slider.settings.auto && slider.settings.autoStart) initAuto();
 			// if ticker is true, start the ticker
@@ -1257,7 +1262,10 @@
 			$('.bx-caption', this).remove();
 			if(slider.controls.autoEl) slider.controls.autoEl.remove();
 			clearInterval(slider.interval);
-			$(window).unbind('resize', resizeWindow);
+
+			if (slider.settings.responsive) {
+				$(window).unbind('resize', resizeWindow);
+			}
 		}
 
 		/**

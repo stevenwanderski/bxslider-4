@@ -167,6 +167,13 @@ default: 500
 options: integer
 ```
 
+**responsive**  
+Enable or disable auto resize of the slider. Usefull if you have fixed width sliders.
+```
+default: true
+options: boolean (true /false)
+```
+
 **video**  
 If any slides contain video, set this to <code>true</code>. Also, include <code>plugins/jquery.fitvids.js</code><br />See <a href="http://fitvidsjs.com/" target="_blank">http://fitvidsjs.com/</a> for more info
 ```
