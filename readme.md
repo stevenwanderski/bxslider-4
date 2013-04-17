@@ -119,7 +119,7 @@ options: boolean (true / false)
 ```
 
 **hideControlOnEnd**  
-If <code>true</code>, "Next" control will be hidden on last slide and vice-versa<br/>Note: Only used when <code>infiniteLoop: false</code>
+If <code>true</code>, "Prev" and "Next" controls will receive a class <code>disabled</code> when slide is the first or the last<br/>Note: Only used when <code>infiniteLoop: false</code>
 ```
 default: false  
 options: boolean (true / false)
