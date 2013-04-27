@@ -164,6 +164,11 @@
 			}());
 			// if vertical mode always make maxSlides and minSlides equal
 			if(slider.settings.mode == 'vertical') slider.settings.maxSlides = slider.settings.minSlides;
+			// save original style data
+			el.data("origStyle", el.attr("style"));
+			el.children(slider.settings.slideSelector).each(function() {
+				$(this).data("origStyle", $(this).attr("style"));
+			});
 			// perform all DOM / CSS modifications
 			setup();
 		}
@@ -1248,8 +1253,10 @@
 			if(!slider.initialized) return;
 			slider.initialized = false;
 			$('.bx-clone', this).remove();
-			slider.children.removeAttr('style');
-			this.removeAttr('style').unwrap().unwrap();
+			slider.children.each(function() {
+				$(this).attr("style", $(this).data("origStyle"));
+			});
+			this.attr("style", $(this).data("origStyle")).unwrap().unwrap();
 			if(slider.controls.el) slider.controls.el.remove();
 			if(slider.controls.next) slider.controls.next.remove();
 			if(slider.controls.prev) slider.controls.prev.remove();
