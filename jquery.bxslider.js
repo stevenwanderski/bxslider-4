@@ -743,32 +743,34 @@
 			slider.pagerEl.each(function(i, el) { $(el).find('a').eq(slideIndex).addClass('active'); });
 		}
 		
-		/**
-		 * Performs needed actions after a slide transition
-		 */
-		var updateAfterSlideTransition = function(){
-			// if infinte loop is true
-			if(slider.settings.infiniteLoop){
-				var position = '';
-				// first slide
-				if(slider.active.index == 0){
-					// set the new position
-					position = slider.children.eq(0).position();
-				// carousel, last slide
-				}else if(slider.active.index == getPagerQty() - 1 && slider.carousel){
-					position = slider.children.eq((getPagerQty() - 1) * getMoveBy()).position();
-				// last slide
-				}else if(slider.active.index == slider.children.length - 1){
-					position = slider.children.eq(slider.children.length - 1).position();
-				}
-				if (slider.settings.mode == 'horizontal') { setPositionProperty(-position.left, 'reset', 0);; }
-				else if (slider.settings.mode == 'vertical') { setPositionProperty(-position.top, 'reset', 0);; }
-			}
-			// declare that the transition is complete
-			slider.working = false;
-			// onSlideAfter callback
-			slider.settings.onSlideAfter(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
-		}
+        /**
+         * Performs needed actions after a slide transition
+         */
+        var updateAfterSlideTransition = function(){
+              // need to set position here because there's a case where the following conditions won't set it
+              var position = slider.children.eq(slider.active.index).position();
+
+            // if infinte loop is true
+            if(slider.settings.infiniteLoop){
+                // first slide
+                if(slider.active.index == 0){
+                    // set the new position
+                    position = slider.children.eq(0).position();
+                // carousel, last slide
+                }else if(slider.active.index == getPagerQty() - 1 && slider.carousel){
+                    position = slider.children.eq((getPagerQty() - 1) * getMoveBy()).position();
+                // last slide
+                }else if(slider.active.index == slider.children.length - 1){
+                    position = slider.children.eq(slider.children.length - 1).position();
+                }
+                if (slider.settings.mode == 'horizontal') { setPositionProperty(-position.left, 'reset', 0);; }
+                else if (slider.settings.mode == 'vertical') { setPositionProperty(-position.top, 'reset', 0);; }
+            }
+            // declare that the transition is complete
+            slider.working = false;
+            // onSlideAfter callback
+            slider.settings.onSlideAfter(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+        }
 		
 		/**
 		 * Updates the auto controls state (either active, or combined switch)
