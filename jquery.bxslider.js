@@ -502,10 +502,20 @@
 					// set the property value
 					el.css(slider.animProp, propValue);
 					// bind a callback method - executes when CSS transition completes
+					var transitioning = true;
+					var onTransitionEnded = function() {
+						if (transitioning) {
+							transitioning = false;
+							updateAfterSlideTransition();
+						}
+					}
+					//fallback for browsers that don't reliably emit transitionEnd event
+					var fallbackTimer = setTimeout(onTransitionEnded, duration*2);
 					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
 						// unbind the callback
+						clearTimeout(fallbackTimer);
 						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
-						updateAfterSlideTransition();
+						onTransitionEnded();
 					});
 				}else if(type == 'reset'){
 					el.css(slider.animProp, propValue);
