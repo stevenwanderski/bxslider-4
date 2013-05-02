@@ -22,6 +22,7 @@
 		speed: 500,
 		easing: null,
 		slideMargin: 0,
+		slidePadding: 0,
 		startSlide: 0,
 		randomStart: false,
 		captions: false,
@@ -210,6 +211,13 @@
 			});
 			// apply the calculated width after the float is applied to prevent scrollbar interference
 			slider.children.width(getSlideWidth());
+			// Apply padding to slides, if any
+			if(slider.settings.slidePadding != 0){
+				slider.children.css({
+					padding: slider.settings.slidePadding + "px"
+				});	
+			}
+			
 			// if slideMargin is supplied, add the css
 			if(slider.settings.mode == 'horizontal' && slider.settings.slideMargin > 0) slider.children.css('marginRight', slider.settings.slideMargin);
 			if(slider.settings.mode == 'vertical' && slider.settings.slideMargin > 0) slider.children.css('marginBottom', slider.settings.slideMargin);
@@ -376,7 +384,7 @@
 					newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.minSlides - 1))) / slider.settings.minSlides;
 				}
 			}
-			return newElWidth;
+			return newElWidth - (slider.settings.slidePadding * 2);
 		}
 		
 		/**
@@ -1123,7 +1131,8 @@
 						position = slider.children.eq(lastShowingIndex).position();
 					}
 					// horizontal carousel, going previous while on first slide (infiniteLoop mode)
-				}else if(slider.carousel && slider.active.last && direction == 'prev'){
+					// revised - needs to be put into place whether it's a carousel or not.
+				}else if(/*slider.carousel &&*/ slider.active.last && direction == 'prev'){
 					// get the last child position
 					var eq = slider.settings.moveSlides == 1 ? slider.settings.maxSlides - getMoveBy() : ((getPagerQty() - 1) * getMoveBy()) - (slider.children.length - slider.settings.maxSlides);
 					var lastChild = el.children('.bx-clone').eq(eq);
