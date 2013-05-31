@@ -209,7 +209,7 @@
 				position: 'relative'
 			});
 			// apply the calculated width after the float is applied to prevent scrollbar interference
-			slider.children.width(getSlideWidth());
+			slider.children.css('width', getSlideWidth());
 			// if slideMargin is supplied, add the css
 			if(slider.settings.mode == 'horizontal' && slider.settings.slideMargin > 0) slider.children.css('marginRight', slider.settings.slideMargin);
 			if(slider.settings.mode == 'vertical' && slider.settings.slideMargin > 0) slider.children.css('marginBottom', slider.settings.slideMargin);
