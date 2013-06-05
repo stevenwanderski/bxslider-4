@@ -256,6 +256,7 @@
 			var total = selector.find('img, iframe').length;
 			var count = 0;
 			selector.find('img, iframe').each(function(){
+				if($(this).is('img')) $(this).attr('src', $(this).src + '?timestamp=' + new Date().getTime());
 				$(this).load(function(){
 					if(++count == total) callback();
 				});
