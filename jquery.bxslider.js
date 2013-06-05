@@ -182,7 +182,7 @@
 			// set el to a massive width, to hold any needed slides
 			// also strip any margin and padding from el
 			el.css({
-				width: slider.settings.mode == 'horizontal' ? slider.children.length * 215 + '%' : 'auto',
+				width: slider.settings.mode == 'horizontal' ? (slider.children.length * 100 + 215) + '%' : 'auto',
 				position: 'relative'
 			});
 			// if using CSS, add the easing property
@@ -202,6 +202,12 @@
 			slider.viewport.parent().css({
 				maxWidth: getViewportMaxWidth()
 			});
+			// make modification to the wrapper (.bx-wrapper)
+			if(!slider.settings.pager) {
+				slider.viewport.parent().css({
+				margin: '0 auto 0px'
+				});
+			}
 			// apply css to all slider children
 			slider.children.css({
 				'float': slider.settings.mode == 'horizontal' ? 'left' : 'none',
