@@ -227,20 +227,13 @@
 			slider.controls.el = $('<div class="bx-controls" />');
 			// if captions are requested, add them
 			if(slider.settings.captions) appendCaptions();
-			// if infinite loop, prepare additional slides
-			if(slider.settings.infiniteLoop && slider.settings.mode != 'fade' && !slider.settings.ticker){
-				var slice = slider.settings.mode == 'vertical' ? slider.settings.minSlides : slider.settings.maxSlides;
-				var sliceAppend = slider.children.slice(0, slice).clone().addClass('bx-clone');
-				var slicePrepend = slider.children.slice(-slice).clone().addClass('bx-clone');
-				el.append(sliceAppend).prepend(slicePrepend);
-			}
 			// check if startSlide is last slide
 			slider.active.last = slider.settings.startSlide == getPagerQty() - 1;
 			// if video is true, set up the fitVids plugin
 			if(slider.settings.video) el.fitVids();
 			// set the default preload selector (visible)
 			var preloadSelector = slider.children.eq(slider.settings.startSlide);
-			if (slider.settings.preloadImages == "all") preloadSelector = el.children();
+			if (slider.settings.preloadImages == "all") preloadSelector = slider.children;
 			// only check for control addition if not in "ticker" mode
 			if(!slider.settings.ticker){
 				// if pager is requested, add it
@@ -256,13 +249,30 @@
 				slider.settings.pager = false;
 			}
 			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
-			preloadSelector.imagesLoaded(start);
+			loadElements(preloadSelector, start);
+		}
+
+		var loadElements = function(selector, callback){
+			var total = selector.find('img, iframe').length;
+			var count = 0;
+			selector.find('img, iframe').each(function(){
+				$(this).load(function(){
+					if(++count == total) callback();
+				});
+			});
 		}
 
 		/**
 		 * Start the slider
 		 */
 		var start = function(){
+			// if infinite loop, prepare additional slides
+			if(slider.settings.infiniteLoop && slider.settings.mode != 'fade' && !slider.settings.ticker){
+				var slice = slider.settings.mode == 'vertical' ? slider.settings.minSlides : slider.settings.maxSlides;
+				var sliceAppend = slider.children.slice(0, slice).clone().addClass('bx-clone');
+				var slicePrepend = slider.children.slice(-slice).clone().addClass('bx-clone');
+				el.append(sliceAppend).prepend(slicePrepend);
+			}
 			// remove the loading DOM element
 			slider.loader.remove();
 			// set the left / top position of "el"
@@ -1276,17 +1286,3 @@
 	}
 
 })(jQuery);
-
-/*!
- * jQuery imagesLoaded plugin v2.1.0
- * http://github.com/desandro/imagesloaded
- *
- * MIT License. by Paul Irish et al.
- */
-
-/*jshint curly: true, eqeqeq: true, noempty: true, strict: true, undef: true, browser: true */
-/*global jQuery: false */
-
-(function(c,n){var l="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";c.fn.imagesLoaded=function(f){function m(){var b=c(i),a=c(h);d&&(h.length?d.reject(e,b,a):d.resolve(e));c.isFunction(f)&&f.call(g,e,b,a)}function j(b,a){b.src===l||-1!==c.inArray(b,k)||(k.push(b),a?h.push(b):i.push(b),c.data(b,"imagesLoaded",{isBroken:a,src:b.src}),o&&d.notifyWith(c(b),[a,e,c(i),c(h)]),e.length===k.length&&(setTimeout(m),e.unbind(".imagesLoaded")))}var g=this,d=c.isFunction(c.Deferred)?c.Deferred():
-0,o=c.isFunction(d.notify),e=g.find("img").add(g.filter("img")),k=[],i=[],h=[];c.isPlainObject(f)&&c.each(f,function(b,a){if("callback"===b)f=a;else if(d)d[b](a)});e.length?e.bind("load.imagesLoaded error.imagesLoaded",function(b){j(b.target,"error"===b.type)}).each(function(b,a){var d=a.src,e=c.data(a,"imagesLoaded");if(e&&e.src===d)j(a,e.isBroken);else if(a.complete&&a.naturalWidth!==n)j(a,0===a.naturalWidth||0===a.naturalHeight);else if(a.readyState||a.complete)a.src=l,a.src=d}):m();return d?d.promise(g):
-g}})(jQuery);
