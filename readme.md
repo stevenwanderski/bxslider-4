@@ -1,11 +1,5 @@
-#bxSlider 4.1
+#bxSlider 4.1.1
 ##The fully-loaded, responsive jQuery content slider
-
-### New in 4.1!
-* Carousel mode (minSlides / maxSlides) was re-written to be more intuitive.
-* SlideWidth now acts as it should (slides respect the width value).
-* SlideWidth now properly parsed: accepts string ("600px") or integer (600).
-* Slider now only needs to load visible slides (by default) in order to initialize which results in much faster loading. A "preloadImages" setting allows for configuration.
 
 ###Why should I use this slider?
 * Fully responsive - will adapt to any device
@@ -541,5 +535,17 @@ example:
 slider = $('.bxslider').bxSlider();
 slider.destroySlider();  
 ```
+
+## Changelog
+
+### Version 4.1.1
+* Removed imagesLoaded library and added iframe preloading support
+
+### Version 4.1
+* Carousel mode (minSlides / maxSlides) was re-written to be more intuitive.
+* SlideWidth now acts as it should (slides respect the width value).
+* SlideWidth now properly parsed: accepts string ("600px") or integer (600).
+* Slider now only needs to load visible slides (by default) in order to initialize which results in much faster loading. A "preloadImages" setting allows for configuration.
+
 
 Long live Zep.
