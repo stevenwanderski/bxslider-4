@@ -169,6 +169,10 @@
 			el.children(slider.settings.slideSelector).each(function() {
 			  $(this).data("origStyle", $(this).attr("style"));
 			});
+			// always load a fresh copy of the images
+			el.children().find('img').each(function(){
+				$(this).attr('src', $(this).attr('src') + '?timestamp=' + new Date().getTime());
+			});
 			// perform all DOM / CSS modifications
 			setup();
 		}
@@ -267,7 +271,7 @@
 			var total = selector.find('img, iframe').length;
 			var count = 0;
 			selector.find('img, iframe').each(function(){
-				if($(this).is('img')) $(this).attr('src', $(this).attr('src') + '?timestamp=' + new Date().getTime());
+				// if($(this).is('img')) $(this).attr('src', $(this).attr('src') + '?timestamp=' + new Date().getTime());
 				$(this).load(function(){
 					if(++count == total) callback();
 				});
