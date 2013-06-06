@@ -168,6 +168,13 @@ default: false
 options: boolean (true / false)
 ```
 
+**responsive**  
+Enable or disable auto resize of the slider. Useful if you need to use fixed width sliders.
+```
+default: true
+options: boolean (true /false)
+```
+
 **useCSS**  
 If true, CSS transitions will be used for horizontal and vertical slide animations (this uses native hardware acceleration). If false, jQuery animate() will be used.
 ```
