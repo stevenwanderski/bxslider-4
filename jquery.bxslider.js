@@ -265,6 +265,10 @@
 
 		var loadElements = function(selector, callback){
 			var total = selector.find('img, iframe').length;
+			if (total == 0){
+				callback();
+				return;
+			}
 			var count = 0;
 			selector.find('img, iframe').each(function(){
 				if($(this).is('img')) $(this).attr('src', $(this).attr('src') + '?timestamp=' + new Date().getTime());
