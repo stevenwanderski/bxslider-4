@@ -167,7 +167,6 @@
 			// save original style data
 			el.data("origStyle", el.attr("style"));
 			el.children(slider.settings.slideSelector).each(function() {
-				console.log($(this).attr("style"));
 			  $(this).data("origStyle", $(this).attr("style"));
 			});
 			// perform all DOM / CSS modifications
