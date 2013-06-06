@@ -547,6 +547,7 @@ slider.destroySlider();
 
 ### Version 4.1.1
 * Removed imagesLoaded library and added iframe preloading support
+* Added responsive option - setting to false will prevent $(window).resize binding
 
 ### Version 4.1
 * Carousel mode (minSlides / maxSlides) was re-written to be more intuitive.
