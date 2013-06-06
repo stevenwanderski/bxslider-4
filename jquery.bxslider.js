@@ -758,8 +758,12 @@
 		 */
 		var updatePagerActive = function(slideIndex){
 			// if "short" pager type
+			var len = slider.children.length; // nb of children
 			if(slider.settings.pagerType == 'short'){
-				slider.pagerEl.html((slideIndex + 1) + slider.settings.pagerShortSeparator + slider.children.length);
+				if(slider.settings.maxSlides > 1) {
+					len = Math.ceil(slider.children.length/slider.settings.maxSlides);
+				}
+				slider.pagerEl.html( (slideIndex + 1) + slider.settings.pagerShortSeparator + len);
 				return;
 			}
 			// remove all pager active classes
