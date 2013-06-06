@@ -1,11 +1,5 @@
-#bxSlider 4.1
+#bxSlider 4.1.1
 ##The fully-loaded, responsive jQuery content slider
-
-### New in 4.1!
-* Carousel mode (minSlides / maxSlides) was re-written to be more intuitive.
-* SlideWidth now acts as it should (slides respect the width value).
-* SlideWidth now properly parsed: accepts string ("600px") or integer (600).
-* Slider now only needs to load visible slides (by default) in order to initialize which results in much faster loading. A "preloadImages" setting allows for configuration.
 
 ###Why should I use this slider?
 * Fully responsive - will adapt to any device
@@ -119,7 +113,7 @@ options: boolean (true / false)
 ```
 
 **hideControlOnEnd**  
-If <code>true</code>, "Next" control will be hidden on last slide and vice-versa<br/>Note: Only used when <code>infiniteLoop: false</code>
+If <code>true</code>, "Prev" and "Next" controls will receive a class <code>disabled</code> when slide is the first or the last<br/>Note: Only used when <code>infiniteLoop: false</code>
 ```
 default: false  
 options: boolean (true / false)
@@ -548,5 +542,17 @@ example:
 slider = $('.bxslider').bxSlider();
 slider.destroySlider();  
 ```
+
+## Changelog
+
+### Version 4.1.1
+* Removed imagesLoaded library and added iframe preloading support
+
+### Version 4.1
+* Carousel mode (minSlides / maxSlides) was re-written to be more intuitive.
+* SlideWidth now acts as it should (slides respect the width value).
+* SlideWidth now properly parsed: accepts string ("600px") or integer (600).
+* Slider now only needs to load visible slides (by default) in order to initialize which results in much faster loading. A "preloadImages" setting allows for configuration.
+
 
 Long live Zep.
