@@ -1151,7 +1151,7 @@
 						var lastChild = slider.children.eq(slider.children.length - 1);
 						position = lastChild.position();
 						// calculate the position of the last slide
-						moveBy = slider.viewport.width() - lastChild.width();
+						moveBy = slider.viewport.width() - lastChild.outerWidth();
 					}else{
 						// get last showing index position
 						var lastShowingIndex = slider.children.length - slider.settings.minSlides;
@@ -1258,7 +1258,7 @@
 		 */
 		el.redrawSlider = function(){
 			// resize all children in ratio to new screen size
-			slider.children.add(el.find('.bx-clone')).width(getSlideWidth());
+			slider.children.add(el.find('.bx-clone')).outerWidth(getSlideWidth());
 			// adjust the height
 			slider.viewport.css('height', getViewportHeight());
 			// update the slide position
