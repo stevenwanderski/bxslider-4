@@ -77,6 +77,7 @@
 		
 		// CALLBACKS
 		onSliderLoad: function() {},
+    onSliderRedraw: function() {},
 		onSlideBefore: function() {},
 		onSlideAfter: function() {},
 		onSlideNext: function() {},
@@ -1257,6 +1258,8 @@
 		 * Update all dynamic slider elements
 		 */
 		el.redrawSlider = function(){
+			// onSliderRedraw callback
+			slider.settings.onSliderRedraw(slider.viewport, getSlideWidth(), getViewportHeight());
 			// resize all children in ratio to new screen size
 			slider.children.add(el.find('.bx-clone')).outerWidth(getSlideWidth());
 			// adjust the height
