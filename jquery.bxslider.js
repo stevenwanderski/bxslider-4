@@ -65,6 +65,7 @@
 		auto: false,
 		pause: 4000,
 		autoStart: true,
+    autoStartThreshold: 2,
 		autoDirection: 'next',
 		autoHover: false,
 		autoDelay: 0,
@@ -308,8 +309,8 @@
 			slider.initialized = true;
 			// bind the resize call to the window
 			if (slider.settings.responsive) $(window).bind('resize', resizeWindow);
-			// if auto is true, start the show
-			if (slider.settings.auto && slider.settings.autoStart) initAuto();
+			// if auto is true, and the autoStartThreshold is met, start the show
+			if (slider.settings.auto && slider.settings.autoStart && (slider.children.length >= slider.settings.autoStartThreshold)) initAuto();
 			// if ticker is true, start the ticker
 			if (slider.settings.ticker) initTicker();
 			// if pager is requested, make the appropriate pager link active
