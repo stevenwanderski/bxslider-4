@@ -511,6 +511,14 @@ slider = $('.bxslider').bxSlider();
 slider.stopAuto();  
 ```
 
+**toggleAuto**  
+Toggles start/stop on the auto show. Provide an argument <code>false</code> to prevent the auto controls from being updated.
+```
+example:  
+slider = $('.bxslider').bxSlider();
+slider.toggleAuto();  
+```
+
 **getCurrentSlide**  
 Returns the current active slide
 ```
