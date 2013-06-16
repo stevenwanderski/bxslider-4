@@ -1238,14 +1238,29 @@
 			// if auto controls are displayed and preventControlUpdate is not true
 			if (slider.settings.autoControls && preventControlUpdate != true) updateAutoControls('start');
 		}
-		
+
+		/**
+		 * Toggle the auto show
+		 *
+		 * @param preventControlUpdate (boolean)
+		 *  - if true, auto controls state will not be updated
+		 */
+		el.toggleAuto = function(preventControlUpdate){
+			// if no interval exists, start it, otherwise stop it.
+			if(!slider.interval){
+				el.startAuto(preventControlUpdate);
+			}else{
+				el.stopAuto(preventControlUpdate);
+			}
+		}
+
 		/**
 		 * Returns current slide index (zero-based)
 		 */
 		el.getCurrentSlide = function(){
 			return slider.active.index;
 		}
-		
+
 		/**
 		 * Returns number of slides in show
 		 */
