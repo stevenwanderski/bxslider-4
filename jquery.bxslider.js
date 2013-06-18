@@ -40,7 +40,10 @@
 		oneToOneTouch: true,
 		preventDefaultSwipeX: true,
 		preventDefaultSwipeY: false,
-		
+
+        // KEYBOARD
+        keyboardEnabled: false,
+
 		// PAGER
 		pager: true,
 		pagerType: 'full',
@@ -106,8 +109,8 @@
 		var windowWidth = $(window).width();
 		var windowHeight = $(window).height();
 
-		
-		
+
+
 		/**
 		 * ===================================================================================
 		 * = PRIVATE FUNCTIONS
@@ -318,6 +321,19 @@
 			if (slider.settings.controls) updateDirectionControls();
 			// if touchEnabled is true, setup the touch events
 			if (slider.settings.touchEnabled && !slider.settings.ticker) initTouch();
+            // if keyboardEnabled is true, setup the keyboard events
+            if (slider.settings.keyboardEnabled && !slider.settings.ticker) {
+                $(document).keydown(function(e){
+                    if (e.keyCode == 39) {
+                        clickNextBind(e);
+                        return false;
+                    }
+                    else if (e.keyCode == 37) {
+                        clickPrevBind(e);
+                        return false;
+                    }
+                });
+            }
 		}
 		
 		/**
@@ -954,7 +970,7 @@
 			}
 			slider.viewport.bind('touchstart', onTouchStart);
 		}
-		
+
 		/**
 		 * Event handler for "touchstart"
 		 *
