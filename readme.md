@@ -408,7 +408,7 @@ options: integer
 ```
 
 **slideWidth**  
-The width of each slide. This setting is required for all horizontal carousels!
+The width of each slide in pixels. This setting is required for all horizontal carousels!
 ```
 default: 0  
 options: integer
