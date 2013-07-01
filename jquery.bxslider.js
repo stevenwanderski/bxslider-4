@@ -272,7 +272,12 @@
 			}
 			var count = 0;
 			selector.find('img, iframe').each(function(){
-				if($(this).is('img')) $(this).attr('src', $(this).attr('src') + '?timestamp=' + new Date().getTime());
+				
+				if($(this).is('img') && $(this).attr("src")!=undefined){
+					var src = $(this).attr('src');
+					var connectorString = src.indexOf('?')>=0? '&' : '?';
+					$(this).attr('src', src + connectorString +'timestamp=' + new Date().getTime());
+				}
 				$(this).load(function(){
 					setTimeout(function(){
 						if(++count == total) callback();
