@@ -17,7 +17,7 @@ For complete documentation, tons of examples, and a good time, visit:
 Written by: Steven Wanderski - [http://stevenwanderski.com](http://stevenwanderski.com)
 
 ###License
-Released under the WTFPL license - http://sam.zoy.org/wtfpl/
+Released under the WTFPL license - http://www.wtfpl.net/
 
 Let's get on with it!
 
