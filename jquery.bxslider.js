@@ -271,12 +271,36 @@
 				return;
 			}
 			var count = 0;
+			var checkIfAllLoaded = function(){
+				if(++count == total) callback();
+			};
 			selector.find('img, iframe').each(function(){
-				if($(this).is('img')) $(this).attr('src', $(this).attr('src') + '?timestamp=' + new Date().getTime());
-				$(this).load(function(){
-					setTimeout(function(){
-						if(++count == total) callback();
-					}, 0)
+				var el = $(this);
+				if(el.is('img')){
+					// Use temp image instead of adding timestamp to prevent loading additional image:
+					var img = new Image(),
+						loaded = false;
+
+					$(img).on('load', function (){
+						if (loaded) return;
+						loaded = true;
+						setTimeout(checkIfAllLoaded, 0);
+					});
+
+					img.src = el.attr('src');
+
+					// Check if image has width, that means it is loaded already.
+					// This is because some browsers will not trigger load event if it's from cache.
+					setTimeout(function (){
+						if (img.width && !loaded){
+							loaded = true;
+							setTimeout(checkIfAllLoaded, 0);
+						}
+					}, 0);
+					return;
+				}
+				el.on('load', function(){
+					setTimeout(checkIfAllLoaded, 0);
 				});
 			});
 		}
