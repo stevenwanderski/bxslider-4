@@ -11,9 +11,9 @@
 ;(function($){
 
 	var plugin = {};
-	
+
 	var defaults = {
-		
+
 		// GENERAL
 		mode: 'horizontal',
 		slideSelector: '',
@@ -40,7 +40,7 @@
 		oneToOneTouch: true,
 		preventDefaultSwipeX: true,
 		preventDefaultSwipeY: false,
-		
+
 		// PAGER
 		pager: true,
 		pagerType: 'full',
@@ -48,7 +48,7 @@
 		pagerSelector: null,
 		buildPager: null,
 		pagerCustom: null,
-		
+
 		// CONTROLS
 		controls: true,
 		nextText: 'Next',
@@ -60,7 +60,7 @@
 		stopText: 'Stop',
 		autoControlsCombine: false,
 		autoControlsSelector: null,
-		
+
 		// AUTO
 		auto: false,
 		pause: 4000,
@@ -68,31 +68,31 @@
 		autoDirection: 'next',
 		autoHover: false,
 		autoDelay: 0,
-		
+
 		// CAROUSEL
 		minSlides: 1,
 		maxSlides: 1,
 		moveSlides: 0,
 		slideWidth: 0,
-		
+
 		// CALLBACKS
 		onSliderLoad: function() {},
 		onSlideBefore: function() {},
 		onSlideAfter: function() {},
 		onSlideNext: function() {},
 		onSlidePrev: function() {}
-	}
+	};
 
 	$.fn.bxSlider = function(options){
-		
+
 		if(this.length == 0) return this;
-		
+
 		// support mutltiple elements
 		if(this.length > 1){
 			this.each(function(){$(this).bxSlider(options)});
 			return this;
 		}
-		
+
 		// create a namespace to be used throughout the plugin
 		var slider = {};
 		// set a reference to our slider element
@@ -106,14 +106,14 @@
 		var windowWidth = $(window).width();
 		var windowHeight = $(window).height();
 
-		
-		
+
+
 		/**
 		 * ===================================================================================
 		 * = PRIVATE FUNCTIONS
 		 * ===================================================================================
 		 */
-		
+
 		/**
 		 * Initializes namespace settings to be used throughout plugin
 		 */
@@ -172,7 +172,7 @@
 			});
 			// perform all DOM / CSS modifications
 			setup();
-		}
+		};
 
 		/**
 		 * Performs all DOM and CSS modifications
@@ -198,7 +198,6 @@
 			}else if(!slider.settings.easing){
 				slider.settings.easing = 'swing';
 			}
-			var slidesShowing = getNumberSlidesShowing();
 			// make modifications to the viewport (.bx-viewport)
 			slider.viewport.css({
 				width: '100%',
@@ -262,7 +261,7 @@
 			}
 			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
 			loadElements(preloadSelector, start);
-		}
+		};
 
 		var loadElements = function(selector, callback){
 			var total = selector.find('img, iframe').length;
@@ -279,7 +278,7 @@
 					}, 0)
 				});
 			});
-		}
+		};
 
 		/**
 		 * Start the slider
@@ -318,8 +317,8 @@
 			if (slider.settings.controls) updateDirectionControls();
 			// if touchEnabled is true, setup the touch events
 			if (slider.settings.touchEnabled && !slider.settings.ticker) initTouch();
-		}
-		
+		};
+
 		/**
 		 * Returns the calculated height of the viewport, used to determine either adaptiveHeight or the maxHeight value
 		 */
@@ -367,7 +366,7 @@
 				}).get());
 			}
 			return height;
-		}
+		};
 
 		/**
 		 * Returns the calculated width to be used for the outer wrapper / viewport
@@ -382,8 +381,8 @@
 				}
 			}
 			return width;
-		}
-		
+		};
+
 		/**
 		 * Returns the calculated width to be applied to each slide
 		 */
@@ -406,10 +405,10 @@
 				}
 			}
 			return newElWidth;
-		}
-		
+		};
+
 		/**
-		 * Returns the number of slides currently visible in the viewport (includes partially visible slides)
+		 * Returns the number of slides currently visible in the viewport (only fully visible slides)
 		 */
 		var getNumberSlidesShowing = function(){
 			var slidesShowing = 1;
@@ -417,12 +416,12 @@
 				// if viewport is smaller than minThreshold, return minSlides
 				if(slider.viewport.width() < slider.minThreshold){
 					slidesShowing = slider.settings.minSlides;
-				// if viewport is larger than minThreshold, return maxSlides
+				// if viewport is larger than maxThreshold, return maxSlides
 				}else if(slider.viewport.width() > slider.maxThreshold){
 					slidesShowing = slider.settings.maxSlides;
-				// if viewport is between min / max thresholds, divide viewport width by first child width
+				// if viewport is between min / max thresholds, divide viewport width by first child width(outerWidth + margin)
 				}else{
-					var childWidth = slider.children.first().width();
+					var childWidth = slider.children.first().outerWidth(true);
 					slidesShowing = Math.floor(slider.viewport.width() / childWidth);
 				}
 			// if "vertical" mode, slides showing will always be minSlides
@@ -430,8 +429,8 @@
 				slidesShowing = slider.settings.minSlides;
 			}
 			return slidesShowing;
-		}
-		
+		};
+
 		/**
 		 * Returns the number of pages (one full viewport of slides is one "page")
 		 */
@@ -443,8 +442,8 @@
 					pagerQty = slider.children.length / getMoveBy();
 				}else{
 					// use a while loop to determine pages
-					var breakPoint = 0;
-					var counter = 0
+					var breakPoint = 0,
+                        counter = 0;
 					// when breakpoint goes above children length, counter is the number of pages
 					while (breakPoint < slider.children.length){
 						++pagerQty;
@@ -457,8 +456,8 @@
 				pagerQty = Math.ceil(slider.children.length / getNumberSlidesShowing());
 			}
 			return pagerQty;
-		}
-		
+		};
+
 		/**
 		 * Returns the number of indivual slides by which to shift the slider
 		 */
@@ -469,8 +468,8 @@
 			}
 			// if moveSlides is 0 (auto)
 			return getNumberSlidesShowing();
-		}
-		
+		};
+
 		/**
 		 * Sets the slider's (el) left or top position
 		 */
@@ -502,19 +501,19 @@
 					else if (slider.settings.mode == 'vertical') setPositionProperty(-position.top, 'reset', 0);
 				}
 			}
-		}
-		
+		};
+
 		/**
 		 * Sets the el's animating property position (which in turn will sometimes animate el).
 		 * If using CSS, sets the transform property. If not using CSS, sets the top / left property.
 		 *
-		 * @param value (int) 
+		 * @param value (int)
 		 *  - the animating property's value
 		 *
 		 * @param type (string) 'slider', 'reset', 'ticker'
 		 *  - the type of instance for which the function is being
 		 *
-		 * @param duration (int) 
+		 * @param duration (int)
 		 *  - the amount of time (in ms) the transition should occupy
 		 *
 		 * @param params (array) optional
@@ -570,8 +569,8 @@
 					});
 				}
 			}
-		}
-		
+		};
+
 		/**
 		 * Populates the pager with proper amount of pages
 		 */
@@ -592,11 +591,11 @@
 				// var linkContent = slider.settings.buildPager && $.isFunction(slider.settings.buildPager) ? slider.settings.buildPager(i) : i + 1;
 				// add the markup to the string
 				pagerHtml += '<div class="bx-pager-item"><a href="" data-slide-index="' + i + '" class="bx-pager-link">' + linkContent + '</a></div>';
-			};
+			}
 			// populate the pager element with pager links
 			slider.pagerEl.html(pagerHtml);
-		}
-		
+		};
+
 		/**
 		 * Appends the pager to the controls element
 		 */
@@ -618,8 +617,8 @@
 			}
 			// assign the pager click binding
 			slider.pagerEl.delegate('a', 'click', clickPagerBind);
-		}
-		
+		};
+
 		/**
 		 * Appends prev / next controls to the controls element
 		 */
@@ -646,8 +645,8 @@
 				// slider.viewport.append(slider.controls.directionEl);
 				slider.controls.el.addClass('bx-has-controls-direction').append(slider.controls.directionEl);
 			}
-		}
-		
+		};
+
 		/**
 		 * Appends start / stop auto controls to the controls element
 		 */
@@ -675,8 +674,8 @@
 			}
 			// update the auto controls
 			updateAutoControls(slider.settings.autoStart ? 'stop' : 'start');
-		}
-		
+		};
+
 		/**
 		 * Appends image captions to the DOM
 		 */
@@ -690,12 +689,12 @@
                     $(this).append('<div class="bx-caption"><span>' + title + '</span></div>');
                 }
 			});
-		}
-		
+		};
+
 		/**
 		 * Click next binding
 		 *
-		 * @param e (event) 
+		 * @param e (event)
 		 *  - DOM event object
 		 */
 		var clickNextBind = function(e){
@@ -703,12 +702,12 @@
 			if (slider.settings.auto) el.stopAuto();
 			el.goToNextSlide();
 			e.preventDefault();
-		}
-		
+		};
+
 		/**
 		 * Click prev binding
 		 *
-		 * @param e (event) 
+		 * @param e (event)
 		 *  - DOM event object
 		 */
 		var clickPrevBind = function(e){
@@ -716,34 +715,34 @@
 			if (slider.settings.auto) el.stopAuto();
 			el.goToPrevSlide();
 			e.preventDefault();
-		}
-		
+		};
+
 		/**
 		 * Click start binding
 		 *
-		 * @param e (event) 
+		 * @param e (event)
 		 *  - DOM event object
 		 */
 		var clickStartBind = function(e){
 			el.startAuto();
 			e.preventDefault();
-		}
-		
+		};
+
 		/**
 		 * Click stop binding
 		 *
-		 * @param e (event) 
+		 * @param e (event)
 		 *  - DOM event object
 		 */
 		var clickStopBind = function(e){
 			el.stopAuto();
 			e.preventDefault();
-		}
+		};
 
 		/**
 		 * Click pager binding
 		 *
-		 * @param e (event) 
+		 * @param e (event)
 		 *  - DOM event object
 		 */
 		var clickPagerBind = function(e){
@@ -754,12 +753,12 @@
 			// if clicked pager link is not active, continue with the goToSlide call
 			if(pagerIndex != slider.active.index) el.goToSlide(pagerIndex);
 			e.preventDefault();
-		}
-		
+		};
+
 		/**
 		 * Updates the pager links with an active class
 		 *
-		 * @param slideIndex (int) 
+		 * @param slideIndex (int)
 		 *  - index of slide to make active
 		 */
 		var updatePagerActive = function(slideIndex){
@@ -776,8 +775,8 @@
 			slider.pagerEl.find('a').removeClass('active');
 			// apply the active class for all pagers
 			slider.pagerEl.each(function(i, el) { $(el).find('a').eq(slideIndex).addClass('active'); });
-		}
-		
+		};
+
 		/**
 		 * Performs needed actions after a slide transition
 		 */
@@ -803,8 +802,8 @@
 			slider.working = false;
 			// onSlideAfter callback
 			slider.settings.onSlideAfter(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
-		}
-		
+		};
+
 		/**
 		 * Updates the auto controls state (either active, or combined switch)
 		 *
@@ -812,16 +811,16 @@
 		 *  - the new state of the auto show
 		 */
 		var updateAutoControls = function(state){
-			// if autoControlsCombine is true, replace the current control with the new state 
+			// if autoControlsCombine is true, replace the current control with the new state
 			if(slider.settings.autoControlsCombine){
 				slider.controls.autoEl.html(slider.controls[state]);
-			// if autoControlsCombine is false, apply the "active" class to the appropriate control 
+			// if autoControlsCombine is false, apply the "active" class to the appropriate control
 			}else{
 				slider.controls.autoEl.find('a').removeClass('active');
 				slider.controls.autoEl.find('a:not(.bx-' + state + ')').addClass('active');
 			}
-		}
-		
+		};
+
 		/**
 		 * Updates the direction controls (checks if either should be hidden)
 		 */
@@ -844,8 +843,8 @@
 					slider.controls.next.removeClass('disabled');
 				}
 			}
-		}
-		
+		};
+
 		/**
 		 * Initialzes the auto process
 		 */
@@ -878,8 +877,8 @@
 					}
 				});
 			}
-		}
-		
+		};
+
 		/**
 		 * Initialzes the ticker process
 		 */
@@ -921,8 +920,8 @@
 			}
 			// start the ticker loop
 			tickerLoop();
-		}
-		
+		};
+
 		/**
 		 * Runs a continuous loop, news ticker-style
 		 */
@@ -941,8 +940,8 @@
 			var resetValue = slider.settings.mode == 'horizontal' ? -reset.left : -reset.top;
 			var params = {resetValue: resetValue};
 			setPositionProperty(animateProperty, 'ticker', speed, params);
-		}
-		
+		};
+
 		/**
 		 * Initializes touch events
 		 */
@@ -951,14 +950,14 @@
 			slider.touch = {
 				start: {x: 0, y: 0},
 				end: {x: 0, y: 0}
-			}
+			};
 			slider.viewport.bind('touchstart', onTouchStart);
-		}
-		
+		};
+
 		/**
 		 * Event handler for "touchstart"
 		 *
-		 * @param e (event) 
+		 * @param e (event)
 		 *  - DOM event object
 		 */
 		var onTouchStart = function(e){
@@ -976,12 +975,12 @@
 				// bind a "touchend" event to the viewport
 				slider.viewport.bind('touchend', onTouchEnd);
 			}
-		}
-		
+		};
+
 		/**
 		 * Event handler for "touchmove"
 		 *
-		 * @param e (event) 
+		 * @param e (event)
 		 *  - DOM event object
 		 */
 		var onTouchMove = function(e){
@@ -1009,12 +1008,12 @@
 				}
 				setPositionProperty(value, 'reset', 0);
 			}
-		}
-		
+		};
+
 		/**
 		 * Event handler for "touchend"
 		 *
-		 * @param e (event) 
+		 * @param e (event)
 		 *  - DOM event object
 		 */
 		var onTouchEnd = function(e){
@@ -1057,7 +1056,7 @@
 				}
 			}
 			slider.viewport.unbind('touchend', onTouchEnd);
-		}
+		};
 
 		/**
 		 * Window resize event callback
@@ -1076,21 +1075,21 @@
 				// update all dynamic elements
 				el.redrawSlider();
 			}
-		}
-		
+		};
+
 		/**
 		 * ===================================================================================
 		 * = PUBLIC FUNCTIONS
 		 * ===================================================================================
 		 */
-		
+
 		/**
 		 * Performs slide transition to the specified slide
 		 *
-		 * @param slideIndex (int) 
+		 * @param slideIndex (int)
 		 *  - the destination slide's index (zero-based)
 		 *
-		 * @param direction (string) 
+		 * @param direction (string)
 		 *  - INTERNAL USE ONLY - the direction of travel ("prev" / "next")
 		 */
 		el.goToSlide = function(slideIndex, direction){
@@ -1173,8 +1172,8 @@
 					var requestEl = slideIndex * getMoveBy();
 					position = slider.children.eq(requestEl).position();
 				}
-				
-				/* If the position doesn't exist 
+
+				/* If the position doesn't exist
 				 * (e.g. if you destroy the slider on a next click),
 				 * it doesn't throw an error.
 				 */
@@ -1184,8 +1183,8 @@
 					setPositionProperty(value, 'slide', slider.settings.speed);
 				}
 			}
-		}
-		
+		};
+
 		/**
 		 * Transitions to the next slide in the show
 		 */
@@ -1194,8 +1193,8 @@
 			if (!slider.settings.infiniteLoop && slider.active.last) return;
 			var pagerIndex = parseInt(slider.active.index) + 1;
 			el.goToSlide(pagerIndex, 'next');
-		}
-		
+		};
+
 		/**
 		 * Transitions to the prev slide in the show
 		 */
@@ -1204,12 +1203,12 @@
 			if (!slider.settings.infiniteLoop && slider.active.index == 0) return;
 			var pagerIndex = parseInt(slider.active.index) - 1;
 			el.goToSlide(pagerIndex, 'prev');
-		}
-		
+		};
+
 		/**
 		 * Starts the auto show
 		 *
-		 * @param preventControlUpdate (boolean) 
+		 * @param preventControlUpdate (boolean)
 		 *  - if true, auto controls state will not be updated
 		 */
 		el.startAuto = function(preventControlUpdate){
@@ -1221,12 +1220,12 @@
 			}, slider.settings.pause);
 			// if auto controls are displayed and preventControlUpdate is not true
 			if (slider.settings.autoControls && preventControlUpdate != true) updateAutoControls('stop');
-		}
-		
+		};
+
 		/**
 		 * Stops the auto show
 		 *
-		 * @param preventControlUpdate (boolean) 
+		 * @param preventControlUpdate (boolean)
 		 *  - if true, auto controls state will not be updated
 		 */
 		el.stopAuto = function(preventControlUpdate){
@@ -1237,21 +1236,21 @@
 			slider.interval = null;
 			// if auto controls are displayed and preventControlUpdate is not true
 			if (slider.settings.autoControls && preventControlUpdate != true) updateAutoControls('start');
-		}
-		
+		};
+
 		/**
 		 * Returns current slide index (zero-based)
 		 */
 		el.getCurrentSlide = function(){
 			return slider.active.index;
-		}
-		
+		};
+
 		/**
 		 * Returns number of slides in show
 		 */
 		el.getSlideCount = function(){
 			return slider.children.length;
-		}
+		};
 
 		/**
 		 * Update all dynamic slider elements
@@ -1273,7 +1272,7 @@
 				populatePager();
 				updatePagerActive(slider.active.index);
 			}
-		}
+		};
 
 		/**
 		 * Destroy the current instance of the slider (revert everything back to original state)
@@ -1296,7 +1295,7 @@
 			if(slider.controls.autoEl) slider.controls.autoEl.remove();
 			clearInterval(slider.interval);
 			if(slider.settings.responsive) $(window).unbind('resize', resizeWindow);
-		}
+		};
 
 		/**
 		 * Reload the slider (revert all DOM changes, and re-initialize)
@@ -1305,10 +1304,10 @@
 			if (settings != undefined) options = settings;
 			el.destroySlider();
 			init();
-		}
-		
+		};
+
 		init();
-		
+
 		// returns the current jQuery object
 		return this;
 	}
