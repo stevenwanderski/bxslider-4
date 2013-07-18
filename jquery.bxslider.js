@@ -1075,6 +1075,7 @@
 				windowHeight = windowHeightNew;
 				// update all dynamic elements
 				el.redrawSlider();
+				if (slider.settings.controls) updateDirectionControls();
 			}
 		}
 		
