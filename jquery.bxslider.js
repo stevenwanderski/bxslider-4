@@ -68,6 +68,7 @@
 		autoDirection: 'next',
 		autoHover: false,
 		autoDelay: 0,
+		autoSlideForOnePage: false,
 		
 		// CAROUSEL
 		minSlides: 1,
@@ -308,8 +309,8 @@
 			slider.initialized = true;
 			// bind the resize call to the window
 			if (slider.settings.responsive) $(window).bind('resize', resizeWindow);
-			// if auto is true, start the show
-			if (slider.settings.auto && slider.settings.autoStart) initAuto();
+			// if auto is true and has more than 1 page, start the show
+			if (slider.settings.auto && slider.settings.autoStart && (getPagerQty() > 1 || slider.settings.autoSlideForOnePage)) initAuto();
 			// if ticker is true, start the ticker
 			if (slider.settings.ticker) initTicker();
 			// if pager is requested, make the appropriate pager link active
