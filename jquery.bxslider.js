@@ -33,6 +33,7 @@
 		useCSS: true,
 		preloadImages: 'visible',
 		responsive: true,
+		useCachedImages: false,
 
 		// TOUCH
 		touchEnabled: true,
@@ -261,7 +262,7 @@
 				slider.settings.pager = false;
 			}
 			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
-			loadElements(preloadSelector, start);
+			loadElements(slider.settings.useCachedImages, preloadSelector, start);
 		}
 
 		var loadElements = function(selector, callback){
@@ -272,11 +273,16 @@
 			}
 			var count = 0;
 			selector.find('img, iframe').each(function(){
-				if($(this).is('img')) $(this).attr('src', $(this).attr('src') + '?timestamp=' + new Date().getTime());
+				if($(this).is('img') && !useCachedImages) $(this).attr('src', $(this).attr('src') + '?timestamp=' + new Date().getTime());
+
 				$(this).load(function(){
 					setTimeout(function(){
 						if(++count == total) callback();
 					}, 0)
+				}).each(function(){
+				  	if(this.complete) {
+				      $(this).trigger('load');
+				    }
 				});
 			});
 		}
