@@ -750,10 +750,12 @@
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			var pagerLink = $(e.currentTarget);
-			var pagerIndex = parseInt(pagerLink.attr('data-slide-index'));
-			// if clicked pager link is not active, continue with the goToSlide call
-			if(pagerIndex != slider.active.index) el.goToSlide(pagerIndex);
-			e.preventDefault();
+			if(pagerLink.attr('data-slide-index') !== undefined){
+				var pagerIndex = parseInt(pagerLink.attr('data-slide-index'));
+				// if clicked pager link is not active, continue with the goToSlide call
+				if(pagerIndex != slider.active.index) el.goToSlide(pagerIndex);
+				e.preventDefault();
+			}
 		}
 		
 		/**
