@@ -33,6 +33,7 @@
 		useCSS: true,
 		preloadImages: 'visible',
 		responsive: true,
+		appendTimestampToImages: true,
 
 		// TOUCH
 		touchEnabled: true,
@@ -272,8 +273,16 @@
 			}
 			var count = 0;
 			selector.find('img, iframe').each(function(){
-				if($(this).is('img')) $(this).attr('src', $(this).attr('src') + '?timestamp=' + new Date().getTime());
-				$(this).load(function(){
+				var $that = $(this); //cache this variable
+				
+				//append a timestamp to image if only appendTimestampToImages is set
+				if($that.is('img') && slider.settings.appendTimestampToImages) {
+				    var src = $that.attr('src');
+				    var separator = (new RegExp('\\?')).test(src) ? "&" : "?"; //check if source contains ?
+				    $that.attr('src', src + separator + 'timestamp=' + new Date().getTime());
+				}
+				
+				$that.load(function(){
 					setTimeout(function(){
 						if(++count == total) callback();
 					}, 0)

@@ -175,6 +175,14 @@ default: true
 options: boolean (true /false)
 ```
 
+**appendTimestampToImages:**  
+Enable or disable appending a timestamp to loaded images. You can set this option to false if you need to cache image requests.
+```
+default: true
+options: boolean (true /false)
+```
+
+
 **useCSS**  
 If true, CSS transitions will be used for horizontal and vertical slide animations (this uses native hardware acceleration). If false, jQuery animate() will be used.
 ```
