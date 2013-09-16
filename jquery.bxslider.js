@@ -185,12 +185,33 @@
 			// add a loading div to display while images are loading
 			slider.loader = $('<div class="bx-loading" />');
 			slider.viewport.prepend(slider.loader);
-			// set el to a massive width, to hold any needed slides
-			// also strip any margin and padding from el
+
+			// The default wrapper width is 'auto'
+			var wrapperWidth = 'auto';
+
+			// If the slider is in horizontal mode we have to make sure
+			// the wrapper is wide enough to get everything on one line,
+			// even if the images are out of bounds
+			if (slider.settings.mode === 'horizontal') {
+
+				// Set the wrapper width to 0
+				wrapperWidth = 0;
+				
+				// Go over every child and add its complete width
+				el.children().each(function() {
+					wrapperWidth += $(this).outerWidth();
+				});
+
+				// Every child gets cloned twice, so there are 3 instances.
+				// This is why we have to triple the width
+				wrapperWidth = (wrapperWidth*3) + 'px';
+			}
+
 			el.css({
-				width: slider.settings.mode == 'horizontal' ? (slider.children.length * 100 + 215) + '%' : 'auto',
+				width: wrapperWidth,
 				position: 'relative'
 			});
+			
 			// if using CSS, add the easing property
 			if(slider.usingCSS && slider.settings.easing){
 				el.css('-' + slider.cssPrefix + '-transition-timing-function', slider.settings.easing);
