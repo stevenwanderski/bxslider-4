@@ -270,7 +270,6 @@
 				callback();
 				return;
 			}
-
 			var count = 0;
 			selector.find('img, iframe').each(function(){
 				$(this).one('load', function() {
