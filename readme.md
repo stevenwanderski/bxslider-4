@@ -17,7 +17,7 @@ For complete documentation, tons of examples, and a good time, visit:
 Written by: Steven Wanderski - [http://stevenwanderski.com](http://stevenwanderski.com)
 
 ###License
-Released under the WTFPL license - http://sam.zoy.org/wtfpl/
+Released under the MIT license - http://opensource.org/licenses/MIT
 
 Let's get on with it!
 
@@ -63,407 +63,407 @@ $(document).ready(function(){
 
 ###General
 
-**mode**  
+**mode**
 Type of transition between slides
 ```
-default: 'horizontal'  
+default: 'horizontal'
 options: 'horizontal', 'vertical', 'fade'
 ```
 
-**speed**  
+**speed**
 Slide transition duration (in ms)
 ```
-default: 500  
+default: 500
 options: integer
 ```
 
-**slideMargin**  
+**slideMargin**
 Margin between each slide
 ```
-default: 0  
+default: 0
 options: integer
 ```
 
-**startSlide**  
+**startSlide**
 Starting slide index (zero-based)
 ```
-default: 0  
+default: 0
 options: integer
 ```
 
-**randomStart**  
+**randomStart**
 Start slider on a random slide
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**slideSelector**  
+**slideSelector**
 Element to use as slides (ex. <code>'div.slide'</code>).<br />Note: by default, bxSlider will use all immediate children of the slider element
 ```
-default: ''  
+default: ''
 options: jQuery selector
 ```
 
-**infiniteLoop**  
+**infiniteLoop**
 If <code>true</code>, clicking "Next" while on the last slide will transition to the first slide and vice-versa
 ```
-default: true  
+default: true
 options: boolean (true / false)
 ```
 
-**hideControlOnEnd**  
+**hideControlOnEnd**
 If <code>true</code>, "Prev" and "Next" controls will receive a class <code>disabled</code> when slide is the first or the last<br/>Note: Only used when <code>infiniteLoop: false</code>
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**easing**  
+**easing**
 The type of "easing" to use during transitions. If using CSS transitions, include a value for the <code>transition-timing-function</code> property. If not using CSS transitions, you may include <code>plugins/jquery.easing.1.3.js</code> for many options.<br />See <a href="http://gsgd.co.uk/sandbox/jquery/easing/" target="_blank">http://gsgd.co.uk/sandbox/jquery/easing/</a> for more info.
 ```
-default: null  
+default: null
 options: if using CSS: 'linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier(n,n,n,n)'. If not using CSS: 'swing', 'linear' (see the above file for more options)
 ```
 
-**captions**  
+**captions**
 Include image captions. Captions are derived from the image's <code>title</code> attribute
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**ticker**  
+**ticker**
 Use slider in ticker mode (similar to a news ticker)
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**tickerHover**  
+**tickerHover**
 Ticker will pause when mouse hovers over slider. Note: this functionality does NOT work if using CSS transitions!
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**adaptiveHeight**  
+**adaptiveHeight**
 Dynamically adjust slider height based on each slide's height
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**adaptiveHeightSpeed**  
+**adaptiveHeightSpeed**
 Slide height transition duration (in ms). Note: only used if <code>adaptiveHeight: true</code>
 ```
-default: 500  
+default: 500
 options: integer
 ```
 
-**video**  
+**video**
 If any slides contain video, set this to <code>true</code>. Also, include <code>plugins/jquery.fitvids.js</code><br />See <a href="http://fitvidsjs.com/" target="_blank">http://fitvidsjs.com/</a> for more info
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**responsive**  
+**responsive**
 Enable or disable auto resize of the slider. Useful if you need to use fixed width sliders.
 ```
 default: true
 options: boolean (true /false)
 ```
 
-**useCSS**  
+**useCSS**
 If true, CSS transitions will be used for horizontal and vertical slide animations (this uses native hardware acceleration). If false, jQuery animate() will be used.
 ```
-default: true  
+default: true
 options: boolean (true / false)
 ```
 
-**preloadImages**  
+**preloadImages**
 If 'all', preloads all images before starting the slider. If 'visible', preloads only images in the initially visible slides before starting the slider (tip: use 'visible' if all slides are identical dimensions)
 ```
-default: 'visible'  
+default: 'visible'
 options: 'all', 'visible'
 ```
 
-**touchEnabled**  
+**touchEnabled**
 If <code>true</code>, slider will allow touch swipe transitions
 ```
-default: true  
+default: true
 options: boolean (true / false)
 ```
 
-**swipeThreshold**  
+**swipeThreshold**
 Amount of pixels a touch swipe needs to exceed in order to execute a slide transition. Note: only used if <code>touchEnabled: true</code>
 ```
-default: 50  
+default: 50
 options: integer
 ```
 
-**oneToOneTouch**  
+**oneToOneTouch**
 If <code>true</code>, non-fade slides follow the finger as it swipes
 ```
-default: true  
+default: true
 options: boolean (true / false)
 ```
 
-**preventDefaultSwipeX**  
+**preventDefaultSwipeX**
 If <code>true</code>, touch screen will not move along the x-axis as the finger swipes
 ```
-default: true  
+default: true
 options: boolean (true / false)
 ```
 
-**preventDefaultSwipeY**  
+**preventDefaultSwipeY**
 If <code>true</code>, touch screen will not move along the y-axis as the finger swipes
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
 ###Pager
 
-**pager**  
+**pager**
 If <code>true</code>, a pager will be added
 ```
-default: true  
+default: true
 options: boolean (true / false)
 ```
 
-**pagerType**  
+**pagerType**
 If <code>'full'</code>, a pager link will be generated for each slide. If <code>'short'</code>, a x / y pager will be used (ex. 1 / 5)
 ```
-default: 'full'  
+default: 'full'
 options: 'full', 'short'
 ```
 
-**pagerShortSeparator**  
+**pagerShortSeparator**
 If <code>pagerType: 'short'</code>, pager will use this value as the separating character
 ```
-default: ' / '  
+default: ' / '
 options: string
 ```
 
-**pagerSelector**  
+**pagerSelector**
 Element used to populate the populate the pager. By default, the pager is appended to the bx-viewport
 ```
-default: ''  
+default: ''
 options: jQuery selector
 ```
 
-**pagerCustom**  
+**pagerCustom**
 Parent element to be used as the pager. Parent element must contain a <code>&lt;a data-slide-index="x"&gt;</code> element for each slide. See example <a href="/examples/thumbnail-method-1">here</a>. Not for use with dynamic carousels.
 ```
-default: null  
+default: null
 options: jQuery selector
 ```
 
-**buildPager**  
+**buildPager**
 If supplied, function is called on every slide element, and the returned value is used as the pager item markup.<br />See <a href="http://bxslider.com/examples">examples</a> for detailed implementation
 ```
-default: null  
+default: null
 options: function(slideIndex)
 ```
 
 ###Controls
 
-**controls**  
+**controls**
 If <code>true</code>, "Next" / "Prev" controls will be added
 ```
-default: true  
+default: true
 options: boolean (true / false)
 ```
 
-**nextText**  
+**nextText**
 Text to be used for the "Next" control
 ```
-default: 'Next'  
+default: 'Next'
 options: string
 ```
 
-**prevText**  
+**prevText**
 Text to be used for the "Prev" control
 ```
-default: 'Prev'  
+default: 'Prev'
 options: string
 ```
 
-**nextSelector**  
+**nextSelector**
 Element used to populate the "Next" control
 ```
-default: null  
+default: null
 options: jQuery selector
 ```
 
-**prevSelector**  
+**prevSelector**
 Element used to populate the "Prev" control
 ```
-default: null  
+default: null
 options: jQuery selector
 ```
 
-**autoControls**  
+**autoControls**
 If <code>true</code>, "Start" / "Stop" controls will be added
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**startText**  
+**startText**
 Text to be used for the "Start" control
 ```
-default: 'Start'  
+default: 'Start'
 options: string
 ```
 
-**stopText**  
+**stopText**
 Text to be used for the "Stop" control
 ```
-default: 'Stop'  
+default: 'Stop'
 options: string
 ```
 
-**autoControlsCombine**  
+**autoControlsCombine**
 When slideshow is playing only "Stop" control is displayed and vice-versa
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**autoControlsSelector**  
+**autoControlsSelector**
 Element used to populate the auto controls
 ```
-default: null  
+default: null
 options: jQuery selector
 ```
 
 ###Auto
 
-**auto**  
+**auto**
 Slides will automatically transition
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**pause**  
+**pause**
 The amount of time (in ms) between each auto transition
 ```
-default: 4000  
+default: 4000
 options: integer
 ```
 
-**autoStart**  
+**autoStart**
 Auto show starts playing on load. If <code>false</code>, slideshow will start when the "Start" control is clicked
 ```
-default: true  
+default: true
 options: boolean (true / false)
 ```
 
-**autoDirection**  
+**autoDirection**
 The direction of auto show slide transitions
 ```
-default: 'next'  
+default: 'next'
 options: 'next', 'prev'
 ```
 
-**autoHover**  
+**autoHover**
 Auto show will pause when mouse hovers over slider
 ```
-default: false  
+default: false
 options: boolean (true / false)
 ```
 
-**autoDelay**  
+**autoDelay**
 Time (in ms) auto show should wait before starting
 ```
-default: 0  
+default: 0
 options: integer
 ```
 
 ###Carousel
 
-**minSlides**  
+**minSlides**
 The minimum number of slides to be shown. Slides will be sized down if carousel becomes smaller than the original size.
 ```
-default: 1  
+default: 1
 options: integer
 ```
 
-**maxSlides**  
+**maxSlides**
 The maximum number of slides to be shown. Slides will be sized up if carousel becomes larger than the original size.
 ```
-default: 1  
+default: 1
 options: integer
 ```
 
-**moveSlides**  
+**moveSlides**
 The number of slides to move on transition. This value must be <code>>= minSlides</code>, and <code><= maxSlides</code>. If zero (default), the number of fully-visible slides will be used.
 ```
-default: 0  
+default: 0
 options: integer
 ```
 
-**slideWidth**  
+**slideWidth**
 The width of each slide. This setting is required for all horizontal carousels!
 ```
-default: 0  
+default: 0
 options: integer
 ```
 
 ###Callbacks
 
-**onSliderLoad**  
+**onSliderLoad**
 Executes immediately after the slider is fully loaded
 ```
-default: function(){}  
+default: function(){}
 options: function(currentIndex){ // your code here }
-arguments:  
+arguments:
   currentIndex: element index of the current slide
 ```
 
-**onSlideBefore**  
+**onSlideBefore**
 Executes immediately before each slide transition.
 ```
-default: function(){}  
+default: function(){}
 options: function($slideElement, oldIndex, newIndex){ // your code here }
-arguments:  
+arguments:
   $slideElement: jQuery element of the destination element
   oldIndex: element index of the previous slide (before the transition)
   newIndex: element index of the destination slide (after the transition)
 ```
 
-**onSlideAfter**  
+**onSlideAfter**
 Executes immediately after each slide transition. Function argument is the current slide element (when transition completes).
 ```
-default: function(){}  
+default: function(){}
 options: function($slideElement, oldIndex, newIndex){ // your code here }
-arguments:  
+arguments:
   $slideElement: jQuery element of the destination element
   oldIndex: element index of the previous slide (before the transition)
   newIndex: element index of the destination slide (after the transition)
 ```
 
-**onSlideNext**  
+**onSlideNext**
 Executes immediately before each "Next" slide transition. Function argument is the target (next) slide element.
 ```
-default: function(){}  
+default: function(){}
 options: function($slideElement, oldIndex, newIndex){ // your code here }
-arguments:  
+arguments:
   $slideElement: jQuery element of the destination element
   oldIndex: element index of the previous slide (before the transition)
   newIndex: element index of the destination slide (after the transition)
 ```
 
-**onSlidePrev**  
+**onSlidePrev**
 Executes immediately before each "Prev" slide transition. Function argument is the target (prev) slide element.
 ```
-default: function(){}  
+default: function(){}
 options: function($slideElement, oldIndex, newIndex){ // your code here }
-arguments:  
+arguments:
   $slideElement: jQuery element of the destination element
   oldIndex: element index of the previous slide (before the transition)
   newIndex: element index of the destination slide (after the transition)
@@ -471,76 +471,76 @@ arguments:
 
 ###Public methods
 
-**goToSlide**  
+**goToSlide**
 Performs a slide transition to the supplied slide index (zero-based)
 ```
-example:  
+example:
 slider = $('.bxslider').bxSlider();
-slider.goToSlide(3);  
+slider.goToSlide(3);
 ```
 
-**goToNextSlide**  
+**goToNextSlide**
 Performs a "Next" slide transition
 ```
-example:  
+example:
 slider = $('.bxslider').bxSlider();
-slider.goToNextSlide();  
+slider.goToNextSlide();
 ```
 
-**goToPrevSlide**  
+**goToPrevSlide**
 Performs a "Prev" slide transition
 ```
-example:  
+example:
 slider = $('.bxslider').bxSlider();
-slider.goToPrevSlide();  
+slider.goToPrevSlide();
 ```
 
-**startAuto**  
+**startAuto**
 Starts the auto show. Provide an argument <code>false</code> to prevent the auto controls from being updated.
 ```
-example:  
+example:
 slider = $('.bxslider').bxSlider();
-slider.startAuto();  
+slider.startAuto();
 ```
 
-**stopAuto**  
+**stopAuto**
 Stops the auto show. Provide an argument <code>false</code> to prevent the auto controls from being updated.
 ```
-example:  
+example:
 slider = $('.bxslider').bxSlider();
-slider.stopAuto();  
+slider.stopAuto();
 ```
 
-**getCurrentSlide**  
+**getCurrentSlide**
 Returns the current active slide
 ```
-example:  
+example:
 slider = $('.bxslider').bxSlider();
-var current = slider.getCurrentSlide();  
+var current = slider.getCurrentSlide();
 ```
 
-**getSlideCount**  
+**getSlideCount**
 Returns the total number of slides in the slider
 ```
-example:  
+example:
 slider = $('.bxslider').bxSlider();
-var slideQty = slider.getSlideCount();  
+var slideQty = slider.getSlideCount();
 ```
 
-**reloadSlider**  
+**reloadSlider**
 Reload the slider. Useful when adding slides on the fly. Accepts an optional settings object. <a href="/examples/reload-slider-settings">See here for an example.</a>
 ```
-example:  
+example:
 slider = $('.bxslider').bxSlider();
-slider.reloadSlider();  
+slider.reloadSlider();
 ```
 
-**destroySlider**  
+**destroySlider**
 Destroy the slider. This reverts all slider elements back to their original state (before calling the slider).
 ```
-example:  
+example:
 slider = $('.bxslider').bxSlider();
-slider.destroySlider();  
+slider.destroySlider();
 ```
 
 ## Changelog
