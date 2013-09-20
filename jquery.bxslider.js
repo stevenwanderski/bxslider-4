@@ -481,7 +481,7 @@
 					var lastChild = slider.children.last();
 					var position = lastChild.position();
 					// set the left position
-					setPositionProperty(-(position.left - (slider.viewport.width() - lastChild.width())), 'reset', 0);
+					setPositionProperty(-(position.left - (slider.viewport.width() - lastChild.outerWidth())), 'reset', 0);
 				}else if(slider.settings.mode == 'vertical'){
 					// get the last showing index's position
 					var lastShowingIndex = slider.children.length - slider.settings.minSlides;
