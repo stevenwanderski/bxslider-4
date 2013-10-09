@@ -1084,6 +1084,23 @@
 		 */
 
 		/**
+		 * Performs slide transition to the page with the specified slide on it.
+		 *
+		 * @param slideIndex (int) 
+		 *  - the destination slide's index (zero-based)
+		 *
+		 */
+		el.ensureSlide = function (slideIndex) 
+		{
+			if (getNumberSlidesShowing()==1){
+				el.goToSlide(slideIndex);
+				return;   
+			}
+			var pageIndx = Math.floor(slideIndex/getNumberSlidesShowing());
+			el.goToSlide(pageIndx);
+		}
+		
+		/**
 		 * Performs slide transition to the specified slide
 		 *
 		 * @param slideIndex (int)
