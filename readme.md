@@ -224,6 +224,13 @@ default: false
 options: boolean (true / false)
 ```
 
+**wrapperClass**
+Class to wrap the slider in. Change to prevent from using default bxSlider styles.
+```
+default: 'bx-wrapper'
+options: string
+```
+
 ###Pager
 
 **pager**
