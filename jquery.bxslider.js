@@ -33,6 +33,7 @@
 		useCSS: true,
 		preloadImages: 'visible',
 		responsive: true,
+		wrapperClass: 'bx-wrapper',
 
 		// TOUCH
 		touchEnabled: true,
@@ -179,7 +180,7 @@
 		 */
 		var setup = function(){
 			// wrap el in a wrapper
-			el.wrap('<div class="bx-wrapper"><div class="bx-viewport"></div></div>');
+			el.wrap('<div class="' + slider.settings.wrapperClass + '"><div class="bx-viewport"></div></div>');
 			// store a namspace reference to .bx-viewport
 			slider.viewport = el.parent();
 			// add a loading div to display while images are loading
