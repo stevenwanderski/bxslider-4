@@ -48,6 +48,7 @@
 		pagerSelector: null,
 		buildPager: null,
 		pagerCustom: null,
+		hidePagerOnSinglePage: false,
 
 		// CONTROLS
 		controls: true,
@@ -578,6 +579,7 @@
 			var pagerHtml = '';
 			var pagerQty = getPagerQty();
 			// loop through each pager item
+			if(pagerQty > 1 || !slider.settings.hidePagerOnSinglePage){ //TODO indent following block
 			for(var i=0; i < pagerQty; i++){
 				var linkContent = '';
 				// if a buildPager function is supplied, use it to get pager link value, else use index + 1
@@ -591,6 +593,7 @@
 				// var linkContent = slider.settings.buildPager && $.isFunction(slider.settings.buildPager) ? slider.settings.buildPager(i) : i + 1;
 				// add the markup to the string
 				pagerHtml += '<div class="bx-pager-item"><a href="" data-slide-index="' + i + '" class="bx-pager-link">' + linkContent + '</a></div>';
+			}
 			};
 			// populate the pager element with pager links
 			slider.pagerEl.html(pagerHtml);
