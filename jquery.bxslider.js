@@ -527,8 +527,12 @@
 				// add the CSS transition-duration
 				el.css('-' + slider.cssPrefix + '-transition-duration', duration / 1000 + 's');
 				if(type == 'slide'){
-					// set the property value
-					el.css(slider.animProp, propValue);
+					// use a timeout for setting the CSS transition - this prevents the transition and callback being "swallowed" under certain conditions
+					// https://github.com/wandoledzep/bxslider-4/issues/337
+					setTimeout(function(){
+						// set the property value
+						el.css(slider.animProp, propValue);
+					}, 1);
 					// bind a callback method - executes when CSS transition completes
 					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
 						// unbind the callback
