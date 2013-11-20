@@ -1274,6 +1274,13 @@
 		}
 
 		/**
+		 * Sets current slide index (zero-based)
+		 */
+		el.setCurrentSlide = function(index){
+			slider.active.index = index;
+		}
+
+		/**
 		 * Returns number of slides in show
 		 */
 		el.getSlideCount = function(){
