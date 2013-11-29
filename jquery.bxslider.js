@@ -816,8 +816,11 @@
 				slider.controls.autoEl.html(slider.controls[state]);
 			// if autoControlsCombine is false, apply the "active" class to the appropriate control
 			}else{
-				slider.controls.autoEl.find('a').removeClass('active');
-				slider.controls.autoEl.find('a:not(.bx-' + state + ')').addClass('active');
+                if (typeof slider.controls.autoEl != 'undefined') {
+                    slider.controls.autoEl.find('a').removeClass('active');
+                    slider.controls.autoEl.find('a:not(.bx-' + state + ')').addClass('active');
+                }
+
 			}
 		}
 
