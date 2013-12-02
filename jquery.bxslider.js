@@ -33,7 +33,7 @@
 		useCSS: true,
 		preloadImages: 'visible',
 		responsive: true,
-		sliderZIndex: 5,
+		sliderZIndex: 50,
 
 		// TOUCH
 		touchEnabled: true,
