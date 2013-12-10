@@ -1077,20 +1077,18 @@
 				el.redrawSlider();
 				
 				// Sometimes in responsive layouts, calling el.redrawSlider() isn't enough.
-		                // Now if the new property "forceReloadAtResize" (default false) is set to true force the reload of the current slider.
-		                // Code added to solve this issue: https://github.com/wandoledzep/bxslider-4/issues/169#issuecomment-23080855
-		                if( slider.settings.forceReloadAtResize ) {
-		                    $(window).resize(function() {
-		                        
-		                        slider.settings.startSlide = el.getCurrentSlide();
-		                        
-		                        if( typeof( el['resizeReloadTimerId']) !== 'undefined' ) window.clearTimeout( el['resizeReloadTimerId'] );
-		
-		                        el['resizeReloadTimerId'] = window.setTimeout(function() {
-		                            el.reloadSlider( slider.settings );                            
-		                        }, slider.settings.speed);
-		                    });
-		                }
+                // Now if the new property "forceReloadAtResize" (default false) is set to true force the reload of the current slider.
+                // Code added to solve this issue: https://github.com/wandoledzep/bxslider-4/issues/169#issuecomment-23080855
+                if( slider.settings.forceReloadAtResize ) {
+
+                    slider.settings.startSlide = el.getCurrentSlide();
+                    
+                    if( typeof( el['resizeReloadTimerId']) !== 'undefined' ) window.clearTimeout( el['resizeReloadTimerId'] );
+
+                    el['resizeReloadTimerId'] = window.setTimeout(function() {
+                        el.reloadSlider( slider.settings );                            
+                    }, slider.settings.speed);
+                }
 			}
 		}
 
