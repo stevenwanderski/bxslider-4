@@ -1109,20 +1109,24 @@
 			}else{
 				slider.active.index = slideIndex;
 			}
-			// onSlideBefore, onSlideNext, onSlidePrev callbacks
-			// Allow transition canceling based on returned value
+
+			// Allow transition cancelling 
 			var cancelTransition = true;
+			// onSlideBefore, onSlideNext, onSlidePrev callbacks
 			slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			if(direction == 'next'){
 				cancelTransition = slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			}else if(direction == 'prev'){
 				cancelTransition = slider.settings.onSlidePrev(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			}
-			//check whether the transition must be cancelled or not
-			if( ! cancelTransition) {
-				return;
-			}
 
+			// check whether the transition must be cancelled
+			if ( typeof(cancelTransition) != "undefined" && !cancelTransition ) {
+				slider.active.index = slider.oldIndex; // restore old index
+				slider.working = false; // is not in motion
+				return;	
+			}
+			
 			// check if last slide
 			slider.active.last = slider.active.index >= getPagerQty() - 1;
 			// update the pager with active class
