@@ -1113,7 +1113,7 @@
 			// Allow transition cancelling 
 			var cancelTransition = true;
 			// onSlideBefore, onSlideNext, onSlidePrev callbacks
-			slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+			cancelTransition = slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			if(direction == 'next'){
 				cancelTransition = slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			}else if(direction == 'prev'){
