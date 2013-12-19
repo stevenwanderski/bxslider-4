@@ -48,6 +48,7 @@
 		pagerSelector: null,
 		buildPager: null,
 		pagerCustom: null,
+		allowPagerNavigation: true,
 
 		// CONTROLS
 		controls: true,
@@ -616,7 +617,8 @@
 				slider.pagerEl = $(slider.settings.pagerCustom);
 			}
 			// assign the pager click binding
-			slider.pagerEl.delegate('a', 'click', clickPagerBind);
+			if (slider.settings.allowPagerNavigation)
+				slider.pagerEl.delegate('a', 'click', clickPagerBind);
 		}
 
 		/**
