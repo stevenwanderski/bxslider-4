@@ -1290,10 +1290,14 @@
 			if(slider.controls.el) slider.controls.el.remove();
 			if(slider.controls.next) slider.controls.next.remove();
 			if(slider.controls.prev) slider.controls.prev.remove();
+<<<<<<< HEAD
 			// don't destroy customer pager if it exists
 			if (slider.settings.pagerCustom === '') { 
 				if(slider.pagerEl) slider.pagerEl.remove();
 			}
+=======
+			if(slider.pagerEl) slider.pagerEl.remove();
+>>>>>>> 8b3d6e9728fb99d8cce17541110fcc3e924ca286
 			$('.bx-caption', this).remove();
 			if(slider.controls.autoEl) slider.controls.autoEl.remove();
 			clearInterval(slider.interval);
