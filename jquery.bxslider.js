@@ -25,6 +25,7 @@
 		startSlide: 0,
 		randomStart: false,
 		captions: false,
+    hyperlinks: false,
 		ticker: false,
 		tickerHover: false,
 		adaptiveHeight: false,
@@ -239,6 +240,8 @@
 			slider.controls.el = $('<div class="bx-controls" />');
 			// if captions are requested, add them
 			if(slider.settings.captions) appendCaptions();
+      //if captions  & hyperlinks are requested , add hyperlinks to the captions
+      if(slider.settings.captions && slider.settings.hyperlinks) appendHyperlinks();
 			// check if startSlide is last slide
 			slider.active.last = slider.settings.startSlide == getPagerQty() - 1;
 			// if video is true, set up the fitVids plugin
@@ -688,6 +691,23 @@
 				if (title != undefined && ('' + title).length) {
                     $(this).append('<div class="bx-caption"><span>' + title + '</span></div>');
                 }
+			});
+		}
+    
+ 		/**
+		 * Appends hyperlinks to the captions
+		 */
+		var appendHyperlinks = function(){
+			// cycle through each child
+			slider.children.each(function(index){
+				// get the image title attribute
+				var caption = $(this).find('.bx-caption span');
+				var url = $(this).find('img:first').attr('data-url');
+
+				console.log($(this) + caption + url )
+				
+				// append the caption
+				if (url != undefined) caption.wrap('<a href=" '+ url + '"/>');
 			});
 		}
 
