@@ -425,6 +425,15 @@ arguments:
   currentIndex: element index of the current slide
 ```
 
+**onSliderResize**
+Executes immediately after the slider is resized
+```
+default: function(){}
+options: function(currentIndex){ // your code here }
+arguments:
+  currentIndex: element index of the current slide
+```
+
 **onSlideBefore**
 Executes immediately before each slide transition.
 ```
