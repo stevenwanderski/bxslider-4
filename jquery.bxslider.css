@@ -38,6 +38,10 @@
 	background: #fff;
 }
 
+.bx-wrapper .bx-viewport ul {
+	margin: 0;
+}
+
 .bx-wrapper .bx-pager,
 .bx-wrapper .bx-controls-auto {
 	position: absolute;
