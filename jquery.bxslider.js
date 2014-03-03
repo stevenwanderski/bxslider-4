@@ -188,7 +188,7 @@
 			// set el to a massive width, to hold any needed slides
 			// also strip any margin and padding from el
 			el.css({
-				width: slider.settings.mode == 'horizontal' ? (slider.children.length * 100 + 215) + '%' : 'auto',
+				width: slider.settings.mode == 'horizontal' ? (slider.children.length * 100 + 415) + '%' : 'auto',
 				position: 'relative'
 			});
 			// if using CSS, add the easing property
