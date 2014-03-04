@@ -365,7 +365,8 @@
 					return $(this).outerHeight(false);
 				}).get());
 			}
-			return height;
+			// fixing the height cropping issue
+			return height + 16;
 		}
 
 		/**
