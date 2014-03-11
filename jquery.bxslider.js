@@ -1290,7 +1290,7 @@
 			if(slider.controls.el) slider.controls.el.remove();
 			if(slider.controls.next) slider.controls.next.remove();
 			if(slider.controls.prev) slider.controls.prev.remove();
-			slider.pagerEl && slider.settings.pagerCustom ? slider.pagerEl.remove() : slider.pagerEl.undelegate('a', 'click', clickPagerBind);
+			slider.pagerEl && !slider.settings.pagerCustom ? slider.pagerEl.remove() : slider.pagerEl.undelegate('a', 'click', clickPagerBind);
 			$('.bx-caption', this).remove();
 			if(slider.controls.autoEl) slider.controls.autoEl.remove();
 			clearInterval(slider.interval);
