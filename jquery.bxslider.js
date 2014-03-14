@@ -1256,21 +1256,23 @@
 		 * Update all dynamic slider elements
 		 */
 		el.redrawSlider = function(){
-			// resize all children in ratio to new screen size
-			slider.children.add(el.find('.bx-clone')).outerWidth(getSlideWidth());
-			// adjust the height
-			slider.viewport.css('height', getViewportHeight());
-			// update the slide position
-			if(!slider.settings.ticker) setSlidePosition();
-			// if active.last was true before the screen resize, we want
-			// to keep it last no matter what screen size we end on
-			if (slider.active.last) slider.active.index = getPagerQty() - 1;
-			// if the active index (page) no longer exists due to the resize, simply set the index as last
-			if (slider.active.index >= getPagerQty()) slider.active.last = true;
-			// if a pager is being displayed and a custom pager is not being used, update it
-			if(slider.settings.pager && !slider.settings.pagerCustom){
-				populatePager();
-				updatePagerActive(slider.active.index);
+			if(slider.initialized){
+				// resize all children in ratio to new screen size
+				slider.children.add(el.find('.bx-clone')).outerWidth(getSlideWidth());
+				// adjust the height
+				slider.viewport.css('height', getViewportHeight());
+				// update the slide position
+				if(!slider.settings.ticker) setSlidePosition();
+				// if active.last was true before the screen resize, we want
+				// to keep it last no matter what screen size we end on
+				if (slider.active.last) slider.active.index = getPagerQty() - 1;
+				// if the active index (page) no longer exists due to the resize, simply set the index as last
+				if (slider.active.index >= getPagerQty()) slider.active.last = true;
+				// if a pager is being displayed and a custom pager is not being used, update it
+				if(slider.settings.pager && !slider.settings.pagerCustom){
+					populatePager();
+					updatePagerActive(slider.active.index);
+				}
 			}
 		}
 
