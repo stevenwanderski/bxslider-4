@@ -783,18 +783,22 @@
 		var updateAfterSlideTransition = function(){
 			// if infinte loop is true
 			if(slider.settings.infiniteLoop){
-				var position = '';
+				var position = '', 
+					index = slider.active.index;
+
 				// first slide
 				if(slider.active.index == 0){
-					// set the new position
-					position = slider.children.eq(0).position();
+					index = 0;
 				// carousel, last slide
 				}else if(slider.active.index == getPagerQty() - 1 && slider.carousel){
-					position = slider.children.eq((getPagerQty() - 1) * getMoveBy()).position();
+					index = (getPagerQty() - 1) * getMoveBy();
 				// last slide
 				}else if(slider.active.index == slider.children.length - 1){
-					position = slider.children.eq(slider.children.length - 1).position();
+					index = slider.children.length - 1;
 				}
+
+				position = slider.children.eq(index).position();
+
 				if (slider.settings.mode == 'horizontal') { setPositionProperty(-position.left, 'reset', 0);; }
 				else if (slider.settings.mode == 'vertical') { setPositionProperty(-position.top, 'reset', 0);; }
 			}
