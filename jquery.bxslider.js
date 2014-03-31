@@ -951,7 +951,7 @@
 				start: {x: 0, y: 0},
 				end: {x: 0, y: 0}
 			}
-			slider.viewport.bind('touchstart MSPointerDown', onTouchStart);
+			slider.viewport.bind('touchstart MSPointerDown pointerdown', onTouchStart);
 		}
 
 		/**
@@ -972,9 +972,9 @@
 				slider.touch.start.x = touchPoints[0].pageX;
 				slider.touch.start.y = touchPoints[0].pageY;
 				// bind a "touchmove" event to the viewport
-				slider.viewport.bind('touchmove MSPointerMove', onTouchMove);
+				slider.viewport.bind('touchmove MSPointerMove pointermove', onTouchMove);
 				// bind a "touchend" event to the viewport
-				slider.viewport.bind('touchend MSPointerUp', onTouchEnd);
+				slider.viewport.bind('touchend MSPointerUp pointerup', onTouchEnd);
 			}
 		}
 
@@ -1019,7 +1019,7 @@
 		 *  - DOM event object
 		 */
 		var onTouchEnd = function(e){
-			slider.viewport.unbind('touchmove MSPointerMove', onTouchMove);
+			slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
 			var orig = e.originalEvent;
 			var touchPoints = (typeof orig.changedTouches != 'undefined') ? orig.changedTouches : [orig];
 			var value = 0;
@@ -1058,7 +1058,7 @@
 					}
 				}
 			}
-			slider.viewport.unbind('touchend MSPointerUp', onTouchEnd);
+			slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
 		}
 
 		/**
