@@ -48,6 +48,7 @@
 		pagerSelector: null,
 		buildPager: null,
 		pagerCustom: null,
+		allowPagerNavigation: true,
 
 		// CONTROLS
 		controls: true,
@@ -617,7 +618,8 @@
 				slider.pagerEl = $(slider.settings.pagerCustom);
 			}
 			// assign the pager click binding
-			slider.pagerEl.delegate('a', 'click', clickPagerBind);
+			if (slider.settings.allowPagerNavigation)
+				slider.pagerEl.delegate('a', 'click', clickPagerBind);
 		}
 
 		/**
@@ -1114,13 +1116,24 @@
 			}else{
 				slider.active.index = slideIndex;
 			}
+
+			// Allow transition cancelling 
+			var cancelTransition = true;
 			// onSlideBefore, onSlideNext, onSlidePrev callbacks
-			slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+			cancelTransition = slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			if(direction == 'next'){
-				slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+				cancelTransition = slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			}else if(direction == 'prev'){
-				slider.settings.onSlidePrev(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+				cancelTransition = slider.settings.onSlidePrev(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			}
+
+			// check whether the transition must be cancelled
+			if ( typeof(cancelTransition) != "undefined" && !cancelTransition ) {
+				slider.active.index = slider.oldIndex; // restore old index
+				slider.working = false; // is not in motion
+				return;	
+			}
+			
 			// check if last slide
 			slider.active.last = slider.active.index >= getPagerQty() - 1;
 			// update the pager with active class
