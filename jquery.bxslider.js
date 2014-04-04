@@ -1249,6 +1249,13 @@
 		el.getCurrentSlide = function(){
 			return slider.active.index;
 		}
+		
+		/**
+		 * Returns current slide element
+		 */
+		el.getCurrentSlideElement = function(){
+			return slider.children.eq(slider.active.index);
+		}
 
 		/**
 		 * Returns number of slides in show
