@@ -1309,6 +1309,9 @@
 		}
 
 		init();
+		
+		//set a reference of the current slider inside the html element ,it's useful if you need to call the slider starting from an html element
+		$(this).data("slider",this);		
 
 		// returns the current jQuery object
 		return this;
