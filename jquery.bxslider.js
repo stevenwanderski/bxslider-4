@@ -19,6 +19,7 @@
 		slideSelector: '',
 		infiniteLoop: true,
 		hideControlOnEnd: false,
+		slidesBeforeEndToHideNext: 1,
 		speed: 500,
 		easing: null,
 		slideMargin: 0,
@@ -837,9 +838,13 @@
 				// if first slide
 				if (slider.active.index == 0){
 					slider.controls.prev.addClass('disabled');
-					slider.controls.next.removeClass('disabled');
+					
+					if(getPagerQty() > slider.settings.slidesBeforeEndToHideNext)
+						slider.controls.next.removeClass('disabled');
+					else
+						slider.controls.next.addClass('disabled');
 				// if last slide
-				}else if(slider.active.index == getPagerQty() - 1){
+				}else if(slider.active.index >= getPagerQty() - slider.settings.slidesBeforeEndToHideNext){
 					slider.controls.next.addClass('disabled');
 					slider.controls.prev.removeClass('disabled');
 				// if any slide in the middle
