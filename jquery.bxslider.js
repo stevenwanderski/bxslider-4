@@ -80,7 +80,8 @@
 		onSlideBefore: function() {},
 		onSlideAfter: function() {},
 		onSlideNext: function() {},
-		onSlidePrev: function() {}
+		onSlidePrev: function() {},
+		onSliderResize: function() {}
 	}
 
 	$.fn.bxSlider = function(options){
@@ -1076,6 +1077,8 @@
 				windowHeight = windowHeightNew;
 				// update all dynamic elements
 				el.redrawSlider();
+				// Call user resize handler
+				slider.settings.onSliderResize.call(el, slider.active.index);
 			}
 		}
 
