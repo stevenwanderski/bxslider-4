@@ -1292,7 +1292,7 @@
 			if(slider.controls.el) slider.controls.el.remove();
 			if(slider.controls.next) slider.controls.next.remove();
 			if(slider.controls.prev) slider.controls.prev.remove();
-			if(slider.pagerEl) slider.pagerEl.remove();
+			if(slider.pagerEl && slider.settings.controls) slider.pagerEl.remove();
 			$('.bx-caption', this).remove();
 			if(slider.controls.autoEl) slider.controls.autoEl.remove();
 			clearInterval(slider.interval);
