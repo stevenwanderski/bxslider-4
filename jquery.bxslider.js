@@ -33,6 +33,7 @@
 		useCSS: true,
 		preloadImages: 'visible',
 		responsive: true,
+		slideZIndex: 50,
 
 		// TOUCH
 		touchEnabled: true,
@@ -234,7 +235,7 @@
 					display: 'none'
 				});
 				// prepare the z-index on the showing element
-				slider.children.eq(slider.settings.startSlide).css({zIndex: 50, display: 'block'});
+				slider.children.eq(slider.settings.startSlide).css({zIndex: slider.settings.slideZIndex, display: 'block'});
 			}
 			// create an element to contain all slider controls (pager, start / stop, etc)
 			slider.controls.el = $('<div class="bx-controls" />');
@@ -1136,8 +1137,8 @@
 				// fade out the visible child and reset its z-index value
 				slider.children.filter(':visible').fadeOut(slider.settings.speed).css({zIndex: 0});
 				// fade in the newly requested slide
-				slider.children.eq(slider.active.index).css('zIndex', 51).fadeIn(slider.settings.speed, function(){
-					$(this).css('zIndex', 50);
+				slider.children.eq(slider.active.index).css('zIndex', slider.settings.slideZIndex+1).fadeIn(slider.settings.speed, function(){
+					$(this).css('zIndex', slider.settings.slideZIndex);
 					updateAfterSlideTransition();
 				});
 			// slider mode is not "fade"
