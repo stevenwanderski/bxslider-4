@@ -1069,6 +1069,8 @@
 		 * Window resize event callback
 		 */
 		var resizeWindow = function(e){
+			// don't do anything if slider isn't initialized.
+			if(!slider.initialized) return;
 			// get the new window dimens (again, thank you IE)
 			var windowWidthNew = $(window).width();
 			var windowHeightNew = $(window).height();
