@@ -618,7 +618,7 @@
 				slider.pagerEl = $(slider.settings.pagerCustom);
 			}
 			// assign the pager click binding
-			slider.pagerEl.delegate('a', 'click', clickPagerBind);
+			slider.pagerEl.on('click', 'a', clickPagerBind);
 		}
 
 		/**
@@ -658,8 +658,8 @@
 			// add the controls to the DOM
 			slider.controls.autoEl = $('<div class="bx-controls-auto" />');
 			// bind click actions to the controls
-			slider.controls.autoEl.delegate('.bx-start', 'click', clickStartBind);
-			slider.controls.autoEl.delegate('.bx-stop', 'click', clickStopBind);
+			slider.controls.autoEl.on('click', '.bx-start', clickStartBind);
+			slider.controls.autoEl.on('click', '.bx-stop', clickStopBind);
 			// if autoControlsCombine, insert only the "start" control
 			if(slider.settings.autoControlsCombine){
 				slider.controls.autoEl.append(slider.controls.start);
