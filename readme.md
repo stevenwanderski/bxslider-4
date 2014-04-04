@@ -1,4 +1,4 @@
-#bxSlider 4.1.1
+#bxSlider 4.1.2
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
@@ -544,6 +544,9 @@ slider.destroySlider();
 ```
 
 ## Changelog
+
+### Version 4.1.2
+* Added `bower.json` configuration file. Manage bxSlider as a dependency using [bower](http://bower.io/).
 
 ### Version 4.1.1
 * Removed imagesLoaded library and added iframe preloading support
