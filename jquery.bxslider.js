@@ -802,8 +802,8 @@
 					position = slider.children.eq(slider.children.length - 1).position();
 				}
 				if(position){
-					if (slider.settings.mode == 'horizontal') { setPositionProperty(-position.left, 'reset', 0);; }
-					else if (slider.settings.mode == 'vertical') { setPositionProperty(-position.top, 'reset', 0);; }
+					if (slider.settings.mode == 'horizontal') { setPositionProperty(-position.left, 'reset', 0); }
+					else if (slider.settings.mode == 'vertical') { setPositionProperty(-position.top, 'reset', 0); }
 				}
 			}
 			// declare that the transition is complete
