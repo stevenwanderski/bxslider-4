@@ -231,6 +231,13 @@ default: 'bx-wrapper'
 options: string
 ```
 
+**interruptive**
+If <code>true</code>, goToSlide() method will perform transition even if other slide is in transitioin.
+```
+default: false
+options: boolean (true / false)
+```
+
 ###Pager
 
 **pager**

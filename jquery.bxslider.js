@@ -35,6 +35,7 @@
 		responsive: true,
 		slideZIndex: 50,
 		wrapperClass: 'bx-wrapper',
+		interruptible: false,
 
 		// TOUCH
 		touchEnabled: true,
@@ -1115,7 +1116,7 @@
 		 */
 		el.goToSlide = function(slideIndex, direction){
 			// if plugin is currently in motion, ignore request
-			if(slider.working || slider.active.index == slideIndex) return;
+			if(!slider.settings.interruptible && (slider.working || slider.active.index == slideIndex)) return;
 			// declare that plugin is in motion
 			slider.working = true;
 			// store the old index
@@ -1150,9 +1151,9 @@
 					slider.viewport.animate({height: getViewportHeight()}, slider.settings.adaptiveHeightSpeed);
 				}
 				// fade out the visible child and reset its z-index value
-				slider.children.filter(':visible').fadeOut(slider.settings.speed).css({zIndex: 0});
+				slider.children.filter(':visible').stop(true, true).fadeOut(slider.settings.speed).css({zIndex: 0});
 				// fade in the newly requested slide
-				slider.children.eq(slider.active.index).css('zIndex', slider.settings.slideZIndex+1).fadeIn(slider.settings.speed, function(){
+				slider.children.eq(slider.active.index).css('zIndex', slider.settings.slideZIndex+1).stop(true, true).fadeIn(slider.settings.speed, function(){
 					$(this).css('zIndex', slider.settings.slideZIndex);
 					updateAfterSlideTransition();
 				});
