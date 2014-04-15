@@ -169,8 +169,12 @@
 			}());
 			// if vertical mode always make maxSlides and minSlides equal
 			if(slider.settings.mode == 'vertical') slider.settings.maxSlides = slider.settings.minSlides;
-			// save original style data
-			el.data("origStyle", el.attr("style"));
+			el.data({
+				// save slider instance in case we need to act on it later through the DOM
+				bxInstance: el,
+				// save original style data
+				origStyle: el.attr("style")
+			});
 			el.children(slider.settings.slideSelector).each(function() {
 			  $(this).data("origStyle", $(this).attr("style"));
 			});
@@ -1281,6 +1285,13 @@
 		}
 
 		/**
+		 * Returns original options argument
+		 */
+		el.getOptions = function(){
+			return options;
+		}
+
+		/**
 		 * Update all dynamic slider elements
 		 */
 		el.redrawSlider = function(){
@@ -1311,9 +1322,15 @@
 			slider.initialized = false;
 			$('.bx-clone', this).remove();
 			slider.children.each(function() {
-				$(this).data("origStyle") != undefined ? $(this).attr("style", $(this).data("origStyle")) : $(this).removeAttr('style');
+				if ($(this).data("origStyle") != undefined) {
+					$(this).attr("style", $(this).data("origStyle"))
+					$(this).removeData("origStyle");
+				} else { 
+					$(this).removeAttr("style");
+				}
 			});
-			$(this).data("origStyle") != undefined ? this.attr("style", $(this).data("origStyle")) : $(this).removeAttr('style');
+			$(this).data("origStyle") != undefined ? this.attr("style", $(this).data("origStyle")) : $(this).removeAttr("style");
+			$(this).removeData(["origStyle", "bxInstance"]);
 			$(this).unwrap().unwrap();
 			if(slider.controls.el) slider.controls.el.remove();
 			if(slider.controls.next) slider.controls.next.remove();
