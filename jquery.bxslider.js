@@ -35,6 +35,7 @@
 		responsive: true,
 		slideZIndex: 50,
 		wrapperClass: 'bx-wrapper',
+		captionAttribute: 'title',
 
 		// TOUCH
 		touchEnabled: true,
@@ -109,8 +110,6 @@
 		// first get the original window dimens (thanks alot IE)
 		var windowWidth = $(window).width();
 		var windowHeight = $(window).height();
-
-
 
 		/**
 		 * ===================================================================================
@@ -695,12 +694,12 @@
 		var appendCaptions = function(){
 			// cycle through each child
 			slider.children.each(function(index){
-				// get the image title attribute
-				var title = $(this).find('img:first').attr('title');
-				// append the caption
-				if (title != undefined && ('' + title).length) {
-                    $(this).append('<div class="bx-caption"><span>' + title + '</span></div>');
-                }
+				// get the first image
+				var firstImg = $(this).find('img:first');
+				// find the attribute holding the caption
+				captionAttribute == 'title' ? title = firstImg.attr('title') : title = firstImg.attr( captionAttribute ) ;
+				// append the caption if title is not null
+				title != undefined && ('' + title).length ?  $(this).append('<div class="bx-caption"><span>' + title + '</span></div>') : '' ;
 			});
 		}
 
