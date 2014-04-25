@@ -133,6 +133,13 @@ default: false
 options: boolean (true / false)
 ```
 
+**captionAttribute**
+For HTML5 Doctypes, <code>data-*</code> attribute can be specified instead of <code>title</code> attribute to allow HTML content to be placed into captions without <code>title</code> tooltip showing HTML.
+```
+default: 'title'
+options: 'data-*' (e.g. 'data-content', 'data-caption')
+```
+
 **ticker**
 Use slider in ticker mode (similar to a news ticker)
 ```
