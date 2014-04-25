@@ -25,6 +25,7 @@
 		startSlide: 0,
 		randomStart: false,
 		captions: false,
+		captionAttribute: 'title',
 		ticker: false,
 		tickerHover: false,
 		adaptiveHeight: false,
@@ -35,7 +36,7 @@
 		responsive: true,
 		slideZIndex: 50,
 		wrapperClass: 'bx-wrapper',
-		captionAttribute: 'title',
+		
 
 		// TOUCH
 		touchEnabled: true,
@@ -110,6 +111,7 @@
 		// first get the original window dimens (thanks alot IE)
 		var windowWidth = $(window).width();
 		var windowHeight = $(window).height();
+
 
 		/**
 		 * ===================================================================================
@@ -695,11 +697,17 @@
 			// cycle through each child
 			slider.children.each(function(index){
 				// get the first image
-				var firstImg = $(this).find('img:first');
+				var firstImg = $(this).find('img:first'); 
 				// find the attribute holding the caption
-				captionAttribute == 'title' ? title = firstImg.attr('title') : title = firstImg.attr( captionAttribute ) ;
+				if( slider.settings.captionAttribute == 'title' ){
+				// If the captionAttribute is not defined, then use fallback title attribute
+					var title = firstImg.attr('title'); 
+				} else{ 
+				// otherwise, grab the defined attribute
+					var title = firstImg.attr( slider.settings.captionAttribute ); 
+				}
 				// append the caption if title is not null
-				title != undefined && ('' + title).length ?  $(this).append('<div class="bx-caption"><span>' + title + '</span></div>') : '' ;
+				title != undefined && ('' + title).length ? $(this).append('<div class="bx-caption"><span>'+title+'</span></div>') : '' ;
 			});
 		}
 
@@ -1340,3 +1348,4 @@
 	}
 
 })(jQuery);
+
