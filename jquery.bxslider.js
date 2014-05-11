@@ -294,6 +294,7 @@
 				var sliceAppend = slider.children.slice(0, slice).clone().addClass('bx-clone');
 				var slicePrepend = slider.children.slice(-slice).clone().addClass('bx-clone');
 				el.append(sliceAppend).prepend(slicePrepend);
+				el.find('li:first').height(1);
 			}
 			// remove the loading DOM element
 			slider.loader.remove();
