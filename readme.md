@@ -16,6 +16,10 @@ Released under the same license as the original i.e MIT license - http://opensou
 
 ###Demo
 
+A demonstration can be viewed here:
+
+[http://rahisify.com/demos/plugins/bxslider/demo/index.html](http://rahisify.com/demos/plugins/bxslider/demo/index.html)
+
 ###Step 1: Link required files
 
 First and most important, the jQuery library needs to be included (no need to download - link directly from Google). Next, download the package from this site and link the bxSlider CSS file (for the theme) and the bxslider-rahisified Javascript file.
@@ -90,6 +94,21 @@ Multiple break points are seperated by commas. There is no limit to the number o
   data-breaks="[{screen:0, slides:1, pager:false}, {screen:460, slides:2}, {screen: 768, slides:3}]"
 ```
 
-###Step 6: That's it!
+###Step 6: Putting everything together!
 
-Now resize your browser window and see your slider obey each and every one of your set commands
+This is how your slider should look once you put everything together.
+
+
+```html
+<ul class="bxslider" data-call="bxslider" data-options="slideMargin:5, autoReload:true" data-breaks="[{screen:0, slides:1, pager:false}, {screen:460, slides:2}, {screen: 768, slides:3}]">
+  <li><img src="/images/pic1.jpg" /></li>
+  <li><img src="/images/pic2.jpg" /></li>
+  <li><img src="/images/pic3.jpg" /></li>
+  <li><img src="/images/pic4.jpg" /></li>
+</ul>
+```
+
+###That's it!
+Now resize your browser window and see your slider obey each and every one of your set commands.
+
+Demo >> [http://rahisify.com/demos/plugins/bxslider/demo/index.html](http://rahisify.com/demos/plugins/bxslider/demo/index.html)
