@@ -108,6 +108,23 @@ This is how your slider should look once you put everything together.
 </ul>
 ```
 
+###Calling the slider via javascript is still supported
+
+You can still call bxSlider the usual way if you do not like the new data attributes.
+
+```js
+    $(document).ready( function() {
+    
+        $('#myslider').bxSlider({
+          slideMargin: 5,
+          autoReload: true,
+          breaks: [{screen:0, slides:1, pager:false},{screen:460, slides:2},{screen:768, slides:3}]
+        });
+      
+    });
+
+```
+
 ###That's it!
 Now resize your browser window and see your slider obey each and every one of your set commands.
 
