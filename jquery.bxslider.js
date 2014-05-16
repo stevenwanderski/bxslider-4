@@ -92,8 +92,9 @@
 		if(this.length == 0) return this;
 
 		// support mutltiple elements
-		var sliders = new Array();
+		
 		if(this.length > 1){
+			var sliders = new Array();
 			this.each(function(i, slider){ sliders[i] = $(this).bxSlider(options)});
 			sliders.reloadSlider = function() {
                                 $.each(sliders, function(i, slider) {
