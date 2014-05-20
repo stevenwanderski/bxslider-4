@@ -1,4 +1,4 @@
-#bxSlider 4.1.1
+#bxSlider 4.1.2
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
@@ -224,6 +224,13 @@ default: false
 options: boolean (true / false)
 ```
 
+**wrapperClass**
+Class to wrap the slider in. Change to prevent from using default bxSlider styles.
+```
+default: 'bx-wrapper'
+options: string
+```
+
 ###Pager
 
 **pager**
@@ -425,6 +432,15 @@ arguments:
   currentIndex: element index of the current slide
 ```
 
+**onSliderResize**
+Executes immediately after the slider is resized
+```
+default: function(){}
+options: function(currentIndex){ // your code here }
+arguments:
+  currentIndex: element index of the current slide
+```
+
 **onSlideBefore**
 Executes immediately before each slide transition.
 ```
@@ -544,6 +560,9 @@ slider.destroySlider();
 ```
 
 ## Changelog
+
+### Version 4.1.2
+* Added `bower.json` configuration file. Manage bxSlider as a dependency using [bower](http://bower.io/).
 
 ### Version 4.1.1
 * Removed imagesLoaded library and added iframe preloading support
