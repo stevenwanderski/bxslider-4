@@ -968,7 +968,7 @@
 				start: {x: 0, y: 0},
 				end: {x: 0, y: 0}
 			}
-			slider.viewport.bind('touchstart', onTouchStart);
+			slider.viewport.bind('touchstart MSPointerDown pointerdown', onTouchStart);
 		}
 
 		/**
@@ -984,13 +984,14 @@
 				// record the original position when touch starts
 				slider.touch.originalPos = el.position();
 				var orig = e.originalEvent;
+				var touchPoints = (typeof orig.changedTouches != 'undefined') ? orig.changedTouches : [orig];
 				// record the starting touch x, y coordinates
-				slider.touch.start.x = orig.changedTouches[0].pageX;
-				slider.touch.start.y = orig.changedTouches[0].pageY;
+				slider.touch.start.x = touchPoints[0].pageX;
+				slider.touch.start.y = touchPoints[0].pageY;
 				// bind a "touchmove" event to the viewport
-				slider.viewport.bind('touchmove', onTouchMove);
+				slider.viewport.bind('touchmove MSPointerMove pointermove', onTouchMove);
 				// bind a "touchend" event to the viewport
-				slider.viewport.bind('touchend', onTouchEnd);
+				slider.viewport.bind('touchend MSPointerUp pointerup', onTouchEnd);
 			}
 		}
 
@@ -1002,9 +1003,10 @@
 		 */
 		var onTouchMove = function(e){
 			var orig = e.originalEvent;
+			var touchPoints = (typeof orig.changedTouches != 'undefined') ? orig.changedTouches : [orig];
 			// if scrolling on y axis, do not prevent default
-			var xMovement = Math.abs(orig.changedTouches[0].pageX - slider.touch.start.x);
-			var yMovement = Math.abs(orig.changedTouches[0].pageY - slider.touch.start.y);
+			var xMovement = Math.abs(touchPoints[0].pageX - slider.touch.start.x);
+			var yMovement = Math.abs(touchPoints[0].pageY - slider.touch.start.y);
 			// x axis swipe
 			if((xMovement * 3) > yMovement && slider.settings.preventDefaultSwipeX){
 				e.preventDefault();
@@ -1016,11 +1018,11 @@
 				var value = 0;
 				// if horizontal, drag along x axis
 				if(slider.settings.mode == 'horizontal'){
-					var change = orig.changedTouches[0].pageX - slider.touch.start.x;
+					var change = touchPoints[0].pageX - slider.touch.start.x;
 					value = slider.touch.originalPos.left + change;
 				// if vertical, drag along y axis
 				}else{
-					var change = orig.changedTouches[0].pageY - slider.touch.start.y;
+					var change = touchPoints[0].pageY - slider.touch.start.y;
 					value = slider.touch.originalPos.top + change;
 				}
 				setPositionProperty(value, 'reset', 0);
@@ -1034,12 +1036,13 @@
 		 *  - DOM event object
 		 */
 		var onTouchEnd = function(e){
-			slider.viewport.unbind('touchmove', onTouchMove);
+			slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
 			var orig = e.originalEvent;
+			var touchPoints = (typeof orig.changedTouches != 'undefined') ? orig.changedTouches : [orig];
 			var value = 0;
 			// record end x, y positions
-			slider.touch.end.x = orig.changedTouches[0].pageX;
-			slider.touch.end.y = orig.changedTouches[0].pageY;
+			slider.touch.end.x = touchPoints[0].pageX;
+			slider.touch.end.y = touchPoints[0].pageY;
 			// if fade mode, check if absolute x distance clears the threshold
 			if(slider.settings.mode == 'fade'){
 				var distance = Math.abs(slider.touch.start.x - slider.touch.end.x);
@@ -1072,7 +1075,7 @@
 					}
 				}
 			}
-			slider.viewport.unbind('touchend', onTouchEnd);
+			slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
 		}
 
 		/**
