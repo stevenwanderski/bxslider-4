@@ -1284,8 +1284,24 @@
 		 * Update all dynamic slider elements
 		 */
 		el.redrawSlider = function(){
+			//Set top margin of slider images for vertical centering
+			for (child in el.find('.bx-clone')) {
+				if ( !isNaN(parseFloat(child)) && isFinite(child) ) {
+					var imageHeight = $(el.find('.bx-clone')[child]).children('img').height();
+					$(el.find('.bx-clone')[child]).css('marginTop', (getViewportHeight() - imageHeight) / 2);
+				}
+			}
+
 			// resize all children in ratio to new screen size
 			slider.children.add(el.find('.bx-clone')).width(getSlideWidth());
+
+			//Set top margin of slider images for vertical centering
+			for (child in slider.children) {
+				if ( !isNaN(parseFloat(child)) && isFinite(child) ) {
+					imageHeight = $(slider.children[child]).children('img').height();
+					$(slider.children[child]).css('marginTop', (getViewportHeight() - imageHeight) / 2);
+				}
+			}
 			// adjust the height
 			slider.viewport.css('height', getViewportHeight());
 			// update the slide position
