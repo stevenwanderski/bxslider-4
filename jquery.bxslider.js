@@ -50,6 +50,7 @@
 		pagerSelector: null,
 		buildPager: null,
 		pagerCustom: null,
+        autoHidePager: false,
 
 		// CONTROLS
 		controls: true,
@@ -606,13 +607,18 @@
 				pagerHtml += '<div class="bx-pager-item"><a href="" data-slide-index="' + i + '" class="bx-pager-link">' + linkContent + '</a></div>';
 			};
 			// populate the pager element with pager links
-			slider.pagerEl.html(pagerHtml);
+            if(pagerQty > 1 || !slider.settings.autoHidePager) {
+                slider.pagerEl.html(pagerHtml);
+            } else {
+                slider.pagerEl.empty();
+            }
 		}
 
 		/**
 		 * Appends the pager to the controls element
 		 */
 		var appendPager = function(){
+
 			if(!slider.settings.pagerCustom){
 				// create the pager DOM element
 				slider.pagerEl = $('<div class="bx-pager" />');
@@ -866,34 +872,40 @@
 		 * Initialzes the auto process
 		 */
 		var initAuto = function(){
-			// if autoDelay was supplied, launch the auto show using a setTimeout() call
-			if(slider.settings.autoDelay > 0){
-				var timeout = setTimeout(el.startAuto, slider.settings.autoDelay);
-			// if autoDelay was not supplied, start the auto show normally
-			}else{
-				el.startAuto();
-			}
-			// if autoHover is requested
-			if(slider.settings.autoHover){
-				// on el hover
-				el.hover(function(){
-					// if the auto show is currently playing (has an active interval)
-					if(slider.interval){
-						// stop the auto show and pass true agument which will prevent control update
-						el.stopAuto(true);
-						// create a new autoPaused value which will be used by the relative "mouseout" event
-						slider.autoPaused = true;
-					}
-				}, function(){
-					// if the autoPaused value was created be the prior "mouseover" event
-					if(slider.autoPaused){
-						// start the auto show and pass true agument which will prevent control update
-						el.startAuto(true);
-						// reset the autoPaused value
-						slider.autoPaused = null;
-					}
-				});
-			}
+
+
+
+            // if autoDelay was supplied, launch the auto show using a setTimeout() call
+            if(slider.settings.autoDelay > 0){
+                var timeout = setTimeout(function() {
+                    el.startAuto();
+                }, slider.settings.autoDelay);
+            // if autoDelay was not supplied, start the auto show normally
+            }else{
+                el.startAuto();
+            }
+            // if autoHover is requested
+            if(slider.settings.autoHover){
+                // on el hover
+                el.hover(function(){
+                    // if the auto show is currently playing (has an active interval)
+                    if(slider.interval){
+                        // stop the auto show and pass true agument which will prevent control update
+                        el.stopAuto(true);
+                        // create a new autoPaused value which will be used by the relative "mouseout" event
+                        slider.autoPaused = true;
+                    }
+                }, function(){
+                    // if the autoPaused value was created be the prior "mouseover" event
+                    if(slider.autoPaused){
+                        // start the auto show and pass true agument which will prevent control update
+                        el.startAuto(true);
+                        // reset the autoPaused value
+                        slider.autoPaused = null;
+                    }
+                });
+            }
+
 		}
 
 		/**
@@ -1235,9 +1247,15 @@
 		el.startAuto = function(preventControlUpdate){
 			// if an interval already exists, disregard call
 			if(slider.interval) return;
+
+
+
 			// create an interval
 			slider.interval = setInterval(function(){
-				slider.settings.autoDirection == 'next' ? el.goToNextSlide() : el.goToPrevSlide();
+                var pagerQty = getPagerQty();
+                if (pagerQty > 1 || !slider.settings.autoHidePager) {
+				    slider.settings.autoDirection == 'next' ? el.goToNextSlide() : el.goToPrevSlide();
+                }
 			}, slider.settings.pause);
 			// if auto controls are displayed and preventControlUpdate is not true
 			if (slider.settings.autoControls && preventControlUpdate != true) updateAutoControls('stop');
