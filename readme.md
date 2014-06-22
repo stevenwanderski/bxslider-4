@@ -240,6 +240,13 @@ default: true
 options: boolean (true / false)
 ```
 
+**hidePagerOnSinglePage**
+If <code>true</code>, a pager will not be added when there is only one page
+```
+default: false
+options: boolean (true / false)
+```
+
 **pagerType**
 If <code>'full'</code>, a pager link will be generated for each slide. If <code>'short'</code>, a x / y pager will be used (ex. 1 / 5)
 ```
