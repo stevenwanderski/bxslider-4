@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Example for bxslider</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="../jquery.bxslider.js"></script>
+		<link href="../jquery.bxslider.css" rel="stylesheet" />
+		<style>
+			.wrapper {
+				width: 100%;
+			}
+
+			.bx-wrapper .bx-viewport {
+				background: none;
+				border: none;
+				box-shadow: none;
+				left: 0;
+			}
+
+			.bxslider img {
+				width: 100%;
+			}
+
+			.bx-wrapper .bx-pager.bx-default-pager a {
+				width: 20px;
+				height: 20px;
+				margin: 0 20px;
+				border-radius: 10px;
+
+			}
+
+			.bx-wrapper .bx-pager, .bx-wrapper .bx-controls-auto {
+				bottom: -40px;
+			}
+
+
+			@media screen and (min-width: 768px) {
+				.wrapper {
+					width: 75%;
+				}
+			}
+		</style>
+		<script>
+			$(window).on('load', function() {
+				var slider = $('.bxslider').bxSlider();
+			});
+		</script>
+    </head>
+    <body>
+		<div class="wrapper">
+			<ul class="bxslider">
+				<li><img src="images/1.jpg" alt="" /></li>
+				<li><img src="images/2.jpg" alt="" /></li>
+				<li><img src="images/3.jpg" alt="" /></li>
+				<li><img src="images/4.jpg" alt="" /></li>
+				<li><img src="images/5.jpg" alt="" /></li>
+				<li><img src="images/6.jpg" alt="" /></li>
+			</ul>
+		</div>
+    </body>
+</html>

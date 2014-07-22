@@ -1,5 +1,5 @@
 /**
- * BxSlider v4.1.2 - Fully loaded, responsive content slider
+ * BxSlider v4.1.2 - Fully loaded, responsive content sliderlider.wrapper
  * http://bxslider.com
  *
  * Copyright 2014, Steven Wanderski - http://stevenwanderski.com - http://bxcreative.com
@@ -186,6 +186,8 @@
 			el.wrap('<div class="' + slider.settings.wrapperClass + '"><div class="bx-viewport"></div></div>');
 			// store a namspace reference to .bx-viewport
 			slider.viewport = el.parent();
+			slider.$controls = slider.viewport.parent().find('.bx-controls');
+
 			// add a loading div to display while images are loading
 			slider.loader = $('<div class="bx-loading" />');
 			slider.viewport.prepend(slider.loader);
@@ -254,18 +256,24 @@
 			if(!slider.settings.ticker){
 				// if pager is requested, add it
 				if(slider.settings.pager) appendPager();
+
 				// if controls are requested, add them
 				if(slider.settings.controls) appendControls();
+
+
 				// if auto is true, and auto controls are requested, add them
 				if(slider.settings.auto && slider.settings.autoControls) appendControlsAuto();
+
 				// if any control option is requested, add the controls wrapper
 				if(slider.settings.controls || slider.settings.autoControls || slider.settings.pager) slider.viewport.after(slider.controls.el);
+
 			// if ticker mode, do not allow a pager
 			}else{
 				slider.settings.pager = false;
 			}
 			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
 			loadElements(preloadSelector, start);
+
 		}
 
 		var loadElements = function(selector, callback){
@@ -629,7 +637,7 @@
 				slider.pagerEl = $(slider.settings.pagerCustom);
 			}
 			// assign the pager click binding
-			slider.pagerEl.on('click', 'a', clickPagerBind);
+			slider.pagerEl.on('click touchstart', 'a', clickPagerBind);
 		}
 
 		/**
@@ -639,8 +647,8 @@
 			slider.controls.next = $('<a class="bx-next" href="">' + slider.settings.nextText + '</a>');
 			slider.controls.prev = $('<a class="bx-prev" href="">' + slider.settings.prevText + '</a>');
 			// bind click actions to the controls
-			slider.controls.next.bind('click', clickNextBind);
-			slider.controls.prev.bind('click', clickPrevBind);
+			slider.controls.next.bind('click touchstart', clickNextBind);
+			slider.controls.prev.bind('click touchstart', clickPrevBind);
 			// if nextSlector was supplied, populate it
 			if(slider.settings.nextSelector){
 				$(slider.settings.nextSelector).append(slider.controls.next);
@@ -711,6 +719,7 @@
 		 *  - DOM event object
 		 */
 		var clickNextBind = function(e){
+			console.log('clickNextBind');
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			el.goToNextSlide();
@@ -759,6 +768,9 @@
 		 *  - DOM event object
 		 */
 		var clickPagerBind = function(e){
+			console.log('clickPagerBind');
+			if (slider.$controls.hasClass('disabled')) return;
+
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			var pagerLink = $(e.currentTarget);
@@ -978,6 +990,11 @@
 		 *  - DOM event object
 		 */
 		var onTouchStart = function(e){
+			console.log('onTouchStart');
+			
+			//disable controls
+			slider.$controls.addClass('disabled');
+			
 			if(slider.working){
 				e.preventDefault();
 			}else{
@@ -1035,6 +1052,10 @@
 		 */
 		var onTouchEnd = function(e){
 			slider.viewport.unbind('touchmove', onTouchMove);
+
+			//enable controls
+			slider.$controls.removeClass('disabled');
+			
 			var orig = e.originalEvent;
 			var value = 0;
 			// record end x, y positions
