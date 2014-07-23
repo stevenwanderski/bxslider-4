@@ -533,6 +533,7 @@
 		 *  - an optional parameter containing any variables that need to be passed in
 		 */
 		var setPositionProperty = function(value, type, duration, params){
+			console.log('setPositionProperty');
 			// use CSS transform
 			if(slider.usingCSS){
 				// determine the translate3d value
@@ -542,8 +543,19 @@
 				if(type == 'slide'){
 					// set the property value
 					el.css(slider.animProp, propValue);
+
+					//fallback for transitionend (sometimes it doesn't fire for example in iOS Safari)
+					var timeoutId = window.setTimeout(function() {
+						// unbind the callback
+						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+						updateAfterSlideTransition();
+					}, duration+100); //add 100 ms to make sure setTimeout runs after transitionend				
+
 					// bind a callback method - executes when CSS transition completes
 					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
+						//if transitionend fires setTimeout shouldn't run 
+						window.clearTimeout(timeoutId);
+
 						// unbind the callback
 						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
 						updateAfterSlideTransition();
@@ -629,7 +641,7 @@
 				slider.pagerEl = $(slider.settings.pagerCustom);
 			}
 			// assign the pager click binding
-			slider.pagerEl.on('click', 'a', clickPagerBind);
+			slider.pagerEl.on('click touchend', 'a', clickPagerBind);					
 		}
 
 		/**
@@ -639,8 +651,8 @@
 			slider.controls.next = $('<a class="bx-next" href="">' + slider.settings.nextText + '</a>');
 			slider.controls.prev = $('<a class="bx-prev" href="">' + slider.settings.prevText + '</a>');
 			// bind click actions to the controls
-			slider.controls.next.bind('click', clickNextBind);
-			slider.controls.prev.bind('click', clickPrevBind);
+			slider.controls.next.bind('click touchend', clickNextBind);
+			slider.controls.prev.bind('click touchend', clickPrevBind);
 			// if nextSlector was supplied, populate it
 			if(slider.settings.nextSelector){
 				$(slider.settings.nextSelector).append(slider.controls.next);
@@ -995,7 +1007,7 @@
 		 *  - DOM event object
 		 */
 		var onTouchStart = function(e){	
-			console.log('onTouchStart', slider.working);
+			console.log('onTouchStart');
 			//disable slider controls while user is interacting with slides to avoid slider freeze that happens on touch devices when a slide swipe happens immediately after interacting with slider controls
 			//issue reported on github at: https://github.com/stevenwanderski/bxslider-4/issues/540
 			slider.controls.el.addClass('disabled');
