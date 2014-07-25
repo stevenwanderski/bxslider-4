@@ -533,7 +533,6 @@
 		 *  - an optional parameter containing any variables that need to be passed in
 		 */
 		var setPositionProperty = function(value, type, duration, params){
-			console.log('setPositionProperty');
 			// use CSS transform
 			if(slider.usingCSS){
 				// determine the translate3d value
@@ -541,25 +540,18 @@
 				// add the CSS transition-duration
 				el.css('-' + slider.cssPrefix + '-transition-duration', duration / 1000 + 's');
 				if(type == 'slide'){
-					// set the property value
-					el.css(slider.animProp, propValue);
+					//use setTimeout to make sure transitionend fires in iOS Safari
+					setTimeout(function() {
+						// set the property value
+						el.css(slider.animProp, propValue);
 
-					//fallback for transitionend (sometimes it doesn't fire for example in iOS Safari)
-					var timeoutId = window.setTimeout(function() {
-						// unbind the callback
-						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
-						updateAfterSlideTransition();
-					}, duration+100); //add 100 ms to make sure setTimeout runs after transitionend				
-
-					// bind a callback method - executes when CSS transition completes
-					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
-						//if transitionend fires setTimeout shouldn't run 
-						window.clearTimeout(timeoutId);
-
-						// unbind the callback
-						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
-						updateAfterSlideTransition();
-					});
+						// bind a callback method - executes when CSS transition completes
+						el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
+							// unbind the callback
+							el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+							updateAfterSlideTransition();
+						});
+					}, 0);
 				}else if(type == 'reset'){
 					el.css(slider.animProp, propValue);
 				}else if(type == 'ticker'){
@@ -641,7 +633,7 @@
 				slider.pagerEl = $(slider.settings.pagerCustom);
 			}
 			// assign the pager click binding
-			slider.pagerEl.on('click touchend', 'a', clickPagerBind);					
+			slider.pagerEl.on('click touchend', 'a', clickPagerBind);
 		}
 
 		/**
@@ -725,10 +717,8 @@
 		var clickNextBind = function(e){
 			e.preventDefault();
 			if (slider.controls.el.hasClass('disabled')) {
-				console.log('slider controls are disabled');
 				return;
 			}
-
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			el.goToNextSlide();
@@ -743,10 +733,8 @@
 		var clickPrevBind = function(e){
 			e.preventDefault();
 			if (slider.controls.el.hasClass('disabled')) {
-				console.log('slider controls are disabled');
 				return;
 			}
-
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			el.goToPrevSlide();
@@ -781,14 +769,10 @@
 		 *  - DOM event object
 		 */
 		var clickPagerBind = function(e){
-			console.log('clickPagerBind');
-			
 			e.preventDefault();
 			if (slider.controls.el.hasClass('disabled')) {
-				console.log('slider controls are disabled');
 				return;
-			} 
-
+			}
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			var pagerLink = $(e.currentTarget);
@@ -1006,12 +990,9 @@
 		 * @param e (event)
 		 *  - DOM event object
 		 */
-		var onTouchStart = function(e){	
-			console.log('onTouchStart');
+		var onTouchStart = function(e){
 			//disable slider controls while user is interacting with slides to avoid slider freeze that happens on touch devices when a slide swipe happens immediately after interacting with slider controls
-			//issue reported on github at: https://github.com/stevenwanderski/bxslider-4/issues/540
 			slider.controls.el.addClass('disabled');
-			
 			if(slider.working){
 				e.preventDefault();
 				slider.controls.el.removeClass('disabled');
@@ -1069,11 +1050,9 @@
 		 *  - DOM event object
 		 */
 		var onTouchEnd = function(e){
-			console.log('onTouchEnd');
 			//enable slider controls as soon as user stops interacing with slides
 			slider.controls.el.removeClass('disabled');
-
-			slider.viewport.unbind('touchmove', onTouchMove);			
+			slider.viewport.unbind('touchmove', onTouchMove);
 			var orig = e.originalEvent;
 			var value = 0;
 			// record end x, y positions
