@@ -10,6 +10,19 @@
  * http://bxcreative.com
  */
 
+/** RESET AND LAYOUT
+===================================*/
+/* to allow vertical scrolling of page on windows phones */
+.bx-wrapper {
+	-ms-touch-action: pan-y;
+}
+
+/* fix for windows phone bug that clicking bottom part of space between pager items selects last pager item */
+.bx-wrapper .bx-pager .bx-pager-item {
+	font-size: 0;
+	line-height: 0;
+}
+
 
 /** RESET AND LAYOUT
 ===================================*/
@@ -36,7 +49,7 @@
 	border:  5px solid #fff;
 	left: -5px;
 	background: #fff;
-	
+
 	/*fix other elements on the page moving (on Chrome)*/
 	-webkit-transform: translatez(0);
 	-moz-transform: translatez(0);
