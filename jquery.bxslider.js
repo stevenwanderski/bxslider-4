@@ -1,4 +1,8 @@
 /**
+ This is a modified version of bxslider from bxslider fork at: https://github.com/smohadjer/bxslider-4
+*/
+
+/**
  * BxSlider v4.1.2 - Fully loaded, responsive content slider
  * http://bxslider.com
  *
