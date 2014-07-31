@@ -715,6 +715,7 @@
 		 *  - DOM event object
 		 */
 		var clickNextBind = function(e){
+			console.log('next');
 			e.preventDefault();
 			if (slider.controls.el.hasClass('disabled')) {
 				return;
@@ -1014,12 +1015,25 @@
 				slider.viewport.bind('touchmove MSPointerMove pointermove', onTouchMove);
 				// bind a "touchend" event to the viewport
 				slider.viewport.bind('touchend MSPointerUp pointerup', onTouchEnd);
+
+				// bind a "pointercancel" event to the viewport for windows phone devices
 				slider.viewport.bind('MSPointerCancel pointercancel', onPointerCancel);
 			}
 		}
 
+		/* onPointerCancel handler is needed to deal with situations when a touchend
+		doesn't fire after a touchstart (this happens on windows phones only) */
 		var onPointerCancel = function(e) {
 			setPositionProperty(slider.touch.originalPos.left, 'reset', 0);
+
+			//remove handlers
+			slider.controls.el.removeClass('disabled');
+			slider.viewport.unbind('MSPointerCancel pointercancel', onPointerCancel);
+			slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
+			slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
+			if (slider.viewport.get(0).releasePointerCapture) {
+				slider.viewport.get(0).releasePointerCapture(slider.pointerId);
+			}
 		}
 
 		/**
@@ -1063,6 +1077,7 @@
 		 *  - DOM event object
 		 */
 		var onTouchEnd = function(e){
+			console.log('end');
 			//enable slider controls as soon as user stops interacing with slides
 			slider.controls.el.removeClass('disabled');
 			slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
@@ -1105,6 +1120,7 @@
 				}
 			}
 			slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
+			slider.viewport.unbind('MSPointerCancel pointercancel', onPointerCancel);
 			if (slider.viewport.get(0).releasePointerCapture) {
 				slider.viewport.get(0).releasePointerCapture(slider.pointerId);
 			}
