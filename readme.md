@@ -183,10 +183,10 @@ options: boolean (true / false)
 ```
 
 **preloadImages**
-If 'all', preloads all images before starting the slider. If 'visible', preloads only images in the initially visible slides before starting the slider (tip: use 'visible' if all slides are identical dimensions)
+If 'all', preloads all images before starting the slider. If 'visible', preloads only images in the initially visible slides before starting the slider (tip: use 'visible' if all slides are identical dimensions). If 'none', slider won't preload any images (sometimes it is a good option for low internet connection or for offline test/development)
 ```
 default: 'visible'
-options: 'all', 'visible'
+options: 'all', 'visible', 'none'
 ```
 
 **touchEnabled**
