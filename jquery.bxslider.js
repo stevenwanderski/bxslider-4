@@ -263,8 +263,14 @@
 			}else{
 				slider.settings.pager = false;
 			}
-			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
-			loadElements(preloadSelector, start);
+			// load images if necessary and start the slider
+			if(slider.settings.preloadImages == "none"){
+				// just start the slider without any reload actions
+				start();
+			}else{
+				// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
+				loadElements(preloadSelector, start);
+			}
 		}
 
 		var loadElements = function(selector, callback){
