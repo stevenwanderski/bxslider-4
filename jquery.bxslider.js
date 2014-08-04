@@ -247,7 +247,8 @@
 			if(slider.settings.video) el.fitVids();
 			// set the default preload selector (visible)
 			var preloadSelector = slider.children.eq(slider.settings.startSlide);
-			if (slider.settings.preloadImages == "all") preloadSelector = slider.children;
+			// if carousel, update preloadSelector to the whole children
+			if (slider.carousel) preloadSelector = slider.children;
 			// only check for control addition if not in "ticker" mode
 			if(!slider.settings.ticker){
 				// if pager is requested, add it
