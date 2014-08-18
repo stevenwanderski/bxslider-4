@@ -264,7 +264,24 @@
 			}else{
 				slider.settings.pager = false;
 			}
-			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
+            // if slider controls is auto hide
+            if (slider.settings.controls == 'auto'){
+                slider.viewport.hover(
+                    function() {
+                        if (!slider.controls.prev.hasClass("disabled"))
+                            slider.controls.prev.stop(true,true).show();
+                        if (!slider.controls.next.hasClass("disabled"))
+                            slider.controls.next.stop(true,true).show();
+                    },
+                    function() {
+                        //if (!slider.controls.prev.is(":hover") && !slider.controls.next.is(":hover")) {
+                            slider.controls.prev.delay(600).fadeOut();
+                            slider.controls.next.delay(600).fadeOut();
+                        //}
+                    }
+                );
+            }
+            // preload all images, then perform final DOM / CSS modifications that depend on images being loaded
 			loadElements(preloadSelector, start);
 		}
 
@@ -318,7 +335,7 @@
 			// if pager is requested, make the appropriate pager link active
 			if (slider.settings.pager) updatePagerActive(slider.settings.startSlide);
 			// check for any updates to the controls (like hideControlOnEnd updates)
-			if (slider.settings.controls) updateDirectionControls();
+			if (slider.settings.controls || slider.settings.controls == 'auto') updateDirectionControls();
 			// if touchEnabled is true, setup the touch events
 			if (slider.settings.touchEnabled && !slider.settings.ticker) initTouch();
 		}
@@ -842,24 +859,36 @@
 		 * Updates the direction controls (checks if either should be hidden)
 		 */
 		var updateDirectionControls = function(){
-			if(getPagerQty() == 1){
-				slider.controls.prev.addClass('disabled');
-				slider.controls.next.addClass('disabled');
-			}else if(!slider.settings.infiniteLoop && slider.settings.hideControlOnEnd){
-				// if first slide
-				if (slider.active.index == 0){
-					slider.controls.prev.addClass('disabled');
-					slider.controls.next.removeClass('disabled');
-				// if last slide
-				}else if(slider.active.index == getPagerQty() - 1){
-					slider.controls.next.addClass('disabled');
-					slider.controls.prev.removeClass('disabled');
-				// if any slide in the middle
-				}else{
-					slider.controls.prev.removeClass('disabled');
-					slider.controls.next.removeClass('disabled');
-				}
-			}
+            if(getPagerQty() == 1){
+                slider.controls.prev.addClass('disabled');
+                slider.controls.next.addClass('disabled');
+            }else if(!slider.settings.infiniteLoop && slider.settings.hideControlOnEnd){
+                // if first slide
+                if (slider.active.index == 0){
+                    slider.controls.prev.addClass('disabled');
+                    slider.controls.next.removeClass('disabled');
+                    // if last slide
+                }else if(slider.active.index == getPagerQty() - 1){
+                    slider.controls.next.addClass('disabled');
+                    slider.controls.prev.removeClass('disabled');
+                    // if any slide in the middle
+                }else{
+                    slider.controls.prev.removeClass('disabled');
+                    slider.controls.next.removeClass('disabled');
+                }
+            }
+
+            if (slider.settings.controls == 'auto') {
+                if (slider.controls.prev.hasClass('disabled'))
+                    slider.controls.prev.css('display', '');
+                else
+                    slider.controls.prev.show();
+
+                if (slider.controls.next.hasClass('disabled'))
+                    slider.controls.next.css('display', '');
+                else
+                    slider.controls.next.show();
+            }
 		}
 
 		/**
@@ -1142,7 +1171,7 @@
 			// update the pager with active class
 			if(slider.settings.pager) updatePagerActive(slider.active.index);
 			// // check for direction control update
-			if(slider.settings.controls) updateDirectionControls();
+			if(slider.settings.controls || slider.settings.controls=='auto') updateDirectionControls();
 			// if slider is set to mode: "fade"
 			if(slider.settings.mode == 'fade'){
 				// if adaptiveHeight is true and next height is different from current height, animate to the new height
