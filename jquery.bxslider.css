@@ -45,6 +45,27 @@
     	transform: translatez(0);
 }
 
+/*center images vertically if they are smaller than the height of
+  the slider*/
+.bx-wrapper .bxslider{
+	margin: 0;
+	-webkit-align-items: center;
+	        align-items: center;
+	display: -webkit-flex;
+	display:         flex;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+
+/*center images horizontally if they are smaller than the width of
+	the slider*/
+.bxslider li{
+	display: -webkit-flex;
+	display:         flex;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+
 .bx-wrapper .bx-pager,
 .bx-wrapper .bx-controls-auto {
 	position: absolute;
