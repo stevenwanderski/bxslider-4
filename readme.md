@@ -18,7 +18,7 @@ Released under the same license as the original i.e MIT license - http://opensou
 
 A demonstration can be viewed here:
 
-[http://rahisify.com/demos/plugins/bxslider/demo/index.html](http://rahisify.com/demos/plugins/bxslider/demo/index.html)
+[http://www.arnique.net/demos/plugins/bxslider-rahisified/demo/](http://www.arnique.net/demos/plugins/bxslider-rahisified/demo/)
 
 ###Step 1: Link required files
 
