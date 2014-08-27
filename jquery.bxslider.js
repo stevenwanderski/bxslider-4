@@ -16,6 +16,7 @@
 
 		// GENERAL
 		mode: 'horizontal',
+		direction: false,
 		slideSelector: '',
 		infiniteLoop: true,
 		hideControlOnEnd: false,
@@ -128,6 +129,9 @@
 			slider.settings = $.extend({}, defaults, options);
 			// parse slideWidth setting
 			slider.settings.slideWidth = parseInt(slider.settings.slideWidth);
+			// translate ltr/rtl to left/rigth
+			slider.settings.direction = slider.settings.direction || getStyle(el, 'direction');
+			slider.settings.direction = (slider.settings.direction == 'rtl') ? 'right' : 'left';
 			// store the original children
 			slider.children = el.children(slider.settings.slideSelector);
 			// check if actual number of slides is less than minSlides / maxSlides
@@ -152,7 +156,7 @@
 			// initialize an auto interval
 			slider.interval = null;
 			// determine which property to use for transitions
-			slider.animProp = slider.settings.mode == 'vertical' ? 'top' : 'left';
+			slider.animProp = slider.settings.mode == 'vertical' ? 'top' : slider.settings.direction;
 			// determine if hardware acceleration can be used
 			slider.usingCSS = slider.settings.useCSS && slider.settings.mode != 'fade' && (function(){
 				// create our test div element
@@ -222,7 +226,7 @@
 			}
 			// apply css to all slider children
 			slider.children.css({
-				'float': slider.settings.mode == 'horizontal' ? 'left' : 'none',
+				'display': slider.settings.mode == 'horizontal' ? 'inline-block' : 'block',
 				listStyle: 'none',
 				position: 'relative'
 			});
@@ -299,7 +303,7 @@
 			}
 			// remove the loading DOM element
 			slider.loader.remove();
-			// set the left / top position of "el"
+			// set the [settings.direction] or top position of "el"
 			setSlidePosition();
 			// if "vertical" mode, always use adaptiveHeight to prevent odd behavior
 			if (slider.settings.mode == 'vertical') slider.settings.adaptiveHeight = true;
@@ -398,6 +402,37 @@
 		};
 
 		/**
+		 * Use position() put return position according to the direction
+		 * @param  {obj} slide The slide jQuery object
+		 * @return {obj}       Coordinates of the slide
+		 */
+		var getSlidePosition = function(slide){
+			var slidePosition = slide.position();
+			if(slider.settings.direction == 'right') {
+				var slideParent = slide.offsetParent();
+				slidePosition.right = slideParent.outerWidth() - (slidePosition.left + slide.outerWidth());
+				delete slidePosition.left;
+			}
+			return slidePosition;
+		};
+
+		/**
+		 * Return a CSS property value for a given element
+		 * @param  {obj} el           DOM element to inspect
+		 * @param  {string} styleProp CSS property to retireve
+		 * @return {string}           value of the property
+		 */
+		var getStyle = function(el, styleProp){
+			el = $(el).get(0) || document.body;
+			var value = '';
+			if (el.currentStyle)
+				value = el.currentStyle[styleProp];
+			else if (window.getComputedStyle)
+				value = document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
+			return value;
+		};
+
+		/**
 		 * Returns the calculated width to be applied to each slide
 		 */
 		var getSlideWidth = function(){
@@ -486,7 +521,7 @@
 		};
 
 		/**
-		 * Sets the slider's (el) left or top position
+		 * Sets the slider's (el) [settings.direction] or top position
 		 */
 		var setSlidePosition = function(){
 			// if last slide, not infinite loop, and number of children is larger than specified maxSlides
@@ -494,9 +529,9 @@
 				if (slider.settings.mode == 'horizontal'){
 					// get the last child's position
 					var lastChild = slider.children.last();
-					var position = lastChild.position();
-					// set the left position
-					setPositionProperty(-(position.left - (slider.viewport.width() - lastChild.outerWidth())), 'reset', 0);
+					var position = getSlidePosition(lastChild);
+					// set the [settings.direction] position
+					setPositionProperty(-(position[slider.settings.direction] - (slider.viewport.width() - lastChild.outerWidth())), 'reset', 0);
 				}else if(slider.settings.mode == 'vertical'){
 					// get the last showing index's position
 					var lastShowingIndex = slider.children.length - slider.settings.minSlides;
@@ -507,12 +542,12 @@
 			// if not last slide
 			}else{
 				// get the position of the first showing slide
-				var position = slider.children.eq(slider.active.index * getMoveBy()).position();
+				var position = getSlidePosition(slider.children.eq(slider.active.index * getMoveBy()));
 				// check for last slide
 				if (slider.active.index == getPagerQty() - 1) slider.active.last = true;
 				// set the repective position
 				if (position != undefined){
-					if (slider.settings.mode == 'horizontal') setPositionProperty(-position.left, 'reset', 0);
+					if (slider.settings.mode == 'horizontal') setPositionProperty(-position[slider.settings.direction], 'reset', 0);
 					else if (slider.settings.mode == 'vertical') setPositionProperty(-position.top, 'reset', 0);
 				}
 			}
@@ -520,7 +555,7 @@
 
 		/**
 		 * Sets the el's animating property position (which in turn will sometimes animate el).
-		 * If using CSS, sets the transform property. If not using CSS, sets the top / left property.
+		 * If using CSS, sets the transform property. If not using CSS, sets the [settings.direction] or top property.
 		 *
 		 * @param value (int)
 		 *  - the animating property's value
@@ -804,16 +839,16 @@
 				// first slide
 				if(slider.active.index == 0){
 					// set the new position
-					position = slider.children.eq(0).position();
+					position = getSlidePosition(slider.children.eq(0));
 				// carousel, last slide
 				}else if(slider.active.index == getPagerQty() - 1 && slider.carousel){
-					position = slider.children.eq((getPagerQty() - 1) * getMoveBy()).position();
+					position = getSlidePosition(slider.children.eq((getPagerQty() - 1) * getMoveBy()));
 				// last slide
 				}else if(slider.active.index == slider.children.length - 1){
-					position = slider.children.eq(slider.children.length - 1).position();
+					position = getSlidePosition(slider.children.eq(slider.children.length - 1));
 				}
 				if(position){
-					if (slider.settings.mode == 'horizontal') { setPositionProperty(-position.left, 'reset', 0); }
+					if (slider.settings.mode == 'horizontal') { setPositionProperty(-position[slider.settings.direction], 'reset', 0); }
 					else if (slider.settings.mode == 'vertical') { setPositionProperty(-position.top, 'reset', 0); }
 				}
 			}
@@ -906,11 +941,11 @@
 			// if autoDirection is "next", append a clone of the entire slider
 			if(slider.settings.autoDirection == 'next'){
 				el.append(slider.children.clone().addClass('bx-clone'));
-			// if autoDirection is "prev", prepend a clone of the entire slider, and set the left position
+			// if autoDirection is "prev", prepend a clone of the entire slider, and set the [settings.direction] position
 			}else{
 				el.prepend(slider.children.clone().addClass('bx-clone'));
-				var position = slider.children.first().position();
-				startPosition = slider.settings.mode == 'horizontal' ? -position.left : -position.top;
+				var position = getSlidePosition(slider.children.first());
+				startPosition = slider.settings.mode == 'horizontal' ? -position[slider.settings.direction] : -position.top;
 			}
 			setPositionProperty(startPosition, 'reset', 0);
 			// do not allow controls in ticker mode
@@ -931,7 +966,7 @@
 					// calculate the speed ratio (used to determine the new speed to finish the paused animation)
 					var ratio = slider.settings.speed / totalDimens;
 					// determine which property to use
-					var property = slider.settings.mode == 'horizontal' ? 'left' : 'top';
+					var property = slider.settings.mode == 'horizontal' ? slider.settings.direction : 'top';
 					// calculate the new speed
 					var newSpeed = ratio * (totalDimens - (Math.abs(parseInt(el.css(property)))));
 					tickerLoop(newSpeed);
@@ -946,17 +981,20 @@
 		 */
 		var tickerLoop = function(resumeSpeed){
 			speed = resumeSpeed ? resumeSpeed : slider.settings.speed;
-			var position = {left: 0, top: 0};
-			var reset = {left: 0, top: 0};
-			// if "next" animate left position to last child, then reset left to 0
+			var position = {top: 0};
+			position[slider.settings.direction] = 0;
+			var reset = {top: 0};
+			reset[slider.settings.direction] = 0;
+			// if "next" animate [settings.direction] position to last child, then reset [settings.direction] to 0
 			if(slider.settings.autoDirection == 'next'){
-				position = el.find('.bx-clone').first().position();
-			// if "prev" animate left position to 0, then reset left to first non-clone child
+				position = getSlidePosition(el.find('.bx-clone').first());
+			// if "prev" animate [settings.direction] position to 0, then reset [settings.direction] to first non-clone child
 			}else{
-				reset = slider.children.first().position();
+				reset = getSlidePosition(slider.children.first());
 			}
-			var animateProperty = slider.settings.mode == 'horizontal' ? -position.left : -position.top;
-			var resetValue = slider.settings.mode == 'horizontal' ? -reset.left : -reset.top;
+			var positionDirection = (slider.settings.direction == 'right') ? 1 : -1;
+			var animateProperty = slider.settings.mode == 'horizontal' ? position[slider.settings.direction] * positionDirection : -position.top;
+			var resetValue = slider.settings.mode == 'horizontal' ? -reset[slider.settings.direction] : -reset.top;
 			var params = {resetValue: resetValue};
 			setPositionProperty(animateProperty, 'ticker', speed, params);
 		};
@@ -984,7 +1022,7 @@
 				e.preventDefault();
 			}else{
 				// record the original position when touch starts
-				slider.touch.originalPos = el.position();
+				slider.touch.originalPos = getSlidePosition(el);
 				var orig = e.originalEvent;
 				// record the starting touch x, y coordinates
 				slider.touch.start.x = orig.changedTouches[0].pageX;
@@ -1019,7 +1057,7 @@
 				// if horizontal, drag along x axis
 				if(slider.settings.mode == 'horizontal'){
 					var change = orig.changedTouches[0].pageX - slider.touch.start.x;
-					value = slider.touch.originalPos.left + change;
+					value = slider.touch.originalPos[slider.settings.direction] + change;
 				// if vertical, drag along y axis
 				}else{
 					var change = orig.changedTouches[0].pageY - slider.touch.start.y;
@@ -1055,7 +1093,7 @@
 				// calculate distance and el's animate property
 				if(slider.settings.mode == 'horizontal'){
 					distance = slider.touch.end.x - slider.touch.start.x;
-					value = slider.touch.originalPos.left;
+					value = slider.touch.originalPos[slider.settings.direction];
 				}else{
 					distance = slider.touch.end.y - slider.touch.start.y;
 					value = slider.touch.originalPos.top;
@@ -1165,13 +1203,14 @@
 					slider.viewport.animate({height: getViewportHeight()}, slider.settings.adaptiveHeightSpeed);
 				}
 				var moveBy = 0;
-				var position = {left: 0, top: 0};
+				var position = {top: 0};
+				position[slider.settings.direction] = 0;
 				// if carousel and not infinite loop
 				if(!slider.settings.infiniteLoop && slider.carousel && slider.active.last){
 					if(slider.settings.mode == 'horizontal'){
 						// get the last child position
 						var lastChild = slider.children.eq(slider.children.length - 1);
-						position = lastChild.position();
+						position = getSlidePosition(lastChild);
 						// calculate the position of the last slide
 						moveBy = slider.viewport.width() - lastChild.outerWidth();
 					}else{
@@ -1184,16 +1223,16 @@
 					// get the last child position
 					var eq = slider.settings.moveSlides == 1 ? slider.settings.maxSlides - getMoveBy() : ((getPagerQty() - 1) * getMoveBy()) - (slider.children.length - slider.settings.maxSlides);
 					var lastChild = el.children('.bx-clone').eq(eq);
-					position = lastChild.position();
+					position = getSlidePosition(lastChild);
 				// if infinite loop and "Next" is clicked on the last slide
 				}else if(direction == 'next' && slider.active.index == 0){
 					// get the last clone position
-					position = el.find('> .bx-clone').eq(slider.settings.maxSlides).position();
+					position = getSlidePosition(el.find('> .bx-clone').eq(slider.settings.maxSlides));
 					slider.active.last = false;
 				// normal non-zero requests
 				}else if(slideIndex >= 0){
 					var requestEl = slideIndex * getMoveBy();
-					position = slider.children.eq(requestEl).position();
+					position = getSlidePosition(slider.children.eq(requestEl));
 				}
 
 				/* If the position doesn't exist
@@ -1201,7 +1240,8 @@
 				 * it doesn't throw an error.
 				 */
 				if ("undefined" !== typeof(position)) {
-					var value = slider.settings.mode == 'horizontal' ? -(position.left - moveBy) : -position.top;
+					var positionDirection = (slider.settings.direction == 'right') ? 1 : -1;
+					var value = slider.settings.mode == 'horizontal' ? (position[slider.settings.direction] - moveBy) * positionDirection : -position.top;
 					// plugin values to be animated
 					setPositionProperty(value, 'slide', slider.settings.speed);
 				}
