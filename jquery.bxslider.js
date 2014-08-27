@@ -493,7 +493,7 @@
 				}else{
 					// use a while loop to determine pages
 					var breakPoint = 0;
-					var counter = 0
+					var counter = 0;
 					// when breakpoint goes above children length, counter is the number of pages
 					while (breakPoint < slider.children.length){
 						++pagerQty;
