@@ -290,6 +290,10 @@
 			});
 		};
 
+		var positionDirection = function(){
+			return (slider.settings.direction == 'right') ? 1 : -1;
+		};
+
 		/**
 		 * Start the slider
 		 */
@@ -547,7 +551,7 @@
 				if (slider.active.index == getPagerQty() - 1) slider.active.last = true;
 				// set the repective position
 				if (position != undefined){
-					if (slider.settings.mode == 'horizontal') setPositionProperty(-position[slider.settings.direction], 'reset', 0);
+					if (slider.settings.mode == 'horizontal') setPositionProperty(position[slider.settings.direction] * positionDirection(), 'reset', 0);
 					else if (slider.settings.mode == 'vertical') setPositionProperty(-position.top, 'reset', 0);
 				}
 			}
@@ -666,7 +670,7 @@
 				slider.pagerEl = $(slider.settings.pagerCustom);
 			}
 			// assign the pager click binding
-			slider.pagerEl.on('click', 'a', clickPagerBind);
+			slider.pagerEl.bind('click', clickPagerBind);
 		};
 
 		/**
@@ -706,8 +710,8 @@
 			// add the controls to the DOM
 			slider.controls.autoEl = $('<div class="bx-controls-auto" />');
 			// bind click actions to the controls
-			slider.controls.autoEl.on('click', '.bx-start', clickStartBind);
-			slider.controls.autoEl.on('click', '.bx-stop', clickStopBind);
+			slider.controls.autoEl.find('.bx-start').bind('click', clickStartBind);
+			slider.controls.autoEl.find('.bx-stop').bind('click', clickStopBind);
 			// if autoControlsCombine, insert only the "start" control
 			if(slider.settings.autoControlsCombine){
 				slider.controls.autoEl.append(slider.controls.start);
@@ -796,14 +800,15 @@
 		 *  - DOM event object
 		 */
 		var clickPagerBind = function(e){
+			var pagerLink = $(e.target);
+			if(!pagerLink.is('a')) return false;
+			e.preventDefault();
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
-			var pagerLink = $(e.currentTarget);
-			if(pagerLink.attr('data-slide-index') !== undefined){
-				var pagerIndex = parseInt(pagerLink.attr('data-slide-index'));
+			if(typeof pagerLink.attr('data-slide-index') != 'undefined'){
+				var pagerIndex = parseInt(pagerLink.attr('data-slide-index'), 10);
 				// if clicked pager link is not active, continue with the goToSlide call
 				if(pagerIndex != slider.active.index) el.goToSlide(pagerIndex);
-				e.preventDefault();
 			}
 		};
 
@@ -848,7 +853,7 @@
 					position = getSlidePosition(slider.children.eq(slider.children.length - 1));
 				}
 				if(position){
-					if (slider.settings.mode == 'horizontal') { setPositionProperty(-position[slider.settings.direction], 'reset', 0); }
+					if (slider.settings.mode == 'horizontal') { setPositionProperty(position[slider.settings.direction] * positionDirection(), 'reset', 0); }
 					else if (slider.settings.mode == 'vertical') { setPositionProperty(-position.top, 'reset', 0); }
 				}
 			}
@@ -945,7 +950,7 @@
 			}else{
 				el.prepend(slider.children.clone().addClass('bx-clone'));
 				var position = getSlidePosition(slider.children.first());
-				startPosition = slider.settings.mode == 'horizontal' ? -position[slider.settings.direction] : -position.top;
+				startPosition = slider.settings.mode == 'horizontal' ? position[slider.settings.direction] * positionDirection() : -position.top;
 			}
 			setPositionProperty(startPosition, 'reset', 0);
 			// do not allow controls in ticker mode
@@ -992,8 +997,7 @@
 			}else{
 				reset = getSlidePosition(slider.children.first());
 			}
-			var positionDirection = (slider.settings.direction == 'right') ? 1 : -1;
-			var animateProperty = slider.settings.mode == 'horizontal' ? position[slider.settings.direction] * positionDirection : -position.top;
+			var animateProperty = slider.settings.mode == 'horizontal' ? position[slider.settings.direction] * positionDirection() : -position.top;
 			var resetValue = slider.settings.mode == 'horizontal' ? -reset[slider.settings.direction] : -reset.top;
 			var params = {resetValue: resetValue};
 			setPositionProperty(animateProperty, 'ticker', speed, params);
@@ -1240,8 +1244,7 @@
 				 * it doesn't throw an error.
 				 */
 				if ("undefined" !== typeof(position)) {
-					var positionDirection = (slider.settings.direction == 'right') ? 1 : -1;
-					var value = slider.settings.mode == 'horizontal' ? (position[slider.settings.direction] - moveBy) * positionDirection : -position.top;
+					var value = slider.settings.mode == 'horizontal' ? (position[slider.settings.direction] - moveBy) * positionDirection() : -position.top;
 					// plugin values to be animated
 					setPositionProperty(value, 'slide', slider.settings.speed);
 				}
