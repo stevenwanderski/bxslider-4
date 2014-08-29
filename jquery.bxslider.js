@@ -226,7 +226,7 @@
 			}
 			// apply css to all slider children
 			slider.children.css({
-				'display': slider.settings.mode == 'horizontal' ? 'inline-block' : 'block',
+				'float': slider.settings.mode == 'horizontal' ? slider.settings.direction : 'none',
 				listStyle: 'none',
 				position: 'relative'
 			});
