@@ -35,6 +35,7 @@
 }
 
 .bx-wrapper img {
+	margin: 0 auto;  /*Centers images that are smaller than the width of the carousel*/
 	max-width: 100%;
 	display: block;
 }
@@ -62,21 +63,10 @@
   the slider*/
 .bx-wrapper .bxslider{
 	margin: 0;
-	-webkit-align-items: center;
+	-webkit-align-items: center;  /*Vertically centers images that are smaller than the height of the carousel*/
 	        align-items: center;
 	display: -webkit-flex;
 	display:         flex;
-	-webkit-justify-content: center;
-	        justify-content: center;
-}
-
-/*center images horizontally if they are smaller than the width of
-	the slider*/
-.bxslider li{
-	display: -webkit-flex;
-	display:         flex;
-	-webkit-justify-content: center;
-	        justify-content: center;
 }
 
 .bx-wrapper .bx-pager,
