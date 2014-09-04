@@ -8,6 +8,7 @@
  * Released under the MIT license - http://opensource.org/licenses/MIT
  */
 
+
 ;(function($){
 
 	var plugin = {};
@@ -77,11 +78,11 @@
 		slideWidth: 0,
 
 		// CALLBACKS
-		onSliderLoad: function() {},
-		onSlideBefore: function() {},
-		onSlideAfter: function() {},
-		onSlideNext: function() {},
-		onSlidePrev: function() {}
+		onSliderLoad: function() { return true; },
+		onSlideBefore: function() { return true; }, // By default do not cancel by returning true.
+		onSlideAfter: function() { return true; },
+		onSlideNext: function() { return true; },
+		onSlidePrev: function() { return true; }
 	}
 
 	$.fn.bxSlider = function(options){
@@ -1117,9 +1118,14 @@
 			// onSlideBefore, onSlideNext, onSlidePrev callbacks
 			cancelTransition = slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			if(direction == 'next'){
-				cancelTransition = slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
-			}else if(direction == 'prev'){
-				cancelTransition = slider.settings.onSlidePrev(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+				// Prevent canceling in future functions or lack there-of from negating previous commands to cancel
+				if (!slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index)) {
+					cancelTransition = false;
+				}
+			}else if(direction == 'prev') {
+				if (!slider.settings.onSlidePrev(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index)) {
+					cancelTransition = false;
+				}
 			}
 
 			// check whether the transition must be cancelled
