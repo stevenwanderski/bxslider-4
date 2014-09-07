@@ -276,7 +276,7 @@
 			}
 			var count = 0;
 			selector.find('img, iframe').each(function(){
-                // fix IE9 image onload bug
+				// fix IE9 image onload bug
 				if($(this).is('img')) $(this).attr('src', $(this).attr('src'));
 				$(this).one('load', function() {
 				  if(++count == total) callback();
