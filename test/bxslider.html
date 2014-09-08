@@ -34,18 +34,26 @@
 			$(window).on('load', function() {
 				var slider = $('.bxslider').bxSlider();
 			});
+
+			$(document).ready(function() {
+				$('.bxslider li a').on('click', function(e) {
+					e.preventDefault();
+					console.log('click on link');
+				});
+			});
+
 		</script>
     </head>
     <body>
 		<div class="wrapper">
 			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, cum, praesentium, nisi veritatis amet facere quaerat ad illum animi sed itaque eveniet similique eaque voluptatum quod incidunt vitae totam dignissimos. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, cum, praesentium, nisi veritatis amet facere quaerat ad illum animi sed itaque eveniet similique eaque voluptatum quod incidunt vitae totam dignissimos.</p>
 			<ul class="bxslider">
-				<li><img src="images/1.jpg" alt="" /></li>
-				<li><img src="images/2.jpg" alt="" /></li>
-				<li><img src="images/3.jpg" alt="" /></li>
-				<li><img src="images/4.jpg" alt="" /></li>
-				<li><img src="images/5.jpg" alt="" /></li>
-				<li><img src="images/6.jpg" alt="" /></li>
+				<li><a href="http://www.google.com/"><img src="images/1.jpg" alt="" /></a></li>
+				<li><a href="http://www.google.com/"><img src="images/2.jpg" alt="" /></a></li>
+				<li><a href="http://www.google.com/"><img src="images/3.jpg" alt="" /></a></li>
+				<li><a href="http://www.google.com/"><img src="images/4.jpg" alt="" /></a></li>
+				<li><a href="http://www.google.com/"><img src="images/5.jpg" alt="" /></a></li>
+				<li><a href="http://www.google.com/"><img src="images/6.jpg" alt="" /></a></li>
 			</ul>
 			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, cum, praesentium, nisi veritatis amet facere quaerat ad illum animi sed itaque eveniet similique eaque voluptatum quod incidunt vitae totam dignissimos. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, cum, praesentium, nisi veritatis amet facere quaerat ad illum animi sed itaque eveniet similique eaque voluptatum quod incidunt vitae totam dignissimos.</p>
 		</div>
