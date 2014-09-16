@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>-ms-touch-action</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<style>
+	.test {
+		display: block;
+		text-align: center;
+		font-size: 20px;
+		padding: 50px;
+		background: yellow;
+
+		-ms-touch-action: none;
+		touch-action: none;
+	}
+
+	@media screen and (min-width: 600px) {
+		body {
+			width: 320px;
+		}
+	}
+</style>
+
+<script>
+	$(document).ready(function() {
+		$('.test').on('touchmove', function(e) {
+			e.preventDefault();
+		});
+
+		//trying to cancel all pointer events to avoid click firing in IE during swipe, but it's not working!
+		$('.test').on('pointerdown pointerup pointermove pointercancel pointerover pointerout pointerenter pointerleave', function(e) {
+			e.preventDefault();
+			console.log(e.type);
+		});
+
+		$('.test').on('click', function(e) {
+			e.preventDefault();
+			console.log(e.type);
+			alert('Link clicked!');
+		});
+	});
+</script>
+</head>
+
+<body>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, cum, praesentium, nisi veritatis amet facere quaerat ad illum animi sed itaque eveniet similique eaque voluptatum quod incidunt vitae totam dignissimos. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, cum, praesentium, nisi veritatis amet facere quaerat ad illum animi sed itaque eveniet similique eaque voluptatum quod incidunt vitae totam dignissimos.</p>
+
+	<a class="test" href="http://www.google.com/">This is a link with -ms-touch-action: none. Moving your finger over it should not trigger a click, but it does in IE10!</a>
+
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, cum, praesentium, nisi veritatis amet facere quaerat ad illum animi sed itaque eveniet similique eaque voluptatum quod incidunt vitae totam dignissimos. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, cum, praesentium, nisi veritatis amet facere quaerat ad illum animi sed itaque eveniet similique eaque voluptatum quod incidunt vitae totam dignissimos.</p>
+
+</body>
+</html>

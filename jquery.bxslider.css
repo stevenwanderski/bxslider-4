@@ -15,6 +15,7 @@
 /* to allow vertical scrolling of page on windows phones */
 .bx-wrapper {
 	-ms-touch-action: pan-y;
+	touch-action: pan-y;
 }
 
 /* fix for windows phone bug that clicking bottom part of space between pager items selects last pager item */
