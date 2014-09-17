@@ -987,6 +987,15 @@
 				end: {x: 0, y: 0}
 			}
 			slider.viewport.bind('touchstart MSPointerDown pointerdown', onTouchStart);
+
+			//for browsers that have implemented pointer events and fire a click after
+			//every pointerup regardless of whether pointerup is on same screen location as pointerdown or not
+			slider.viewport.on('click', '.bxslider a', function(e) {
+				if (slider.viewport.hasClass('click-disabled')) {
+					e.preventDefault();
+					slider.viewport.removeClass('click-disabled');
+				}
+			});
 		}
 
 		/**
@@ -998,6 +1007,7 @@
 		var onTouchStart = function(e){
 			//disable slider controls while user is interacting with slides to avoid slider freeze that happens on touch devices when a slide swipe happens immediately after interacting with slider controls
 			slider.controls.el.addClass('disabled');
+
 			if(slider.working){
 				e.preventDefault();
 				slider.controls.el.removeClass('disabled');
@@ -1055,6 +1065,13 @@
 			// x axis swipe
 			if((xMovement * 3) > yMovement && slider.settings.preventDefaultSwipeX){
 				e.preventDefault();
+
+				//IE11/win8.1 touch and IE/windows phone (unlike any other browser) will
+				//fire a click event after touchend even if touchmove has fired so we need
+				//a way to disable that click
+				if (e.type === 'pointermove' || e.type === 'MSPointerMove') {
+					slider.viewport.addClass('click-disabled');
+				}
 			// y axis swipe
 			}else if((yMovement * 3) > xMovement && slider.settings.preventDefaultSwipeY){
 				e.preventDefault();
@@ -1082,6 +1099,7 @@
 		 */
 		var onTouchEnd = function(e){
 			console.log('end');
+
 			//enable slider controls as soon as user stops interacing with slides
 			slider.controls.el.removeClass('disabled');
 			slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
