@@ -1,8 +1,4 @@
 /**
- This is a modified version of bxslider from bxslider fork at: https://github.com/smohadjer/bxslider-4
-*/
-
-/**
  * BxSlider v4.1.2 - Fully loaded, responsive content slider
  * http://bxslider.com
  *
@@ -544,18 +540,14 @@
 				// add the CSS transition-duration
 				el.css('-' + slider.cssPrefix + '-transition-duration', duration / 1000 + 's');
 				if(type == 'slide'){
-					//use setTimeout to make sure transitionend fires in iOS Safari
-					setTimeout(function() {
-						// set the property value
-						el.css(slider.animProp, propValue);
-
-						// bind a callback method - executes when CSS transition completes
-						el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
-							// unbind the callback
-							el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
-							updateAfterSlideTransition();
-						});
-					}, 0);
+					// set the property value
+					el.css(slider.animProp, propValue);
+					// bind a callback method - executes when CSS transition completes
+					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
+						// unbind the callback
+						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+						updateAfterSlideTransition();
+					});
 				}else if(type == 'reset'){
 					el.css(slider.animProp, propValue);
 				}else if(type == 'ticker'){
@@ -637,7 +629,7 @@
 				slider.pagerEl = $(slider.settings.pagerCustom);
 			}
 			// assign the pager click binding
-			slider.pagerEl.on('click touchend', 'a', clickPagerBind);
+			slider.pagerEl.on('click', 'a', clickPagerBind);
 		}
 
 		/**
@@ -647,8 +639,8 @@
 			slider.controls.next = $('<a class="bx-next" href="">' + slider.settings.nextText + '</a>');
 			slider.controls.prev = $('<a class="bx-prev" href="">' + slider.settings.prevText + '</a>');
 			// bind click actions to the controls
-			slider.controls.next.bind('click touchend', clickNextBind);
-			slider.controls.prev.bind('click touchend', clickPrevBind);
+			slider.controls.next.bind('click', clickNextBind);
+			slider.controls.prev.bind('click', clickPrevBind);
 			// if nextSlector was supplied, populate it
 			if(slider.settings.nextSelector){
 				$(slider.settings.nextSelector).append(slider.controls.next);
@@ -719,14 +711,10 @@
 		 *  - DOM event object
 		 */
 		var clickNextBind = function(e){
-			console.log('next');
-			e.preventDefault();
-			if (slider.controls.el.hasClass('disabled')) {
-				return;
-			}
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			el.goToNextSlide();
+			e.preventDefault();
 		}
 
 		/**
@@ -736,13 +724,10 @@
 		 *  - DOM event object
 		 */
 		var clickPrevBind = function(e){
-			e.preventDefault();
-			if (slider.controls.el.hasClass('disabled')) {
-				return;
-			}
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			el.goToPrevSlide();
+			e.preventDefault();
 		}
 
 		/**
@@ -774,10 +759,6 @@
 		 *  - DOM event object
 		 */
 		var clickPagerBind = function(e){
-			e.preventDefault();
-			if (slider.controls.el.hasClass('disabled')) {
-				return;
-			}
 			// if auto show is running, stop it
 			if (slider.settings.auto) el.stopAuto();
 			var pagerLink = $(e.currentTarget);
@@ -785,6 +766,7 @@
 				var pagerIndex = parseInt(pagerLink.attr('data-slide-index'));
 				// if clicked pager link is not active, continue with the goToSlide call
 				if(pagerIndex != slider.active.index) el.goToSlide(pagerIndex);
+				e.preventDefault();
 			}
 		}
 
@@ -986,16 +968,7 @@
 				start: {x: 0, y: 0},
 				end: {x: 0, y: 0}
 			}
-			slider.viewport.bind('touchstart MSPointerDown pointerdown', onTouchStart);
-
-			//for browsers that have implemented pointer events and fire a click after
-			//every pointerup regardless of whether pointerup is on same screen location as pointerdown or not
-			slider.viewport.on('click', '.bxslider a', function(e) {
-				if (slider.viewport.hasClass('click-disabled')) {
-					e.preventDefault();
-					slider.viewport.removeClass('click-disabled');
-				}
-			});
+			slider.viewport.bind('touchstart', onTouchStart);
 		}
 
 		/**
@@ -1005,48 +978,19 @@
 		 *  - DOM event object
 		 */
 		var onTouchStart = function(e){
-			//disable slider controls while user is interacting with slides to avoid slider freeze that happens on touch devices when a slide swipe happens immediately after interacting with slider controls
-			slider.controls.el.addClass('disabled');
-
 			if(slider.working){
 				e.preventDefault();
-				slider.controls.el.removeClass('disabled');
 			}else{
 				// record the original position when touch starts
 				slider.touch.originalPos = el.position();
 				var orig = e.originalEvent;
-				var touchPoints = (typeof orig.changedTouches != 'undefined') ? orig.changedTouches : [orig];
 				// record the starting touch x, y coordinates
-				slider.touch.start.x = touchPoints[0].pageX;
-				slider.touch.start.y = touchPoints[0].pageY;
-
-				if (slider.viewport.get(0).setPointerCapture) {
-					slider.pointerId = orig.pointerId;
-					slider.viewport.get(0).setPointerCapture(slider.pointerId);
-				}
-
+				slider.touch.start.x = orig.changedTouches[0].pageX;
+				slider.touch.start.y = orig.changedTouches[0].pageY;
 				// bind a "touchmove" event to the viewport
-				slider.viewport.bind('touchmove MSPointerMove pointermove', onTouchMove);
+				slider.viewport.bind('touchmove', onTouchMove);
 				// bind a "touchend" event to the viewport
-				slider.viewport.bind('touchend MSPointerUp pointerup', onTouchEnd);
-
-				// bind a "pointercancel" event to the viewport for windows phone devices
-				slider.viewport.bind('MSPointerCancel pointercancel', onPointerCancel);
-			}
-		}
-
-		/* onPointerCancel handler is needed to deal with situations when a touchend
-		doesn't fire after a touchstart (this happens on windows phones only) */
-		var onPointerCancel = function(e) {
-			setPositionProperty(slider.touch.originalPos.left, 'reset', 0);
-
-			//remove handlers
-			slider.controls.el.removeClass('disabled');
-			slider.viewport.unbind('MSPointerCancel pointercancel', onPointerCancel);
-			slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
-			slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
-			if (slider.viewport.get(0).releasePointerCapture) {
-				slider.viewport.get(0).releasePointerCapture(slider.pointerId);
+				slider.viewport.bind('touchend', onTouchEnd);
 			}
 		}
 
@@ -1058,20 +1002,12 @@
 		 */
 		var onTouchMove = function(e){
 			var orig = e.originalEvent;
-			var touchPoints = (typeof orig.changedTouches != 'undefined') ? orig.changedTouches : [orig];
 			// if scrolling on y axis, do not prevent default
-			var xMovement = Math.abs(touchPoints[0].pageX - slider.touch.start.x);
-			var yMovement = Math.abs(touchPoints[0].pageY - slider.touch.start.y);
+			var xMovement = Math.abs(orig.changedTouches[0].pageX - slider.touch.start.x);
+			var yMovement = Math.abs(orig.changedTouches[0].pageY - slider.touch.start.y);
 			// x axis swipe
 			if((xMovement * 3) > yMovement && slider.settings.preventDefaultSwipeX){
 				e.preventDefault();
-
-				//IE11/win8.1 touch and IE/windows phone (unlike any other browser) will
-				//fire a click event after touchend even if touchmove has fired so we need
-				//a way to disable that click
-				if (e.type === 'pointermove' || e.type === 'MSPointerMove') {
-					slider.viewport.addClass('click-disabled');
-				}
 			// y axis swipe
 			}else if((yMovement * 3) > xMovement && slider.settings.preventDefaultSwipeY){
 				e.preventDefault();
@@ -1080,11 +1016,11 @@
 				var value = 0;
 				// if horizontal, drag along x axis
 				if(slider.settings.mode == 'horizontal'){
-					var change = touchPoints[0].pageX - slider.touch.start.x;
+					var change = orig.changedTouches[0].pageX - slider.touch.start.x;
 					value = slider.touch.originalPos.left + change;
 				// if vertical, drag along y axis
 				}else{
-					var change = touchPoints[0].pageY - slider.touch.start.y;
+					var change = orig.changedTouches[0].pageY - slider.touch.start.y;
 					value = slider.touch.originalPos.top + change;
 				}
 				setPositionProperty(value, 'reset', 0);
@@ -1098,17 +1034,12 @@
 		 *  - DOM event object
 		 */
 		var onTouchEnd = function(e){
-			console.log('end');
-
-			//enable slider controls as soon as user stops interacing with slides
-			slider.controls.el.removeClass('disabled');
-			slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
+			slider.viewport.unbind('touchmove', onTouchMove);
 			var orig = e.originalEvent;
-			var touchPoints = (typeof orig.changedTouches != 'undefined') ? orig.changedTouches : [orig];
 			var value = 0;
 			// record end x, y positions
-			slider.touch.end.x = touchPoints[0].pageX;
-			slider.touch.end.y = touchPoints[0].pageY;
+			slider.touch.end.x = orig.changedTouches[0].pageX;
+			slider.touch.end.y = orig.changedTouches[0].pageY;
 			// if fade mode, check if absolute x distance clears the threshold
 			if(slider.settings.mode == 'fade'){
 				var distance = Math.abs(slider.touch.start.x - slider.touch.end.x);
@@ -1141,11 +1072,7 @@
 					}
 				}
 			}
-			slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
-			slider.viewport.unbind('MSPointerCancel pointercancel', onPointerCancel);
-			if (slider.viewport.get(0).releasePointerCapture) {
-				slider.viewport.get(0).releasePointerCapture(slider.pointerId);
-			}
+			slider.viewport.unbind('touchend', onTouchEnd);
 		}
 
 		/**
