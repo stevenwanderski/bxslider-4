@@ -1110,7 +1110,10 @@
 				slider.active.index = slideIndex;
 			}
 			// onSlideBefore, onSlideNext, onSlidePrev callbacks
-			slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+			var returned = slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+			if (returned == false) {
+				return;
+			}
 			if(direction == 'next'){
 				slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 			}else if(direction == 'prev'){
