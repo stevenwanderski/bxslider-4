@@ -136,7 +136,8 @@
 			// store active slide information
 			slider.active = { index: slider.settings.startSlide }
 			// store if the slider is in carousel mode (displaying / moving multiple slides)
-			slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1;
+			// last condition is for sliders with only 1 slide.
+			slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1 || (slider.settings.maxSlides <= 1 && slider.settings.minSlides <= 1);
 			// if carousel, force preloadImages = 'all'
 			if(slider.carousel) slider.settings.preloadImages = 'all';
 			// calculate the min / max width thresholds based on min / max number of slides
@@ -192,7 +193,7 @@
 			// set el to a massive width, to hold any needed slides
 			// also strip any margin and padding from el
 			el.css({
-				width: slider.settings.mode == 'horizontal' ? (slider.children.length * 100 + 215) + '%' : 'auto',
+				width: slider.settings.mode == 'horizontal' ? (slider.children.length * 1000 + 215) + '%' : 'auto',
 				position: 'relative'
 			});
 			// if using CSS, add the easing property
@@ -290,10 +291,22 @@
 		var start = function(){
 			// if infinite loop, prepare additional slides
 			if(slider.settings.infiniteLoop && slider.settings.mode != 'fade' && !slider.settings.ticker){
+				var childrenCount = slider.children.length;
+				var slideOuterWidth = el.children('li').first().outerWidth(true);
+				var sliderWidth = el.closest('.bx-viewport').width();
+				var cloneSetsCount = Math.ceil(sliderWidth / (slideOuterWidth * childrenCount));
 				var slice = slider.settings.mode == 'vertical' ? slider.settings.minSlides : slider.settings.maxSlides;
-				var sliceAppend = slider.children.slice(0, slice).clone().addClass('bx-clone');
-				var slicePrepend = slider.children.slice(-slice).clone().addClass('bx-clone');
+				var sliceAppendOrig = slider.children.slice(0, slice);
+				var slicePrependOrig = slider.children.slice(-slice);
+				// make the default clones
+				sliceAppend = sliceAppendOrig.clone().addClass('bx-clone');
+				slicePrepend = slicePrependOrig.clone().addClass('bx-clone');
 				el.append(sliceAppend).prepend(slicePrepend);
+				// if extra clones are needed, append them. the slider auto adjusts so no need for prepend
+				for (var i = cloneSetsCount - 2; i >= 0; i--) {
+					sliceAppend = sliceAppendOrig.clone().addClass('bx-clone');
+					el.append(sliceAppend).prepend(slicePrepend);
+				};
 			}
 			// remove the loading DOM element
 			slider.loader.remove();
