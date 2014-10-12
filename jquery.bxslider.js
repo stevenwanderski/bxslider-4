@@ -180,8 +180,8 @@
 			
 			// Validate zoom options
 			slider.settings.fadeType = (slider.settings.fadeType == 'zoom') ? slider.settings.fadeType : 'normal';
-			slider.settings.zoomDuration = parseInt(slider.settings.zoomDuration);
-			slider.settings.zoomToSize = isNaN(parseFloat(slider.settings.zoomToSize))? 2 : parseFloat(slider.settings.zoomToSize);
+			slider.settings.zoomDuration = isNaN(parseInt(slider.settings.zoomDuration)) ? 1 : parseInt(slider.settings.zoomDuration);
+			slider.settings.zoomToSize = isNaN(parseFloat(slider.settings.zoomToSize)) ? 2 : parseFloat(slider.settings.zoomToSize);
 			if(!(slider.settings.zoomToSize > 1 && slider.settings.zoomToSize <= 2)) {
 				// Set default scale size if setting is not within expected range
 				slider.settings.zoomToSize = 2;
