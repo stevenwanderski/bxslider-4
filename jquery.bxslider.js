@@ -1182,9 +1182,7 @@
 						cssProp['-' + slider.cssPrefix + '-transform'] = cssProp['transform'];
 					}
 					cssProp['transition'] = 'transform ' + slider.settings.zoomDuration + 's ease-in-out';
-					slider.children.each(function(){
-						slider.children.filter(':visible').fadeOut(slider.settings.speed).css(cssProp);
-					});
+					slider.children.filter(':visible').fadeOut(slider.settings.speed).css(cssProp);
 				} else {
 					slider.children.filter(':visible').fadeOut(slider.settings.speed).css({zIndex: 0});
 				}
