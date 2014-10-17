@@ -643,11 +643,19 @@
 			slider.controls.prev.bind('click', clickPrevBind);
 			// if nextSlector was supplied, populate it
 			if(slider.settings.nextSelector){
-				$(slider.settings.nextSelector).append(slider.controls.next);
+				if(slider.settings.nextSelector instanceof jQuery){
+					slider.settings.nextSelector.append(slider.controls.next);
+				}else{
+					$(slider.settings.nextSelector).append(slider.controls.next);
+				}
 			}
 			// if prevSlector was supplied, populate it
 			if(slider.settings.prevSelector){
-				$(slider.settings.prevSelector).append(slider.controls.prev);
+				if(slider.settings.prevSelector instanceof jQuery){
+					slider.settings.prevSelector.append(slider.controls.prev);
+				}else{
+					$(slider.settings.prevSelector).append(slider.controls.prev);
+				}
 			}
 			// if no custom selectors were supplied
 			if(!slider.settings.nextSelector && !slider.settings.prevSelector){

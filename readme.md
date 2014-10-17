@@ -302,14 +302,14 @@ options: string
 Element used to populate the "Next" control
 ```
 default: null
-options: jQuery selector
+options: jQuery selector or jQuery object
 ```
 
 **prevSelector**
 Element used to populate the "Prev" control
 ```
 default: null
-options: jQuery selector
+options: jQuery selector or jQuery object
 ```
 
 **autoControls**
