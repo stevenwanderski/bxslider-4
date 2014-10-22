@@ -71,6 +71,7 @@
 		autoHover: false,
 		autoDelay: 0,
 		autoSlideForOnePage: false,
+		autoStopWhenControlled: true,
 
 		// CAROUSEL
 		minSlides: 1,
@@ -711,8 +712,8 @@
 		 *  - DOM event object
 		 */
 		var clickNextBind = function(e){
-			// if auto show is running, stop it
-			if (slider.settings.auto) el.stopAuto();
+			// if auto show is running, stop it when autoStopWhenController is set to true
+			if (slider.settings.auto && slider.settings.autoStopWhenControlled) el.stopAuto();
 			el.goToNextSlide();
 			e.preventDefault();
 		}
@@ -724,8 +725,8 @@
 		 *  - DOM event object
 		 */
 		var clickPrevBind = function(e){
-			// if auto show is running, stop it
-			if (slider.settings.auto) el.stopAuto();
+			// if auto show is running, stop it when autoStopWhenController is set to true
+			if (slider.settings.auto && slider.settings.autoStopWhenControlled) el.stopAuto();
 			el.goToPrevSlide();
 			e.preventDefault();
 		}
@@ -759,8 +760,8 @@
 		 *  - DOM event object
 		 */
 		var clickPagerBind = function(e){
-			// if auto show is running, stop it
-			if (slider.settings.auto) el.stopAuto();
+			// if auto show is running, stop it when autoStopWhenController is set to true
+			if (slider.settings.auto && slider.settings.autoStopWhenControlled) el.stopAuto();
 			var pagerLink = $(e.currentTarget);
 			if(pagerLink.attr('data-slide-index') !== undefined){
 				var pagerIndex = parseInt(pagerLink.attr('data-slide-index'));
