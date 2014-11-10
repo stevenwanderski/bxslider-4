@@ -296,7 +296,7 @@
 				el.append(sliceAppend).prepend(slicePrepend);
 			}
 			// remove the loading DOM element
-			slider.loader.remove();
+			$('.bx-loading').remove();
 			// set the left / top position of "el"
 			setSlidePosition();
 			// if "vertical" mode, always use adaptiveHeight to prevent odd behavior
