@@ -786,10 +786,12 @@
 				slider.pagerEl.html( (slideIndex + 1) + slider.settings.pagerShortSeparator + len);
 				return;
 			}
-			// remove all pager active classes
-			slider.pagerEl.find('a').removeClass('active');
-			// apply the active class for all pagers
-			slider.pagerEl.each(function(i, el) { $(el).find('a').eq(slideIndex).addClass('active'); });
+			setTimeout(function(){
+				// remove all pager active classes
+				slider.pagerEl.find('a').removeClass('active');
+				// apply the active class for all pagers
+				slider.pagerEl.each(function(i, el) { $(el).find('a').eq(slideIndex).addClass('active'); });
+			},slider.settings.speed/2);
 		}
 
 		/**
