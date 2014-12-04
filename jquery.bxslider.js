@@ -1323,6 +1323,9 @@
 			if(slider.controls.autoEl) slider.controls.autoEl.remove();
 			clearInterval(slider.interval);
 			if(slider.settings.responsive) $(window).unbind('resize', resizeWindow);
+
+			//remove self reference in data
+			$(this).removeData('bxslider');
 		}
 
 		/**
@@ -1335,6 +1338,9 @@
 		}
 
 		init();
+
+		//store reference to self in order to access public functions later;		
+		$(this).data('bxslider', this);
 
 		// returns the current jQuery object
 		return this;

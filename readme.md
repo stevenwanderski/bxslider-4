@@ -58,6 +58,18 @@ $(document).ready(function(){
   $('.bxslider').bxSlider();
 });
 ```
+## data attribute usage
+
+To call public methods like reloadSlider() etc; now you need not to store reference into a variable. You can easily 
+obtain reference as follows:
+
+```javascript
+$(document).ready(function(){
+  $('#bxslider').bxSlider();
+  $('#bxslider').data('bxslider').reloadSlider();
+});
+```
+
 
 ##Configuration options
 
