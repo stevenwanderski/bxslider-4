@@ -1335,6 +1335,9 @@
 			if (settings != undefined) options = settings;
 			el.destroySlider();
 			init();
+			//store reference to self in order to access public functions later;		
+			$(el).data('bxslider', this);
+
 		}
 
 		init();
