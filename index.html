@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="jquery.bxslider.css" />
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="jquery.bxslider.min.js"></script>
+</head>
+<body>
+	<ul class="bxslider">
+		<li><img src="http://placehold.it/200x200" alt=""></li>
+		<li><img src="http://placehold.it/200x200" alt=""></li>
+		<li><img src="http://placehold.it/200x200" alt=""></li>
+		<li><img src="http://placehold.it/200x200" alt=""></li>
+	</ul>
+
+	<br><br><br>
+
+	<ul class="bxslider1">
+		<li><img src="http://placehold.it/200x200/f00" alt=""></li>
+		<li><img src="http://placehold.it/200x200/f00" alt=""></li>
+		<li><img src="http://placehold.it/200x200/f00" alt=""></li>
+		<li><img src="http://placehold.it/200x200/f00" alt=""></li>
+	</ul>
+
+	<script type="text/javascript">
+	$(function(){
+		$('.bxslider').bxSlider();
+		$('.bxslider1').bxSlider({ infiniteLoop: true, slideWidth: 200 });
+	});
+	</script>
+</body>
+</html>

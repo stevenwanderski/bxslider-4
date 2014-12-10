@@ -1323,6 +1323,9 @@
 			if(slider.controls.autoEl) slider.controls.autoEl.remove();
 			clearInterval(slider.interval);
 			if(slider.settings.responsive) $(window).unbind('resize', resizeWindow);
+
+			//remove self reference in data
+			$(this).removeData('bxslider');
 		}
 
 		/**
@@ -1332,9 +1335,30 @@
 			if (settings != undefined) options = settings;
 			el.destroySlider();
 			init();
+			//store reference to self in order to access public functions later;		
+			$(el).data('bxslider', this);
+
+		}
+
+		el.reloadWithOptions = function(settings) {
+			if (settings != undefined) {
+				var curSettings = el.getOptions();
+				options = $.extend({}, curSettings, settings);
+			}
+			el.destroySlider();
+			init();
+			//store reference to self in order to access public functions later;		
+			$(el).data('bxslider', this);			
+		}
+
+		el.getOptions = function() {
+			return slider.settings;
 		}
 
 		init();
+
+		//store reference to self in order to access public functions later;		
+		$(this).data('bxslider', this);
 
 		// returns the current jQuery object
 		return this;
