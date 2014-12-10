@@ -6,7 +6,7 @@
 	<title></title>
 	<link rel="stylesheet" href="jquery.bxslider.css" />
 	<script src="bower_components/jquery/dist/jquery.js"></script>
-	<script src="jquery.bxslider.js"></script>
+	<script src="jquery.bxslider.min.js"></script>
 </head>
 <body>
 	<ul class="bxslider">
@@ -18,7 +18,7 @@
 
 	<br><br><br>
 
-	<ul class="bxslider">
+	<ul class="bxslider1">
 		<li><img src="http://placehold.it/200x200/f00" alt=""></li>
 		<li><img src="http://placehold.it/200x200/f00" alt=""></li>
 		<li><img src="http://placehold.it/200x200/f00" alt=""></li>
@@ -28,6 +28,7 @@
 	<script type="text/javascript">
 	$(function(){
 		$('.bxslider').bxSlider();
+		$('.bxslider1').bxSlider({ infiniteLoop: true, slideWidth: 200 });
 	});
 	</script>
 </body>
