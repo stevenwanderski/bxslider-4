@@ -541,8 +541,12 @@
 			if(slider.usingCSS){
 				// determine the translate3d value
 				var propValue = slider.settings.mode == 'vertical' ? 'translate3d(0, ' + value + 'px, 0)' : 'translate3d(' + value + 'px, 0, 0)';
-				// add the CSS transition-duration
-				el.css('-' + slider.cssPrefix + '-transition-duration', duration / 1000 + 's');
+				// add the CSS transition-duration;
+				if(duration != -1) {
+					el.css('-' + slider.cssPrefix + '-transition-duration', duration / 1000 + 's');
+				} else {
+					el.css('-' + slider.cssPrefix + '-transition-duration', 'initial');
+				}
 				if(type == 'slide'){
 					//use setTimeout to make sure transitionend fires in iOS Safari
 					setTimeout(function() {
@@ -555,6 +559,9 @@
 							el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
 							updateAfterSlideTransition();
 						});
+						if (duration == -1) {
+							updateAfterSlideTransition();
+						}
 					}, 0);
 				}else if(type == 'reset'){
 					el.css(slider.animProp, propValue);
@@ -719,7 +726,6 @@
 		 *  - DOM event object
 		 */
 		var clickNextBind = function(e){
-			console.log('next');
 			e.preventDefault();
 			if (slider.controls.el.hasClass('disabled')) {
 				return;
@@ -1098,8 +1104,6 @@
 		 *  - DOM event object
 		 */
 		var onTouchEnd = function(e){
-			console.log('end');
-
 			//enable slider controls as soon as user stops interacing with slides
 			slider.controls.el.removeClass('disabled');
 			slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
@@ -1186,7 +1190,7 @@
 		 * @param direction (string)
 		 *  - INTERNAL USE ONLY - the direction of travel ("prev" / "next")
 		 */
-		el.goToSlide = function(slideIndex, direction){
+		el.goToSlide = function(slideIndex, direction, duration){
 			// if plugin is currently in motion, ignore request
 			if(slider.working || slider.active.index == slideIndex) return;
 			// declare that plugin is in motion
@@ -1273,8 +1277,17 @@
 				 */
 				if ("undefined" !== typeof(position)) {
 					var value = slider.settings.mode == 'horizontal' ? -(position.left - moveBy) : -position.top;
+
+					var speed;
+					if (duration != undefined) {
+						// hack: change 0 to -1 to prevent complications
+						speed = duration == 0 ? -1 : duration;
+					} else {
+						speed = slider.settings.speed;
+					}
+
 					// plugin values to be animated
-					setPositionProperty(value, 'slide', slider.settings.speed);
+					setPositionProperty(value, 'slide', speed);
 				}
 			}
 		}
