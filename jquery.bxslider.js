@@ -540,14 +540,18 @@
 				// add the CSS transition-duration
 				el.css('-' + slider.cssPrefix + '-transition-duration', duration / 1000 + 's');
 				if(type == 'slide'){
-					// set the property value
-					el.css(slider.animProp, propValue);
-					// bind a callback method - executes when CSS transition completes
-					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
-						// unbind the callback
-						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+					if(value === 0) {
 						updateAfterSlideTransition();
-					});
+					} else {
+						// set the property value
+						el.css(slider.animProp, propValue);
+						// bind a callback method - executes when CSS transition completes
+						el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
+							// unbind the callback
+							el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+							updateAfterSlideTransition();
+						});
+					}
 				}else if(type == 'reset'){
 					el.css(slider.animProp, propValue);
 				}else if(type == 'ticker'){
