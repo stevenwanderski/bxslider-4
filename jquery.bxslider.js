@@ -78,6 +78,10 @@
 		moveSlides: 0,
 		slideWidth: 0,
 
+		// EXPLICIT LTR
+		allowRTL: false,
+		slideDir: 'ltr',
+
 		// CALLBACKS
 		onSliderLoad: function() {},
 		onSlideBefore: function() {},
@@ -124,6 +128,8 @@
 		var init = function(){
 			// merge user-supplied options with the defaults
 			slider.settings = $.extend({}, defaults, options);
+			// override to ltr if rtl is not allowed (or not yet implemented)
+			if(!slider.settings.allowRTL) slider.settings.slideDir = defaults.slideDir;
 			// parse slideWidth setting
 			slider.settings.slideWidth = parseInt(slider.settings.slideWidth);
 			// store the original children
@@ -183,7 +189,8 @@
 		 */
 		var setup = function(){
 			// wrap el in a wrapper
-			el.wrap('<div class="' + slider.settings.wrapperClass + '"><div class="bx-viewport"></div></div>');
+			// also add explicit direction as a fix for RTL parent
+			el.wrap('<div dir="' + slider.settings.slideDir + '" class="' + slider.settings.wrapperClass + '"><div class="bx-viewport"></div></div>');
 			// store a namspace reference to .bx-viewport
 			slider.viewport = el.parent();
 			// add a loading div to display while images are loading
