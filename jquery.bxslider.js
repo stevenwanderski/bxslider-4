@@ -233,6 +233,7 @@
 			if(slider.settings.mode == 'fade'){
 				slider.children.css({
 					position: 'absolute',
+					left: 0,
 					zIndex: 0,
 					display: 'none'
 				});
