@@ -1,4 +1,4 @@
-#bxSlider 4.1.2
+#bxSlider 4.1.3
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
@@ -560,6 +560,26 @@ slider.destroySlider();
 ```
 
 ## Changelog
+
+### Version 4.1.3
+* Fix: responsive issue for horizontal mode for issue #611, #714
+* Fix: extra space on the left when using fade mode. #715
+* Fix: pager: false bug when used with pagerCustom #682
+* Fix: wrongly removing custom pager in destroySlider #610
+* Fix: bug with reloading slider with custom pager #545
+* Fix: Issue with infinite scroll sometimes returning to 0 #481
+* Fix: When "infiniteLoop" is used, true is not passed to a clone method. #346
+* Fix: "pagerCustom" won't work when using reloadSlider #171
+* Fix: Remove vendor prefix for translateZ(0) #565
+* Fix: give styles on focus for accessibility #228
+* Fix: Minified Version out of sync.
+* Fix: Remove -5px left #517
+* Enhancement: Invert order call of appendControls() and appendPager() #226
+* Enhancement: Various Indentation and typos in docs fixed. #551, #578
+* Enhancement: Update jsDelivr with update.json for autoupdate of CDN
+* Enhancement: Tag Repo so it can be included in CDNJS
+* Created development branch to work from. Eventually will restructure entire repo to follow best practice setup.
+
 
 ### Version 4.1.2
 * Added `bower.json` configuration file. Manage bxSlider as a dependency using [bower](http://bower.io/).
