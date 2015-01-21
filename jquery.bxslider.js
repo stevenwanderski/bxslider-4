@@ -91,7 +91,7 @@
 
 		if(this.length == 0) return this;
 
-		// support mutltiple elements
+		// support multiple elements
 		if(this.length > 1){
 			this.each(function(){$(this).bxSlider(options)});
 			return this;
@@ -106,7 +106,7 @@
 		/**
 		 * Makes slideshow responsive
 		 */
-		// first get the original window dimens (thanks alot IE)
+		// first get the original window dimens (thanks a lot IE)
 		var windowWidth = $(window).width();
 		var windowHeight = $(window).height();
 
@@ -184,7 +184,7 @@
 		var setup = function(){
 			// wrap el in a wrapper
 			el.wrap('<div class="' + slider.settings.wrapperClass + '"><div class="bx-viewport"></div></div>');
-			// store a namspace reference to .bx-viewport
+			// store a namespace reference to .bx-viewport
 			slider.viewport = el.parent();
 			// add a loading div to display while images are loading
 			slider.loader = $('<div class="bx-loading" />');
@@ -472,7 +472,7 @@
 		}
 
 		/**
-		 * Returns the number of indivual slides by which to shift the slider
+		 * Returns the number of individual slides by which to shift the slider
 		 */
 		var getMoveBy = function(){
 			// if moveSlides was set by the user and moveSlides is less than number of slides showing
@@ -508,7 +508,7 @@
 				var position = slider.children.eq(slider.active.index * getMoveBy()).position();
 				// check for last slide
 				if (slider.active.index == getPagerQty() - 1) slider.active.last = true;
-				// set the repective position
+				// set the respective position
 				if (position != undefined){
 					if (slider.settings.mode == 'horizontal') setPositionProperty(-position.left, 'reset', 0);
 					else if (slider.settings.mode == 'vertical') setPositionProperty(-position.top, 'reset', 0);
@@ -641,11 +641,11 @@
 			// bind click actions to the controls
 			slider.controls.next.bind('click', clickNextBind);
 			slider.controls.prev.bind('click', clickPrevBind);
-			// if nextSlector was supplied, populate it
+			// if nextSelector was supplied, populate it
 			if(slider.settings.nextSelector){
 				$(slider.settings.nextSelector).append(slider.controls.next);
 			}
-			// if prevSlector was supplied, populate it
+			// if prevSelector was supplied, populate it
 			if(slider.settings.prevSelector){
 				$(slider.settings.prevSelector).append(slider.controls.prev);
 			}
@@ -796,7 +796,7 @@
 		 * Performs needed actions after a slide transition
 		 */
 		var updateAfterSlideTransition = function(){
-			// if infinte loop is true
+			// if infinite loop is true
 			if(slider.settings.infiniteLoop){
 				var position = '';
 				// first slide
@@ -863,7 +863,7 @@
 		}
 
 		/**
-		 * Initialzes the auto process
+		 * Initializes the auto process
 		 */
 		var initAuto = function(){
 			// if autoDelay was supplied, launch the auto show using a setTimeout() call
@@ -879,7 +879,7 @@
 				el.hover(function(){
 					// if the auto show is currently playing (has an active interval)
 					if(slider.interval){
-						// stop the auto show and pass true agument which will prevent control update
+						// stop the auto show and pass true argument which will prevent control update
 						el.stopAuto(true);
 						// create a new autoPaused value which will be used by the relative "mouseout" event
 						slider.autoPaused = true;
@@ -887,7 +887,7 @@
 				}, function(){
 					// if the autoPaused value was created be the prior "mouseover" event
 					if(slider.autoPaused){
-						// start the auto show and pass true agument which will prevent control update
+						// start the auto show and pass true argument which will prevent control update
 						el.startAuto(true);
 						// reset the autoPaused value
 						slider.autoPaused = null;
@@ -897,7 +897,7 @@
 		}
 
 		/**
-		 * Initialzes the ticker process
+		 * Initializes the ticker process
 		 */
 		var initTicker = function(){
 			var startPosition = 0;
