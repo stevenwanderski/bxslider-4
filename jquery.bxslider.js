@@ -252,12 +252,12 @@
 			if (slider.settings.preloadImages == "all") preloadSelector = slider.children;
 			// only check for control addition if not in "ticker" mode
 			if(!slider.settings.ticker){
-				// if pager is requested, add it
-				if(slider.settings.pager) appendPager();
 				// if controls are requested, add them
 				if(slider.settings.controls) appendControls();
 				// if auto is true, and auto controls are requested, add them
 				if(slider.settings.auto && slider.settings.autoControls) appendControlsAuto();
+				// if pager is requested, add it
+				if(slider.settings.pager) appendPager();
 				// if any control option is requested, add the controls wrapper
 				if(slider.settings.controls || slider.settings.autoControls || slider.settings.pager) slider.viewport.after(slider.controls.el);
 			// if ticker mode, do not allow a pager
@@ -1318,7 +1318,7 @@
 			if(slider.controls.el) slider.controls.el.remove();
 			if(slider.controls.next) slider.controls.next.remove();
 			if(slider.controls.prev) slider.controls.prev.remove();
-			if(slider.pagerEl && slider.settings.controls) slider.pagerEl.remove();
+			if(slider.pagerEl && slider.settings.controls && !slider.settings.pagerCustom) slider.pagerEl.remove();
 			$('.bx-caption', this).remove();
 			if(slider.controls.autoEl) slider.controls.autoEl.remove();
 			clearInterval(slider.interval);
