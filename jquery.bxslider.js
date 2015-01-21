@@ -192,7 +192,7 @@
 			// set el to a massive width, to hold any needed slides
 			// also strip any margin and padding from el
 			el.css({
-				width: slider.settings.mode == 'horizontal' ? (slider.children.length * 100 + 215) + '%' : 'auto',
+				width: slider.settings.mode == 'horizontal' ? (slider.children.length * 1000 + 215) + '%' : 'auto',
 				position: 'absolute'
 			});
 			// if using CSS, add the easing property
@@ -291,8 +291,8 @@
 			// if infinite loop, prepare additional slides
 			if(slider.settings.infiniteLoop && slider.settings.mode != 'fade' && !slider.settings.ticker){
 				var slice = slider.settings.mode == 'vertical' ? slider.settings.minSlides : slider.settings.maxSlides;
-				var sliceAppend = slider.children.slice(0, slice).clone().addClass('bx-clone');
-				var slicePrepend = slider.children.slice(-slice).clone().addClass('bx-clone');
+				var sliceAppend = slider.children.slice(0, slice).clone(true).addClass('bx-clone');
+				var slicePrepend = slider.children.slice(-slice).clone(true).addClass('bx-clone');
 				el.append(sliceAppend).prepend(slicePrepend);
 			}
 			// remove the loading DOM element
