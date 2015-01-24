@@ -564,7 +564,6 @@ slider.destroySlider();
 ### Version 4.1.3
 * Fix: responsive issue for horizontal mode for issue #611, #714
 * Fix: extra space on the left when using fade mode. #715
-* Fix: pager: false bug when used with pagerCustom #682
 * Fix: wrongly removing custom pager in destroySlider #610
 * Fix: bug with reloading slider with custom pager #545
 * Fix: Issue with infinite scroll sometimes returning to 0 #481
