@@ -1,0 +1,32 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>bxSlider - Basic Example</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/demo.css">
+        <link rel="stylesheet" href="../../dist/jquery.bxslider.css">
+    </head>
+    <body>
+        <section class="container">
+            <h1> Basic Slider </h1>
+            <ul class="bxslider">
+                <li><img src="img/picto.png" /></li>
+                <li><img src="img/houses.jpg" /></li>
+                <li><img src="img/hillside.jpg" /></li>
+            </ul>    
+        </section>    
+
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="../../dist/jquery.bxslider.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.bxslider').bxSlider();
+            });
+        </script>
+    </body>
+</html>
