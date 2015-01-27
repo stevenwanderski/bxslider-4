@@ -1156,6 +1156,7 @@
 		 * Window resize event callback
 		 */
 		var resizeWindow = function(e){
+			setTimeout(function () {
 			// don't do anything if slider isn't initialized.
 			if(!slider.initialized) return;
 			// get the new window dimens (again, thank you IE)
@@ -1173,6 +1174,7 @@
 				// Call user resize handler
 				slider.settings.onSliderResize.call(el, slider.active.index);
 			}
+			}, 0)
 		}
 
 		/**
