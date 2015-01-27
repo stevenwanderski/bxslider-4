@@ -306,7 +306,7 @@
 			// make sure everything is positioned just right (same as a window resize)
 			el.redrawSlider();
 			// onSliderLoad callback
-			slider.settings.onSliderLoad(slider.active.index);
+			slider.settings.onSliderLoad.apply(el, [slider.active.index]);
 			// slider has been fully initialized
 			slider.initialized = true;
 			// bind the resize call to the window
@@ -818,7 +818,7 @@
 			// declare that the transition is complete
 			slider.working = false;
 			// onSlideAfter callback
-			slider.settings.onSlideAfter(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+			slider.settings.onSlideAfter.apply(el, [slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index]);
 		}
 
 		/**
@@ -1131,11 +1131,11 @@
 				slider.active.index = slideIndex;
 			}
 			// onSlideBefore, onSlideNext, onSlidePrev callbacks
-			slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+			slider.settings.onSlideBefore.apply(el, [slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index]);
 			if(direction == 'next'){
-				slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+				slider.settings.onSlideNext.apply(el, [slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index]);
 			}else if(direction == 'prev'){
-				slider.settings.onSlidePrev(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+				slider.settings.onSlidePrev(el, [slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index]);
 			}
 			// check if last slide
 			slider.active.last = slider.active.index >= getPagerQty() - 1;
