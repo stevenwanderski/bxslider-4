@@ -128,6 +128,9 @@
 			slider.settings.slideWidth = parseInt(slider.settings.slideWidth);
 			// store the original children
 			slider.children = el.children(slider.settings.slideSelector);
+			//check for nested childrens
+			if(slider.children.length === 0)
+			    slider.children = el.find(slider.settings.slideSelector);
 			// check if actual number of slides is less than minSlides / maxSlides
 			if(slider.children.length < slider.settings.minSlides) slider.settings.minSlides = slider.children.length;
 			if(slider.children.length < slider.settings.maxSlides) slider.settings.maxSlides = slider.children.length;
