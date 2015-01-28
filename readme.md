@@ -543,6 +543,14 @@ slider = $('.bxslider').bxSlider();
 var slideQty = slider.getSlideCount();
 ```
 
+**getOptions**
+Returns the original options argument used to initialize the slider
+```
+example:
+slider = $('.bxslider').bxSlider({mode:'fade'});
+var slideOptions = slider.getOptions();
+```
+
 **reloadSlider**
 Reload the slider. Useful when adding slides on the fly. Accepts an optional settings object. <a href="/examples/reload-slider-settings">See here for an example.</a>
 ```
