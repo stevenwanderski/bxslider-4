@@ -193,7 +193,7 @@
 			// also strip any margin and padding from el
 			el.css({
 				width: slider.settings.mode == 'horizontal' ? (slider.children.length * 1000 + 215) + '%' : 'auto',
-				position: 'absolute'
+				position: 'relative'
 			});
 			// if using CSS, add the easing property
 			if(slider.usingCSS && slider.settings.easing){
