@@ -16,6 +16,9 @@
 
 		// GENERAL
 		mode: 'horizontal',
+		fadeType: 'normal', // 'normal': don't change default behavior; 'zoom': use zoom-fade
+		zoomDuration: '1', // Duration of the zoom animation in seconds. Only effective for values between 0 & 1
+		zoomToSize: '2', // A value to scale by between 1 & 2, with 1 representing 0% and 2 representing 100%
 		slideSelector: '',
 		infiniteLoop: true,
 		hideControlOnEnd: false,
@@ -174,6 +177,16 @@
 			el.children(slider.settings.slideSelector).each(function() {
 			  $(this).data("origStyle", $(this).attr("style"));
 			});
+			
+			// Validate zoom options
+			slider.settings.fadeType = (slider.settings.fadeType == 'zoom') ? slider.settings.fadeType : 'normal';
+			slider.settings.zoomDuration = isNaN(parseInt(slider.settings.zoomDuration)) ? 1 : parseInt(slider.settings.zoomDuration);
+			slider.settings.zoomToSize = isNaN(parseFloat(slider.settings.zoomToSize)) ? 2 : parseFloat(slider.settings.zoomToSize);
+			if(!(slider.settings.zoomToSize > 1 && slider.settings.zoomToSize <= 2)) {
+				// Set default scale size if setting is not within expected range
+				slider.settings.zoomToSize = 2;
+			}
+			
 			// perform all DOM / CSS modifications
 			setup();
 		}
@@ -236,6 +249,17 @@
 					zIndex: 0,
 					display: 'none'
 				});
+				if(slider.settings.fadeType == 'zoom') {
+					var cssProp = {};
+					cssProp['transform'] = 'scale(1)'; // Set up the initial value
+					if(slider.cssPrefix){
+						cssProp['-' + slider.cssPrefix + '-transform'] = cssProp['transform'];
+					}
+					cssProp['transition'] = 'transform ' + slider.settings.zoomDuration + 's ease-in-out';
+					slider.children.each(function(){
+						$(this).css(cssProp);
+					});
+				}
 				// prepare the z-index on the showing element
 				slider.children.eq(slider.settings.startSlide).css({zIndex: slider.settings.slideZIndex, display: 'block'});
 			}
@@ -1150,10 +1174,32 @@
 					slider.viewport.animate({height: getViewportHeight()}, slider.settings.adaptiveHeightSpeed);
 				}
 				// fade out the visible child and reset its z-index value
-				slider.children.filter(':visible').fadeOut(slider.settings.speed).css({zIndex: 0});
+				if(slider.settings.fadeType == 'zoom') {
+					var cssProp = {};
+					cssProp['zIndex'] = 0;
+					cssProp['transform'] = 'scale(' + slider.settings.zoomToSize + ')'; // Set up zoom value
+					if(slider.cssPrefix){
+						cssProp['-' + slider.cssPrefix + '-transform'] = cssProp['transform'];
+					}
+					cssProp['transition'] = 'transform ' + slider.settings.zoomDuration + 's ease-in-out';
+					slider.children.filter(':visible').fadeOut(slider.settings.speed).css(cssProp);
+				} else {
+					slider.children.filter(':visible').fadeOut(slider.settings.speed).css({zIndex: 0});
+				}
+				
 				// fade in the newly requested slide
 				slider.children.eq(slider.active.index).css('zIndex', slider.settings.slideZIndex+1).fadeIn(slider.settings.speed, function(){
 					$(this).css('zIndex', slider.settings.slideZIndex);
+					if(slider.settings.fadeType == 'zoom') { // Reset the zoom on the previous slide
+						var cssProp = {};
+						cssProp['transform'] = 'scale(1)'; // Set up the initial value
+						if(slider.cssPrefix){
+							cssProp['-' + slider.cssPrefix + '-transform'] = cssProp['transform'];
+						}
+						cssProp['transition'] = 'transform ' + slider.settings.zoomDuration + 's ease-in-out';
+						slider.children.eq(slider.oldIndex).css(cssProp);
+						
+					}
 					updateAfterSlideTransition();
 				});
 			// slider mode is not "fade"
