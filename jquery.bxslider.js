@@ -269,13 +269,13 @@
 		}
 
 		var loadElements = function(selector, callback){
-			var total = selector.find('img, iframe').length;
+			var total = selector.find('img:not([src=""]), iframe').length;
 			if (total == 0){
 				callback();
 				return;
 			}
 			var count = 0;
-			selector.find('img, iframe').each(function(){
+			selector.find('img:not([src=""]), iframe').each(function(){
 				$(this).one('load', function() {
 				  if(++count == total) callback();
 				}).each(function() {
