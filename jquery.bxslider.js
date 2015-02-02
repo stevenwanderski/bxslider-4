@@ -1103,6 +1103,13 @@
 		 * = PUBLIC FUNCTIONS
 		 * ===================================================================================
 		 */
+		 
+		/**
+		 * Return slider.working variable
+		 */
+		el.isWorking = function() {
+			return slider.working;
+		}
 
 		/**
 		 * Performs slide transition to the specified slide
