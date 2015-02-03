@@ -1,5 +1,5 @@
 /***
- * BxSlider v4.2.0 - Fully loaded, responsive content slider
+ * BxSlider v4.2.1 - Fully loaded, responsive content slider
  * http://bxslider.com
  *
  * Copyright 2014, Steven Wanderski - http://stevenwanderski.com - http://bxcreative.com
@@ -1312,21 +1312,13 @@
 			// to keep it last no matter what screen size we end on
 			if (slider.active.last) { slider.active.index = getPagerQty() - 1; }
 			// if the active index (page) no longer exists due to the resize, simply set the index as last
-<<<<<<< HEAD:jquery.bxslider.js
-			if (slider.active.index >= getPagerQty()) slider.active.last = true;
-=======
 			if (slider.active.index >= getPagerQty()) { slider.active.last = true; }
->>>>>>> development:dist/jquery.bxslider.js
 			// if a pager is being displayed and a custom pager is not being used, update it
 			if(slider.settings.pager && !slider.settings.pagerCustom){
 				populatePager();
 				updatePagerActive(slider.active.index);
 			}
-<<<<<<< HEAD:jquery.bxslider.js
-		}
-=======
 		};
->>>>>>> development:dist/jquery.bxslider.js
 
 		/**
 		 * Destroy the current instance of the slider (revert everything back to original state)
