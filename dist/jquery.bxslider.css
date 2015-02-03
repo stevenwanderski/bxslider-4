@@ -1,5 +1,5 @@
-/**
- * BxSlider v4.1.3 - Fully loaded, responsive content slider
+/***
+ * BxSlider v4.2.0 - Fully loaded, responsive content slider
  * http://bxslider.com
  *
  * Written by: Steven Wanderski, 2014
@@ -8,7 +8,7 @@
  *
  * CEO and founder of bxCreative, LTD
  * http://bxcreative.com
- */
+ ***/
 /** RESET AND LAYOUT
 ===================================*/
 .bx-wrapper {
@@ -32,7 +32,6 @@
 /** THEME
 ===================================*/
 .bx-wrapper {
-  -moz-box-shadow: 0 0 5px #ccc;
   -webkit-box-shadow: 0 0 5px #ccc;
   box-shadow: 0 0 5px #ccc;
   border: 5px solid #fff;
@@ -72,8 +71,6 @@
   height: 10px;
   margin: 0 5px;
   outline: 0;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
   border-radius: 5px;
 }
 .bx-wrapper .bx-pager.bx-default-pager a:hover,

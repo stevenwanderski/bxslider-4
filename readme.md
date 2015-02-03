@@ -1,4 +1,4 @@
-#bxSlider 4.1.3
+#bxSlider 4.2.0
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
@@ -560,6 +560,31 @@ slider.destroySlider();
 ```
 
 ## Changelog
+
+### Version 4.2.0
+* Fix: Reverse #714, fixes #722.
+* Fix: Repo Tag #729
+* Fix: #720 pagerCustom issues
+
+4.2.0 Introduces a streamlined build process using [gulp](www.gulpjs.com). Along with this new build process the projects folder structure has been changed. You will find a `dist` folder with all assets ready to use, including both minified and unminified versions of the javascript. These assets should be ready to go. In `src` you will find the uncompiled assets, including a new less version of the css for bxslider. This is an important step for bxslider. It will help speed development up and keep work clean. It also paves the way for a big revamp we have planned in the future.
+
+**Unfamiliar with npm? Don't have node installed?** [Download and install node.js](http://nodejs.org/download/) before proceeding.
+
+From the command line:
+
+1. Install [gulp](http://gulpjs.com) globally with `npm install -g gulp`
+2. Navigate to the project directory, then run `npm install`
+
+You now have all the necessary dependencies to run the build process.
+
+### Available gulp commands
+
+* `gulp` — Compile and optimize all files to `dist`
+* `gulp styles` — Compile css assets only to `dist`
+* `gulp scripts` — Compile js assets only to `dist`
+* `gulp images` - Run lossless compression on all the images and copy to `dist`
+* `gulp jshint` — Checks JS and JSON code for errors based on our .jshintrc settings
+
 
 ### Version 4.1.3
 * Fix: responsive issue for horizontal mode for issue #611, #714

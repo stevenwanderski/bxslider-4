@@ -1,43 +1,82 @@
-var gulp         = require( 'gulp' )
-  , uglify       = require( 'gulp-uglify' )
-  , umd          = require( 'gulp-wrap-umd' )
-  , rename       = require( 'gulp-rename' )
-  , less         = require( 'gulp-less' )
-  , path         = require( 'path' )
-  , lessCleanCSS = require( 'less-plugin-clean-css' )
-  , jshint       = require( 'gulp-jshint' )
-  , livereload   = require( 'gulp-livereload' )
-  , gutil        = require('gulp-util');
+// ## Globals
+/*global $:true*/
+var $        = require('gulp-load-plugins')();
+var gulp     = require('gulp');
 
-var cleancss     = new lessCleanCSS( {advanced: true} );
-
-gulp.task( 'copyAssets', function() {
-
-  gulp.src( 'src/images/*' )
-    .pipe( gulp.dest( 'dist/images' ) )
-})
-
-gulp.task( 'buildJS', function() {
-
-  gulp.src( 'src/jquery.bxslider.js')
-    .pipe( jshint() )
-    .pipe( jshint.reporter('jshint-stylish') )
-    .pipe( uglify().on('error', gutil.log) )
-    .pipe( rename( 'jquery.bxslider.min.js' ) )
-    .pipe( gulp.dest( 'dist' ) );
+// ### Styles
+// `gulp styles` - compiles and optimizes css.
+gulp.task('styles', function() {
+  return gulp.src('./src/less/*.less')
+    .pipe($.less())
+    .pipe($.pleeease({
+      autoprefixer: {
+        browsers: [
+          'last 2 versions', 'ie 8', 'ie 9', 'android 2.3', 'android 4',
+          'opera 12'
+        ]
+      },
+      minifier: false
+    }))
+    .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task( 'buildCSS', function () {
+// ### Scripts
+// `gulp scripts` - runs jshint and uglify
+gulp.task('scripts', ['jshint'], function() {
+  return gulp.src('./src/js/*.js')
+    .pipe(gulp.dest('./dist/'))
+    .pipe($.uglify({ 
+      preserveComments: function (node, comment) {
+        if (/^\*\*/.test(comment.value) && /\*\*$/.test(comment.value)) {
 
-  gulp.src( 'src/less/*.less')
-    .pipe( less() )
-    .pipe( gulp.dest('dist') );
+          console.log('Found tri-star comment. Preserving.');
+          return true;
+        }
+      } 
+    }))
+    .pipe($.rename({extname: '.min.js'}))
+    .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task( 'default', function() {
+// ### Vendor Scripts
+// `gulp vendor` - runs uglify on 3rd party plugins
+gulp.task('vendor', function() {
+  return gulp.src('./src/vendor/*.js')
+    .pipe(gulp.dest('./dist/vendor'));
+});
 
-  livereload.listen()
-  gulp.watch( [ 'docs/*.html', 'docs/examples/*.html', 'src/*.js' ] ).on( 'change', livereload.changed )
-})
+// ### Images
+// `gulp images` - run lossless compression on all the images.
+gulp.task('images', function() {
+  return gulp.src('./src/images/*')
+    .pipe($.imagemin({
+      progressive: true,
+      interlaced: true
+    }))
+    .pipe(gulp.dest('./dist/images'));
+});
 
-gulp.task( 'build', [ 'buildJS', 'buildCSS', 'copyAssets' ] )
+// ### JsHint
+// `gulp jshint` - lints configuration JSON and project javascript
+gulp.task('jshint', function() {
+  return gulp.src([ 'bower.json', 'gulpfile.js', './src/*.js' ])
+    .pipe($.jshint())
+    .pipe($.jshint.reporter('jshint-stylish'))
+    .pipe($.jshint.reporter('fail'));
+});
+
+// ### Clean
+// `gulp clean` - deletes the build folder entirely
+gulp.task('clean', require('del').bind(null, ['dist/']));
+
+// ### Build
+// `gulp build` - Run all the build tasks but don't clean up beforehand.
+// Generally you should be running `gulp` instead of `gulp build`.
+gulp.task('build', ['styles', 'scripts', 'images', 'vendor']);
+
+
+// ### Gulp
+// `gulp` - Run a complete build. To compile for production run `gulp --production`.
+gulp.task('default', ['clean'], function() {
+  gulp.start('build');
+});
