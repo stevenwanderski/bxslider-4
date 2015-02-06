@@ -932,24 +932,46 @@
 			slider.settings.controls = false;
 			slider.settings.autoControls = false;
 			// if autoHover is requested
-			if(slider.settings.tickerHover && !slider.usingCSS){
-				// on el hover
-				slider.viewport.hover(function(){
-					el.stop();
-				}, function(){
-					// calculate the total width of children (used to calculate the speed ratio)
-					var totalDimens = 0;
-					slider.children.each(function(index){
-					  totalDimens += slider.settings.mode === 'horizontal' ? $(this).outerWidth(true) : $(this).outerHeight(true);
+			if(slider.settings.tickerHover){
+				if(slider.usingCSS){
+					var value;
+					var idx = slider.settings.mode == 'horizontal' ? 4 : 5;
+					slider.viewport.hover(function(){
+						var transform = el.css('-' + slider.cssPrefix + '-transform');
+						value = parseFloat(transform.split(',')[idx]);
+						setPositionProperty(value, 'reset', 0);
+					}, function(){
+						var totalDimens = 0;
+						slider.children.each(function(index){
+						  totalDimens += slider.settings.mode == 'horizontal' ? $(this).outerWidth(true) : $(this).outerHeight(true);
+						});
+						// calculate the speed ratio (used to determine the new speed to finish the paused animation)
+						var ratio = slider.settings.speed / totalDimens;
+						// determine which property to use
+						var property = slider.settings.mode == 'horizontal' ? 'left' : 'top';
+						// calculate the new speed
+						var newSpeed = ratio * (totalDimens - (Math.abs(parseInt(value))));
+						tickerLoop(newSpeed);
 					});
-					// calculate the speed ratio (used to determine the new speed to finish the paused animation)
-					var ratio = slider.settings.speed / totalDimens;
-					// determine which property to use
-					var property = slider.settings.mode === 'horizontal' ? 'left' : 'top';
-					// calculate the new speed
-					var newSpeed = ratio * (totalDimens - (Math.abs(parseInt(el.css(property)))));
-					tickerLoop(newSpeed);
-				});
+				} else {
+					// on el hover
+					slider.viewport.hover(function(){
+						el.stop();
+					}, function(){
+						// calculate the total width of children (used to calculate the speed ratio)
+						var totalDimens = 0;
+						slider.children.each(function(index){
+						  totalDimens += slider.settings.mode == 'horizontal' ? $(this).outerWidth(true) : $(this).outerHeight(true);
+						});
+						// calculate the speed ratio (used to determine the new speed to finish the paused animation)
+						var ratio = slider.settings.speed / totalDimens;
+						// determine which property to use
+						var property = slider.settings.mode == 'horizontal' ? 'left' : 'top';
+						// calculate the new speed
+						var newSpeed = ratio * (totalDimens - (Math.abs(parseInt(el.css(property)))));
+						tickerLoop(newSpeed);
+					});
+				}
 			}
 			// start the ticker loop
 			tickerLoop();
