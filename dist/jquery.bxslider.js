@@ -214,7 +214,7 @@
 				maxWidth: getViewportMaxWidth()
 			});
 			// make modification to the wrapper (.bx-wrapper)
-			if(!slider.settings.pager){
+			if(!slider.settings.pager && !slider.settings.controls){
 				slider.viewport.parent().css({
 					margin: '0 auto 0px'
 				});
