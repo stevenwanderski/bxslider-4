@@ -10,8 +10,6 @@
 
 ;(function($){
 
-	var plugin = {};
-
 	var defaults = {
 
 		// GENERAL
@@ -105,7 +103,6 @@
 		var slider = {};
 		// set a reference to our slider element
 		var el = this;
-		plugin.el = this;
 
 		/**
 		 * Makes slideshow responsive
