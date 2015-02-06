@@ -276,7 +276,6 @@
 				return;
 			}
 			var count = 0;
-            console.log('count: ' + count + ' total: ' + total);
 			selector.find('img:not([src=""]), iframe').each(function(){
 				$(this).one('load error', function(){
 				  if(++count === total){ callback(); }
@@ -430,7 +429,7 @@
 				// if viewport is smaller than minThreshold, return minSlides
 				if(slider.viewport.width() < slider.minThreshold){
 					slidesShowing = slider.settings.minSlides;
-				// if viewport is larger than minThreshold, return maxSlides
+				// if viewport is larger than maxThreshold, return maxSlides
 				}else if(slider.viewport.width() > slider.maxThreshold){
 					slidesShowing = slider.settings.maxSlides;
 				// if viewport is between min / max thresholds, divide viewport width by first child width
@@ -966,7 +965,6 @@
 			// if "next" animate left position to last child, then reset left to 0
 			if(slider.settings.autoDirection === 'next'){
 				position = el.find('.bx-clone').first().position();
-				console.log('tickerLoop position: ' + position.left);
 			// if "prev" animate left position to 0, then reset left to first non-clone child
 			}else{
 				reset = slider.children.first().position();
@@ -1107,21 +1105,26 @@
 		var resizeWindow = function(e){
 			// don't do anything if slider isn't initialized.
 			if(!slider.initialized){ return; }
-			// get the new window dimens (again, thank you IE)
-			var windowWidthNew = $(window).width();
-			var windowHeightNew = $(window).height();
-			// make sure that it is a true window resize
-			// *we must check this because our dinosaur friend IE fires a window resize event when certain DOM elements
-			// are resized. Can you just die already?*
-			if(windowWidth !== windowWidthNew || windowHeight !== windowHeightNew){
-				// set the new window dimens
-				windowWidth = windowWidthNew;
-				windowHeight = windowHeightNew;
-				// update all dynamic elements
-				el.redrawSlider();
-				// Call user resize handler
-				slider.settings.onSliderResize.call(el, slider.active.index);
-			}
+            // Delay if slider working.
+            if (slider.working) {
+                window.setTimeout(resizeWindow, 10);
+            } else {
+    			// get the new window dimens (again, thank you IE)
+    			var windowWidthNew = $(window).width();
+    			var windowHeightNew = $(window).height();
+    			// make sure that it is a true window resize
+    			// *we must check this because our dinosaur friend IE fires a window resize event when certain DOM elements
+    			// are resized. Can you just die already?*
+    			if(windowWidth !== windowWidthNew || windowHeight !== windowHeightNew){
+    				// set the new window dimens
+    				windowWidth = windowWidthNew;
+    				windowHeight = windowHeightNew;
+    				// update all dynamic elements
+				    el.redrawSlider();
+    				// Call user resize handler
+    				slider.settings.onSliderResize.call(el, slider.active.index);
+    			}
+            }
 		};
 
 		/**
@@ -1343,7 +1346,7 @@
 			// adjust the height
 			slider.viewport.css('height', getViewportHeight());
 			// update the slide position
-			if(!slider.settings.ticker) { setSlidePosition(); }
+			if(!slider.settings.ticker) { setSlidePosition(); }                 
 			// if active.last was true before the screen resize, we want
 			// to keep it last no matter what screen size we end on
 			if (slider.active.last) { slider.active.index = getPagerQty() - 1; }
