@@ -79,12 +79,12 @@
 		slideWidth: 0,
 
 		// CALLBACKS
-		onSliderLoad: function(){},
-		onSlideBefore: function(){},
-		onSlideAfter: function(){},
-		onSlideNext: function(){},
-		onSlidePrev: function(){},
-		onSliderResize: function(){}
+		onSliderLoad: function(){ return true },
+		onSlideBefore: function(){ return true },
+		onSlideAfter: function(){ return true },
+		onSlideNext: function(){ return true },
+		onSlidePrev: function(){ return true },
+		onSliderResize: function(){ return true }
 	};
 
 	$.fn.bxSlider = function(options){
@@ -886,10 +886,8 @@
 				//add focus and blur events to ensure its running if timeout gets paused
 				$(window).focus(function() {
 			    	el.startAuto();
-			    	console.log('focus fired');
 				}).blur(function() {
 			    	el.stopAuto();
-			    	console.log('blur fired');
 				});
 				
 
@@ -1160,12 +1158,35 @@
 				slider.active.index = slideIndex;
 			}
 			// onSlideBefore, onSlideNext, onSlidePrev callbacks
-			slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+			// Allow transition canceling based on returned value
+			var performTransition = true;
+
+			performTransition = slider.settings.onSlideBefore(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+			
+			if ( typeof(performTransition) !== "undefined" && !performTransition ) {
+				slider.active.index = slider.oldIndex; // restore old index
+				slider.working = false; // is not in motion
+				return;	
+ 			}
 			if(direction === 'next'){
-				slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+				// Prevent canceling in future functions or lack there-of from negating previous commands to cancel
+				if(!slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index)){
+					performTransition = false;
+				}
 			}else if(direction === 'prev'){
-				slider.settings.onSlidePrev(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+				// Prevent canceling in future functions or lack there-of from negating previous commands to cancel
+				if(!slider.settings.onSlidePrev(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index)){
+					performTransition = false;
+				}
 			}
+
+			// If transitions canceled, reset and return
+			if ( typeof(performTransition) !== "undefined" && !performTransition ) {
+				slider.active.index = slider.oldIndex; // restore old index
+				slider.working = false; // is not in motion
+				return;	
+ 			}
+
 			// check if last slide
 			slider.active.last = slider.active.index >= getPagerQty() - 1;
 			// update the pager with active class
