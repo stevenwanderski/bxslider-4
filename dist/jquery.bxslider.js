@@ -1338,6 +1338,13 @@
 		};
 
 		/**
+		 * Return slider.working variable
+		 */
+		el.isWorking = function() {
+			return slider.working;
+		}
+
+		/**
 		 * Update all dynamic slider elements
 		 */
 		el.redrawSlider = function(){
