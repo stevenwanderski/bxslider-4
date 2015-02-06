@@ -250,7 +250,7 @@
 			if(slider.settings.video){ el.fitVids(); }
 			// set the default preload selector (visible)
 			var preloadSelector = slider.children.eq(slider.settings.startSlide);
-			if(slider.settings.preloadImages === "all"){ preloadSelector = slider.children; }
+			if(slider.settings.preloadImages === "all" || slider.settings.ticker){ preloadSelector = slider.children; }
 			// only check for control addition if not in "ticker" mode
 			if(!slider.settings.ticker){
 				// if controls are requested, add them
@@ -276,6 +276,7 @@
 				return;
 			}
 			var count = 0;
+            console.log('count: ' + count + ' total: ' + total);
 			selector.find('img:not([src=""]), iframe').each(function(){
 				$(this).one('load error', function(){
 				  if(++count === total){ callback(); }
@@ -525,7 +526,7 @@
 		 * @param value (int)
 		 *  - the animating property's value
 		 *
-		 * @param type (string) 'slider', 'reset', 'ticker'
+		 * @param type (string) 'slide', 'reset', 'ticker'
 		 *  - the type of instance for which the function is being
 		 *
 		 * @param duration (int)
@@ -965,6 +966,7 @@
 			// if "next" animate left position to last child, then reset left to 0
 			if(slider.settings.autoDirection === 'next'){
 				position = el.find('.bx-clone').first().position();
+				console.log('tickerLoop position: ' + position.left);
 			// if "prev" animate left position to 0, then reset left to first non-clone child
 			}else{
 				reset = slider.children.first().position();
