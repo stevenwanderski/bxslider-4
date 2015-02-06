@@ -194,7 +194,7 @@
 			// also strip any margin and padding from el
 			el.css({
 				width: slider.settings.mode === 'horizontal' ? (slider.children.length * 1000 + 215) + '%' : 'auto',
-				position: 'relative'
+				position: 'absolute'
 			});
 			// if using CSS, add the easing property
 			if(slider.usingCSS && slider.settings.easing){
@@ -265,8 +265,11 @@
 			} else {
 				slider.settings.pager = false;
 			}
-			// preload all images, then perform final DOM / CSS modifications that depend on images being loaded
-			loadElements(preloadSelector, start);
+			// preload first image and apply height to viewport, then load all others and do final DOM / CSS modifications that depend on images being loaded
+			preloadSelector.find('img:not([src=""]), iframe').first().one('load', function(){
+				slider.viewport.height($(this).height());
+				loadElements(preloadSelector, start);
+			});
 		};
 
 		var loadElements = function(selector, callback){
