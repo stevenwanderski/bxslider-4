@@ -137,8 +137,9 @@
 			// store active slide information
 			slider.active = { index: slider.settings.startSlide };
 			// store if the slider is in carousel mode (displaying / moving multiple slides)
-			slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1 ? false : true;
+			slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1 ? true : false;
 			// if carousel, force preloadImages = 'all'
+			console.log("carousel: " + slider.carousel);
 			if(slider.carousel){ slider.settings.preloadImages = 'all'; }
 			// calculate the min / max width thresholds based on min / max number of slides
 			// used to setup and update carousel slides dimensions
