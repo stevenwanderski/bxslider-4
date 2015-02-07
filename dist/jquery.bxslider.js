@@ -41,6 +41,9 @@
 		preventDefaultSwipeX: true,
 		preventDefaultSwipeY: false,
 
+		// KEYBOARD
+		keyboardEnabled: false,
+
 		// PAGER
 		pager: true,
 		pagerType: 'full',
@@ -139,7 +142,6 @@
 			// store if the slider is in carousel mode (displaying / moving multiple slides)
 			slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1 ? true : false;
 			// if carousel, force preloadImages = 'all'
-			console.log("carousel: " + slider.carousel);
 			if(slider.carousel){ slider.settings.preloadImages = 'all'; }
 			// calculate the min / max width thresholds based on min / max number of slides
 			// used to setup and update carousel slides dimensions
@@ -326,6 +328,10 @@
 			if(slider.settings.controls){ updateDirectionControls(); }
 			// if touchEnabled is true, setup the touch events
 			if(slider.settings.touchEnabled && !slider.settings.ticker){ initTouch(); }
+			// if keyboardEnabled is true, setup the keyboard events
+			if (slider.settings.keyboardEnabled && !slider.settings.ticker) { 
+				$(document).keydown(keyPress);
+			}
 		};
 
 		/**
@@ -550,7 +556,7 @@
 					el.css(slider.animProp, propValue);
 					// if value 0, just update
 					if(value === 0) {
- 						updateAfterSlideTransition();
+						updateAfterSlideTransition();
 					} else {
 						// bind a callback method - executes when CSS transition completes
 						el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
@@ -710,8 +716,8 @@
 				var title = $(this).find('img:first').attr('title');
 				// append the caption
 				if(title !== undefined && ('' + title).length){
-                    $(this).append('<div class="bx-caption"><span>' + title + '</span></div>');
-                }
+					$(this).append('<div class="bx-caption"><span>' + title + '</span></div>');
+				}
 			});
 		};
 
@@ -886,9 +892,9 @@
 
 				//add focus and blur events to ensure its running if timeout gets paused
 				$(window).focus(function() {
-			    	el.startAuto();
+					el.startAuto();
 				}).blur(function() {
-			    	el.stopAuto();
+					el.stopAuto();
 				});
 				
 
@@ -999,6 +1005,45 @@
 			var resetValue = slider.settings.mode === 'horizontal' ? -reset.left : -reset.top;
 			var params = {resetValue: resetValue};
 			setPositionProperty(animateProperty, 'ticker', speed, params);
+		};
+
+		/**
+		 * Check if el is on screen
+		 */
+		var isOnScreen = function(el){
+			var win = $(window);
+			var viewport = {
+				top : win.scrollTop(),
+				left : win.scrollLeft()
+			};
+			viewport.right = viewport.left + win.width();
+			viewport.bottom = viewport.top + win.height();
+
+			var bounds = el.offset();
+			bounds.right = bounds.left + el.outerWidth();
+			bounds.bottom = bounds.top + el.outerHeight();
+
+			return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+		};
+
+		/**
+		 * Initializes keyboard events
+		 */
+		var keyPress = function(e){
+			var activeElementTag = document.activeElement.tagName.toLowerCase();
+			var tagFilters='input|textarea';
+			var p = new RegExp(activeElementTag,["i"]);
+			var result = p.exec(tagFilters);
+			if (result == null && isOnScreen(el)) {
+				if (e.keyCode == 39) {
+					clickNextBind(e);
+					return false;
+				}
+				else if (e.keyCode == 37) {
+					clickPrevBind(e);
+					return false;
+				}
+			}
 		};
 
 		/**
@@ -1131,26 +1176,26 @@
 		var resizeWindow = function(e){
 			// don't do anything if slider isn't initialized.
 			if(!slider.initialized){ return; }
-            // Delay if slider working.
-            if (slider.working) {
-                window.setTimeout(resizeWindow, 10);
-            } else {
-    			// get the new window dimens (again, thank you IE)
-    			var windowWidthNew = $(window).width();
-    			var windowHeightNew = $(window).height();
-    			// make sure that it is a true window resize
-    			// *we must check this because our dinosaur friend IE fires a window resize event when certain DOM elements
-    			// are resized. Can you just die already?*
-    			if(windowWidth !== windowWidthNew || windowHeight !== windowHeightNew){
-    				// set the new window dimens
-    				windowWidth = windowWidthNew;
-    				windowHeight = windowHeightNew;
-    				// update all dynamic elements
-				    el.redrawSlider();
-    				// Call user resize handler
-    				slider.settings.onSliderResize.call(el, slider.active.index);
-    			}
-            }
+			// Delay if slider working.
+			if (slider.working) {
+				window.setTimeout(resizeWindow, 10);
+			} else {
+				// get the new window dimens (again, thank you IE)
+				var windowWidthNew = $(window).width();
+				var windowHeightNew = $(window).height();
+				// make sure that it is a true window resize
+				// *we must check this because our dinosaur friend IE fires a window resize event when certain DOM elements
+				// are resized. Can you just die already?*
+				if(windowWidth !== windowWidthNew || windowHeight !== windowHeightNew){
+					// set the new window dimens
+					windowWidth = windowWidthNew;
+					windowHeight = windowHeightNew;
+					// update all dynamic elements
+					el.redrawSlider();
+					// Call user resize handler
+					slider.settings.onSliderResize.call(el, slider.active.index);
+				}
+			}
 		};
 
 		/**
@@ -1195,7 +1240,7 @@
 				slider.active.index = slider.oldIndex; // restore old index
 				slider.working = false; // is not in motion
 				return;	
- 			}
+			}
 			if(direction === 'next'){
 				// Prevent canceling in future functions or lack there-of from negating previous commands to cancel
 				if(!slider.settings.onSlideNext(slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index)){
@@ -1213,7 +1258,7 @@
 				slider.active.index = slider.oldIndex; // restore old index
 				slider.working = false; // is not in motion
 				return;	
- 			}
+			}
 
 			// check if last slide
 			slider.active.last = slider.active.index >= getPagerQty() - 1;
@@ -1421,6 +1466,7 @@
 			if(slider.controls.autoEl){ slider.controls.autoEl.remove(); }
 			clearInterval(slider.interval);
 			if(slider.settings.responsive){ $(window).unbind('resize', resizeWindow); }
+			if(slider.settings.keyboardEnabled){ $(document).unbind('keydown', keyPress); }
 		};
 
 		/**
