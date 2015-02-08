@@ -1,5 +1,5 @@
 /***
- * BxSlider v4.2.1 - Fully loaded, responsive content slider
+ * BxSlider v4.2.2 - Fully loaded, responsive content slider
  * http://bxslider.com
  *
  * Written by: Steven Wanderski, 2014
@@ -16,6 +16,8 @@
   margin: 0 auto 60px;
   padding: 0;
   *zoom: 1;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
 }
 .bx-wrapper img {
   max-width: 100%;
@@ -86,6 +88,10 @@ ul.bxslider {
   display: inline-block;
   *zoom: 1;
   *display: inline;
+}
+.bx-wrapper .bx-pager-item {
+  font-size: 0;
+  line-height: 0;
 }
 /* DIRECTION CONTROLS (NEXT / PREV) */
 .bx-wrapper .bx-prev {
