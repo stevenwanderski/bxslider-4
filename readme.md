@@ -1,4 +1,4 @@
-#bxSlider 4.2.1
+#bxSlider 4.2.2
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
@@ -347,6 +347,13 @@ default: null
 options: jQuery selector
 ```
 
+**keyboardEnabled**
+Enable keyboard navigation for visible sliders
+```
+default: false
+options: boolean (true / false)
+```
+
 ###Auto
 
 **auto**
@@ -560,6 +567,22 @@ slider.destroySlider();
 ```
 
 ## Changelog
+
+### Version 4.2.2
+* Fix: Remove unused plugin variable (#733)
+* Fix: `updateAfterSlideTransition` not being called (#704)
+* Fix: Slider stops auto advancing (#702)
+* Fix: Refresh page, slider show the last item at the first in mode: 'horizontal' (#694)
+* Fix: horizintal ticker stutters on loop (#669)
+* Fix: Wrong bx-wrapper bottom margin with controls=true and pager=false (#647)
+* Fix: add css tickerHover. (#629)
+* Fix: Slider refusing to scale down, only up (#611)
+* Fix: bxSlider freezes on touch devices (#540)
+* Fix: Multiple fixes and improvements for Windows Mobile Devices (#596)
+* Fix: Accessing bxslider's slider object inside its “onSliderLoad” callback returns undefined (#475)
+* Fix: infiniteLoop glitch when scrolling from first to last slide (#429)
+* Enhancement: Cancel transitions on callbacks by returning false. (#411)
+* Enhancement: Added Keyboard arrow left and right support (#239)
 
 ### Version 4.2.1
 * Fix: Merge Conflict in dist
