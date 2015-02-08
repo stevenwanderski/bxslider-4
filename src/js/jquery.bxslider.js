@@ -269,7 +269,7 @@
 				slider.settings.pager = false;
 			}
 			// preload first image and apply height to viewport, then load all others and do final DOM / CSS modifications that depend on images being loaded
-			preloadSelector.find('img:not([src=""]), iframe').first().one('load', function(){
+			preloadSelector.find('img:not([src=""]), iframe').first().one('load error', function(){
 				slider.viewport.height($(this).height());
 				loadElements(preloadSelector, start);
 			});
