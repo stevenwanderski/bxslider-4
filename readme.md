@@ -1,4 +1,4 @@
-#bxSlider 4.2.2
+#bxSlider 4.2.3
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
@@ -567,6 +567,9 @@ slider.destroySlider();
 ```
 
 ## Changelog
+
+### Version 4.2.3
+* Minor bug fix
 
 ### Version 4.2.2
 * Fix: Remove unused plugin variable (#733)
