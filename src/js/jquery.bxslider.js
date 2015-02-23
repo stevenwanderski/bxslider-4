@@ -44,6 +44,10 @@
 		// KEYBOARD
 		keyboardEnabled: false,
 
+		// ACCESSIBILITY
+		ariaLive: true,
+		ariaHidden: true,
+
 		// PAGER
 		pager: true,
 		pagerType: 'full',
@@ -190,6 +194,10 @@
 			el.wrap('<div class="' + slider.settings.wrapperClass + '"><div class="bx-viewport"></div></div>');
 			// store a namespace reference to .bx-viewport
 			slider.viewport = el.parent();
+			// add aria-live if the setting is enabled and ticker mode is disabled
+			if(slider.settings.ariaLive && !slider.settings.ticker) {
+				slider.viewport.attr('aria-live', 'polite');
+			}
 			// add a loading div to display while images are loading
 			slider.loader = $('<div class="bx-loading" />');
 			slider.viewport.prepend(slider.loader);
@@ -294,8 +302,8 @@
 			// if infinite loop, prepare additional slides
 			if(slider.settings.infiniteLoop && slider.settings.mode !== 'fade' && !slider.settings.ticker){
 				var slice = slider.settings.mode === 'vertical' ? slider.settings.minSlides : slider.settings.maxSlides;
-				var sliceAppend = slider.children.slice(0, slice).clone(true).addClass('bx-clone');
-				var slicePrepend = slider.children.slice(-slice).clone(true).addClass('bx-clone');
+				var sliceAppend = slider.children.slice(0, slice).clone(true).addClass('bx-clone').attr('aria-hidden', true);
+				var slicePrepend = slider.children.slice(-slice).clone(true).addClass('bx-clone').attr('aria-hidden', true);
 				el.append(sliceAppend).prepend(slicePrepend);
 			}
 			// remove the loading DOM element
@@ -1254,6 +1262,23 @@
 		};
 
 		/**
+		 * Adds an aria-hidden=true attribute to each element
+		 *
+		 * @param startVisibleIndex (int)
+		 *  - the first visible element's index
+		 */
+		var applyAriaHiddenAttributes = function(startVisibleIndex){
+			// only apply attributes if the setting is enabled and not in ticker mode
+			if(slider.settings.ariaHidden && !slider.settings.ticker) {
+				var numberOfSlidesShowing = getNumberSlidesShowing();
+				// add aria-hidden=true to all elements
+				slider.children.attr('aria-hidden', 'true');
+				// get the visible elements and change to aria-hidden=false
+				slider.children.slice(startVisibleIndex, startVisibleIndex + numberOfSlidesShowing).attr('aria-hidden', 'false');
+			}
+		};
+
+		/**
 		 * ===================================================================================
 		 * = PUBLIC FUNCTIONS
 		 * ===================================================================================
@@ -1384,6 +1409,7 @@
 					setPositionProperty(value, 'slide', slider.settings.speed);
 				}
 			}
+			applyAriaHiddenAttributes(slider.active.index * getMoveBy());
 		};
 
 		/**
@@ -1480,7 +1506,7 @@
 			// adjust the height
 			slider.viewport.css('height', getViewportHeight());
 			// update the slide position
-			if(!slider.settings.ticker) { setSlidePosition(); }                 
+			if(!slider.settings.ticker) { setSlidePosition(); }
 			// if active.last was true before the screen resize, we want
 			// to keep it last no matter what screen size we end on
 			if (slider.active.last) { slider.active.index = getPagerQty() - 1; }
@@ -1491,6 +1517,7 @@
 				populatePager();
 				updatePagerActive(slider.active.index);
 			}
+			applyAriaHiddenAttributes(slider.active.index * getMoveBy());
 		};
 
 		/**

@@ -354,6 +354,22 @@ default: false
 options: boolean (true / false)
 ```
 
+###Accessibility
+
+**ariaLive**
+Add aria-live="polite" to the carousel so that screen readers will read aloud new content when the carousel is scrolled. Works better with ariaHidden enabled as well. Note: only used if <code>ticker: false</code>
+```
+default: true
+options: boolean (true / false)
+```
+
+**ariaHidden**
+Add aria-hidden="true" to hidden elements and aria-hidden="false" to visible elements. This makes it easier for screen readers to know which elements are currently visible on the page. Note: only used if <code>ticker: false</code>
+```
+default: true
+options: boolean (true / false)
+```
+
 ###Auto
 
 **auto**
