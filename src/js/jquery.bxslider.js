@@ -1534,6 +1534,13 @@
 			init();
 		};
 
+		/**
+		 * Returns working state of the slider (true means that a transition is in progress)
+		 */
+		el.isWorking = function() {
+			return slider.working;
+		}
+
 		init();
 
 		// returns the current jQuery object
