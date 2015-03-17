@@ -78,6 +78,7 @@
 		maxSlides: 1,
 		moveSlides: 0,
 		slideWidth: 0,
+		shrinkItems: 0,
 
 		// CALLBACKS
 		onSliderLoad: function(){ return true },
@@ -421,6 +422,9 @@
 					// newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.maxSlides - 1))) / slider.settings.maxSlides;
 				}else if(wrapWidth < slider.minThreshold){
 					newElWidth = (wrapWidth - (slider.settings.slideMargin * (slider.settings.minSlides - 1))) / slider.settings.minSlides;
+				}else if(slider.settings.shrinkItems){
+					var slidesToShow = Math.ceil((wrapWidth + slider.settings.slideMargin) / (newElWidth + slider.settings.slideMargin));
+					newElWidth = Math.floor((wrapWidth + slider.settings.slideMargin) / slidesToShow - slider.settings.slideMargin);
 				}
 			}
 			return newElWidth;
