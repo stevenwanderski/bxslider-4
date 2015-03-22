@@ -1362,6 +1362,11 @@
 					var eq = slider.settings.moveSlides === 1 ? slider.settings.maxSlides - getMoveBy() : ((getPagerQty() - 1) * getMoveBy()) - (slider.children.length - slider.settings.maxSlides);
 					lastChild = el.children('.bx-clone').eq(eq);
 					position = lastChild.position();
+				// if infinite loop and "Prev" is clicked on the first slide
+				}else if(direction === 'prev' && slider.active.last){
+					// get the first clone position
+					position = el.find('> .bx-clone').eq(0).position();
+					slider.active.last = true;
 				// if infinite loop and "Next" is clicked on the last slide
 				}else if(direction === 'next' && slider.active.index === 0){
 					// get the last clone position
