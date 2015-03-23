@@ -1458,6 +1458,13 @@
 		};
 
 		/**
+		 * Returns a slide element
+		 */
+		el.getSlideElement = function(index){
+			return slider.children.eq(index);
+		};
+
+		/**
 		 * Returns number of slides in show
 		 */
 		el.getSlideCount = function(){
