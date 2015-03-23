@@ -309,7 +309,7 @@
 			// make sure everything is positioned just right (same as a window resize)
 			el.redrawSlider();
 			// onSliderLoad callback
-			slider.settings.onSliderLoad.call(el, slider,slider.active.index);
+			slider.settings.onSliderLoad.call(el, slider.active.index);
 			// slider has been fully initialized
 			slider.initialized = true;
 			// bind the resize call to the window
