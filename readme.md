@@ -51,7 +51,7 @@ Create a `<ul class="bxslider">` element, with a `<li>` for each slide. Slides c
 
 ###Step 3: Call the bxSlider
 
-Call .bxslider() on `<ul class="bxslider">`. Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!
+Call `.bxSlider()` on `<ul class="bxslider">`. Note that the call must be made inside of a `$(document).ready()` call, or the plugin will not work!
 
 ```javascript
 $(document).ready(function(){
