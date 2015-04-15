@@ -130,8 +130,8 @@
 			slider.settings = $.extend({}, defaults, options);
 			// parse slideWidth setting
 			slider.settings.slideWidth = parseInt(slider.settings.slideWidth);
-			// store the original children
-			slider.children = el.children(slider.settings.slideSelector);
+			// store the original visible children
+			slider.children = el.children(slider.settings.slideSelector).filter(':visible');
 			// check if actual number of slides is less than minSlides / maxSlides
 			if(slider.children.length < slider.settings.minSlides){ slider.settings.minSlides = slider.children.length; } 
 			if(slider.children.length < slider.settings.maxSlides){ slider.settings.maxSlides = slider.children.length; }
@@ -175,7 +175,7 @@
 			if(slider.settings.mode === 'vertical'){ slider.settings.maxSlides = slider.settings.minSlides; }
 			// save original style data
 			el.data("origStyle", el.attr("style"));
-			el.children(slider.settings.slideSelector).each(function(){
+			slider.children.each(function(){
 			  $(this).data("origStyle", $(this).attr("style"));
 			});
 			// perform all DOM / CSS modifications
