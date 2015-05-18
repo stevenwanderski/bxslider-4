@@ -1536,6 +1536,9 @@
 
 		init();
 
+		//Save data object to be retrieved async
+		$(el.context).data('boxSlider', this);
+
 		// returns the current jQuery object
 		return this;
 	};
