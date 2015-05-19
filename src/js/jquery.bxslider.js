@@ -34,6 +34,10 @@
 		slideZIndex: 50,
 		wrapperClass: 'bx-wrapper',
 
+		// ART DIRECTION
+		imageFill: false,
+		imageFillFrameClass: 'feature-image',	// currently not using this but rather use viewport's parent
+
 		// TOUCH
 		touchEnabled: true,
 		swipeThreshold: 50,
@@ -1479,6 +1483,52 @@
 			slider.children.add(el.find('.bx-clone')).outerWidth(getSlideWidth());
 			// adjust the height
 			slider.viewport.css('height', getViewportHeight());
+
+			// image placement correction for art direction needs
+			// (when image is taller than the current slider height)
+			if (slider.settings.imageFill) {
+
+				// get the height of the outermost container that holds the slider (parent of bx-wrapper div)
+				//var imageFillFrame = $('.' + slider.settings.imageFillFrameClass);
+				var imageFillFrame = slider.viewport.parent().parent();
+				var imageFillFrameWidth = imageFillFrame.outerWidth();
+				var imageFillFrameHeight = imageFillFrame.outerHeight();
+				var imageFillFrameAspect = imageFillFrameWidth / imageFillFrameHeight;
+			
+				// put height attribute on slides (li's)
+				slider.children.css('height', imageFillFrameHeight);
+
+				// all images in slides (might want to refactor this?)
+				var imgs = slider.children.find('img');
+
+				// process every img
+				imgs.each(function () {
+
+					// cannot use $(this).height() because li's are hidden and returns 0, so calculate from original
+					var originalImgWidth = $(this).get(0).width;
+					var originalImgHeight = $(this).get(0).height;
+					var imageAspect = originalImgWidth / originalImgHeight;
+
+					if (imageFillFrameAspect < imageAspect) {
+						// taller
+						$(this).css({
+							width: 'auto',
+							height: imageFillFrameHeight,
+							marginTop: 0,
+							marginLeft: -(imageFillFrameHeight * imageAspect - imageFillFrameWidth) / 2
+						});
+					} else {
+						// wider
+						$(this).css({
+							width: imageFillFrameWidth,
+							height: 'auto',
+							marginTop: -(imageFillFrameWidth / imageAspect - imageFillFrameHeight) / 2,
+							marginLeft: 0
+						});
+					}
+				});
+			}
+
 			// update the slide position
 			if(!slider.settings.ticker) { setSlidePosition(); }                 
 			// if active.last was true before the screen resize, we want
