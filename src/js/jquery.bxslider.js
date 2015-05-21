@@ -72,6 +72,7 @@
 		autoHover: false,
 		autoDelay: 0,
 		autoSlideForOnePage: false,
+		stopAutoOnTransit: true,
 
 		// CAROUSEL
 		minSlides: 1,
@@ -733,6 +734,8 @@
 			// if auto show is running, stop it
 			if(slider.settings.auto){ el.stopAuto(); }
 			el.goToNextSlide();
+			// if not set to stop running, continue it
+			if(slider.settings.auto && !slider.settings.stopAutoOnTransit) el.startAuto();
 		};
 
 		/**
@@ -749,6 +752,8 @@
 			// if auto show is running, stop it
 			if(slider.settings.auto){ el.stopAuto(); }
 			el.goToPrevSlide();
+			// if not set to stop running, continue it
+			if(slider.settings.auto && !slider.settings.stopAutoOnTransit) el.startAuto();
 		};
 
 		/**
