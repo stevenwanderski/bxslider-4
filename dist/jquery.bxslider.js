@@ -1456,6 +1456,20 @@
 		el.getCurrentSlideElement = function(){
 			return slider.children.eq(slider.active.index);
 		};
+        
+        /**
+		 * Returns slider settings
+		 */
+		el.getSettings = function(){
+			return slider.children.eq(slider.settings);
+		};        
+        
+        /**
+		 * Sets slider settings on the fly
+		 */
+		el.setSettings = function(settings){
+			slider.settings = $.extend({}, slider.settings, settings);
+		};
 
 		/**
 		 * Returns number of slides in show
