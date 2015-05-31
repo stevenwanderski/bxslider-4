@@ -550,6 +550,27 @@ slider = $('.bxslider').bxSlider();
 var slideQty = slider.getSlideCount();
 ```
 
+**getSettings**
+Returns the current slider settings
+```
+example:
+slider = $('.bxslider').bxSlider();
+var settings = slider.getSettings();
+```
+
+**setSettings**
+Sets (extends) slider settings on the fly
+```
+example:
+slider = $('.bxslider').bxSlider({
+    speed:300
+});
+var newSpeed = 100;
+slider.setSettings({
+speed:newSpeed
+});
+```
+
 **reloadSlider**
 Reload the slider. Useful when adding slides on the fly. Accepts an optional settings object. <a href="/examples/reload-slider-settings">See here for an example.</a>
 ```
