@@ -157,7 +157,7 @@
         // css transition properties
         props = ['WebkitPerspective', 'MozPerspective', 'OPerspective', 'msPerspective'];
         // test for each property
-        for (i = 0; i < props.length; i++) {
+        for (var i = 0; i < props.length; i++) {
           if (div.style[props[i]] !== undefined) {
             slider.cssPrefix = props[i].replace('Perspective', '').toLowerCase();
             slider.animProp = '-' + slider.cssPrefix + '-transform';
@@ -356,7 +356,7 @@
           // add the current slide to the children
           children = slider.children.eq(currentIndex);
           // cycle through the remaining "showing" slides
-          for (i = 1; i <= slider.settings.maxSlides - 1; i++) {
+          for (var i = 1; i <= slider.settings.maxSlides - 1; i++) {
             // if looped back to the start
             if (currentIndex + i >= slider.children.length) {
               children = children.add(slider.children.eq(currentIndex + i - slider.children.length));
@@ -610,7 +610,7 @@
       linkContent = '',
       pagerQty = getPagerQty();
       // loop through each pager item
-      for (i = 0; i < pagerQty; i++) {
+      for (var i = 0; i < pagerQty; i++) {
         linkContent = '';
         // if a buildPager function is supplied, use it to get pager link value, else use index + 1
         if (slider.settings.buildPager && $.isFunction(slider.settings.buildPager) || slider.settings.pagerCustom) {
