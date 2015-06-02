@@ -6,10 +6,8 @@
  * Licensed under MIT (http://opensource.org/licenses/MIT)
  */
 
-;(function($) {
-
+;(function($)  {
   var defaults = {
-
     // GENERAL
     mode: 'horizontal',
     slideSelector: '',
@@ -1090,6 +1088,10 @@
      *  - DOM event object
      */
     var onTouchStart = function(e) {
+      //fix for live settings changes keep events but return to disable
+      if (!slider.settings.touchEnabled) {
+        return;
+      }
       //disable slider controls while user is interacting with slides to avoid slider freeze that happens on touch devices when a slide swipe happens immediately after interacting with slider controls
       slider.controls.el.addClass('disabled');
 
@@ -1495,14 +1497,24 @@
     el.getSlideElement = function(index) {
       return slider.children.eq(index);
     };
-
+    /**
+     * Returns slider settings
+     */
+    el.getSettings = function() {
+      return slider.settings;
+    };
+    /**
+    * Sets slider settings on the fly
+    */
+    el.setSettings = function(settings) {
+      slider.settings = $.extend({}, slider.settings, settings);
+    };
     /**
      * Returns number of slides in show
      */
     el.getSlideCount = function() {
       return slider.children.length;
     };
-
     /**
      * Return slider.working variable
      */
