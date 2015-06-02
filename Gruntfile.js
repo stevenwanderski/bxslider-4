@@ -20,6 +20,7 @@ module.exports = function(grunt) {
       pkg: grunt.file.readJSON('package.json'),
       app: grunt.file.readJSON('_config.json'),
       vendor: 'bower_components',
+
       // assemble
       assemble: {
         options: {
@@ -108,6 +109,7 @@ module.exports = function(grunt) {
         }
       },
 
+      // concat
       concat: {
         docs: {
           src: [
@@ -155,6 +157,7 @@ module.exports = function(grunt) {
         }
       },
 
+      // jshint
       jshint: {
         options: {
           jshintrc: 'src/js/.jshintrc'
@@ -164,6 +167,7 @@ module.exports = function(grunt) {
         }
       },
 
+      //jscs
       jscs: {
         options: {
           config: 'src/js/.jscsrc',
@@ -175,6 +179,7 @@ module.exports = function(grunt) {
         }
       },
 
+      // uglify
       uglify: {
         options: {
           banner: '/**\n' + ' * bxSlider v<%= pkg.version %>\n' +
@@ -308,13 +313,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('assemble');
 
   // tasks
-  grunt.registerTask('dist', ['clean:dist', 'less:dist', 'concat:dist', 'cssmin:dist', 'copy:distImages', 'copy:distVendor', 'jscs:dist', 'uglify:dist', 'copy:readme']);
+  grunt.registerTask('dist', ['clean:dist', 'less:dist', 'jshint:dist', 'concat:dist', 'cssmin:dist', 'copy:distImages', 'copy:distVendor', 'jscs:dist', 'uglify:dist', 'copy:readme']);
 
   grunt.registerTask('docs', ['clean:docs', 'assemble', 'less:docs', 'concat:docs', 'copy:docsAssets', 'copy:docsHighlightAssets', 'copy:distToDocs']);
 
   grunt.registerTask('test', ['jshint:dist']);
 
-  grunt.registerTask('default', ['dist', 'docs', 'test']);
+  grunt.registerTask('default', ['dist', 'docs']);
 
   grunt.registerTask('serve', ['connect:docs', 'watch']);
 

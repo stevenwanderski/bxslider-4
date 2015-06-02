@@ -1,4 +1,4 @@
-#bxSlider 4.2.3
+#bxSlider 4.2.4
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
@@ -29,7 +29,7 @@ First and most important, the jQuery library needs to be included (no need to do
 
 ```html
 <!-- jQuery library (served from Google) -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- bxSlider Javascript file -->
 <script src="/js/jquery.bxslider.min.js"></script>
 <!-- bxSlider CSS file -->
@@ -51,7 +51,7 @@ Create a `<ul class="bxslider">` element, with a `<li>` for each slide. Slides c
 
 ###Step 3: Call the bxSlider
 
-Call .bxslider() on `<ul class="bxslider">`. Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!
+Call .bxSlider() on `<ul class="bxslider">`. Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!
 
 ```javascript
 $(document).ready(function(){
@@ -362,6 +362,12 @@ Slides will automatically transition
 default: false
 options: boolean (true / false)
 ```
+**stopAutoOnClick**
+Auto will stop on interaction with controls
+```
+default: false
+options: boolean (true / false)
+```
 
 **pause**
 The amount of time (in ms) between each auto transition
@@ -426,6 +432,30 @@ The width of each slide. This setting is required for all horizontal carousels!
 ```
 default: 0
 options: integer
+```
+
+###Keyboard
+
+**keyboardEnabled**
+Allows for keyboard control of visible slider. Keypress ignored if slider not visible.
+```
+default: false
+options: boolean (true / false)
+```
+
+###Accessibility
+**ariaLive**
+Adds Aria Live attribute to slider.
+```
+default: true
+options: boolean (true / false)
+```
+    
+**ariaHidden**
+Adds Aria Hidden attribute to any nonvisible slides.
+```
+default: true
+options: boolean (true / false)
 ```
 
 ###Callbacks

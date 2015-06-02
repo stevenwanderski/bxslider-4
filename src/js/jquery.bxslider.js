@@ -106,6 +106,9 @@
     windowWidth = $(window).width(),
     windowHeight = $(window).height();
 
+    // Return if slider is already initialized
+    if ($(el).data('bxslider')) { return; }
+
     /**
      * ===================================================================================
      * = PRIVATE FUNCTIONS
@@ -117,7 +120,7 @@
      */
     var init = function() {
       // Return if slider is already initialized
-      if (slider.initialized) { return; }
+      if ($(el).data('bxslider')) { return; }
       // merge user-supplied options with the defaults
       slider.settings = $.extend({}, defaults, options);
       // parse slideWidth setting
@@ -170,6 +173,9 @@
       el.children(slider.settings.slideSelector).each(function() {
         $(this).data('origStyle', $(this).attr('style'));
       });
+
+      //store reference to self in order to access public functions later
+      $(el).data('bxslider', this);
       // perform all DOM / CSS modifications
       setup();
     };
@@ -334,7 +340,7 @@
      * Returns the calculated height of the viewport, used to determine either adaptiveHeight or the maxHeight value
      */
     var getViewportHeight = function() {
-      var height = 0,
+      var height = el.outerHeight(),
       currentIndex = null,
       // first determine which children (slides) should be used in our height calculation
       children = $();
@@ -1551,6 +1557,8 @@
       clearInterval(slider.interval);
       if (slider.settings.responsive) { $(window).unbind('resize', resizeWindow); }
       if (slider.settings.keyboardEnabled) { $(document).unbind('keydown', keyPress); }
+      //remove self reference in data
+      $(this).removeData('bxslider');
     };
 
     /**
@@ -1560,6 +1568,8 @@
       if (settings !== undefined) { options = settings; }
       el.destroySlider();
       init();
+      //store reference to self in order to access public functions later
+      $(el).data('bxslider', this);
     };
 
     init();
