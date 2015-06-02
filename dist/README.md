@@ -434,6 +434,13 @@ default: 0
 options: integer
 ```
 
+**shrinkItems**
+The Carousel will only show whole items and shrink the images to fit the viewport based on maxSlides/MinSlides.
+```
+default: false
+options: boolean (true / false)
+```
+
 ###Keyboard
 
 **keyboardEnabled**
@@ -580,6 +587,14 @@ slider = $('.bxslider').bxSlider();
 var slideQty = slider.getSlideCount();
 ```
 
+**redrawSlider**
+Redraw the slider. Useful when needing to redraw a hidden slider after it is unhidden.
+```
+example:
+slider = $('.bxslider').bxSlider();
+slider.redrawSlider();
+```
+
 **reloadSlider**
 Reload the slider. Useful when adding slides on the fly. Accepts an optional settings object. <a href="/examples/reload-slider-settings">See here for an example.</a>
 ```
@@ -597,6 +612,8 @@ slider.destroySlider();
 ```
 
 ## Changelog
+
+### Version 4.2.4
 
 ### Version 4.2.3
 * Minor bug fix

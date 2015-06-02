@@ -115,7 +115,7 @@
     windowHeight = $(window).height();
 
     // Return if slider is already initialized
-    if ($(el).data('bxslider')) { return; }
+    if ($(el).data('bxSlider')) { return; }
 
     /**
      * ===================================================================================
@@ -128,7 +128,7 @@
      */
     var init = function() {
       // Return if slider is already initialized
-      if ($(el).data('bxslider')) { return; }
+      if ($(el).data('bxSlider')) { return; }
       // merge user-supplied options with the defaults
       slider.settings = $.extend({}, defaults, options);
       // parse slideWidth setting
@@ -182,8 +182,6 @@
         $(this).data('origStyle', $(this).attr('style'));
       });
 
-      //store reference to self in order to access public functions later
-      $(el).data('bxslider', this);
       // perform all DOM / CSS modifications
       setup();
     };
@@ -1566,7 +1564,7 @@
       if (slider.settings.responsive) { $(window).unbind('resize', resizeWindow); }
       if (slider.settings.keyboardEnabled) { $(document).unbind('keydown', keyPress); }
       //remove self reference in data
-      $(this).removeData('bxslider');
+      $(this).removeData('bxSlider');
     };
 
     /**
@@ -1577,10 +1575,12 @@
       el.destroySlider();
       init();
       //store reference to self in order to access public functions later
-      $(el).data('bxslider', this);
+      $(el).data('bxSlider', this);
     };
 
     init();
+
+    $(el).data('bxSlider', this);
 
     // returns the current jQuery object
     return this;
