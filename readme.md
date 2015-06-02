@@ -1,4 +1,4 @@
-#bxSlider 4.2.3
+#bxSlider 4.2.4
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
@@ -51,7 +51,7 @@ Create a `<ul class="bxslider">` element, with a `<li>` for each slide. Slides c
 
 ###Step 3: Call the bxSlider
 
-Call `.bxSlider()` on `<ul class="bxslider">`. Note that the call must be made inside of a `$(document).ready()` call, or the plugin will not work!
+Call .bxSlider() on `<ul class="bxslider">`. Note that the call must be made inside of a $(document).ready() call, or the plugin will not work!
 
 ```javascript
 $(document).ready(function(){
@@ -362,6 +362,12 @@ Slides will automatically transition
 default: false
 options: boolean (true / false)
 ```
+**stopAutoOnClick**
+Auto will stop on interaction with controls
+```
+default: false
+options: boolean (true / false)
+```
 
 **pause**
 The amount of time (in ms) between each auto transition
@@ -426,6 +432,37 @@ The width of each slide. This setting is required for all horizontal carousels!
 ```
 default: 0
 options: integer
+```
+
+**shrinkItems**
+The Carousel will only show whole items and shrink the images to fit the viewport based on maxSlides/MinSlides.
+```
+default: false
+options: boolean (true / false)
+```
+
+###Keyboard
+
+**keyboardEnabled**
+Allows for keyboard control of visible slider. Keypress ignored if slider not visible.
+```
+default: false
+options: boolean (true / false)
+```
+
+###Accessibility
+**ariaLive**
+Adds Aria Live attribute to slider.
+```
+default: true
+options: boolean (true / false)
+```
+    
+**ariaHidden**
+Adds Aria Hidden attribute to any nonvisible slides.
+```
+default: true
+options: boolean (true / false)
 ```
 
 ###Callbacks
@@ -550,6 +587,14 @@ slider = $('.bxslider').bxSlider();
 var slideQty = slider.getSlideCount();
 ```
 
+**redrawSlider**
+Redraw the slider. Useful when needing to redraw a hidden slider after it is unhidden.
+```
+example:
+slider = $('.bxslider').bxSlider();
+slider.redrawSlider();
+```
+
 **reloadSlider**
 Reload the slider. Useful when adding slides on the fly. Accepts an optional settings object. <a href="/examples/reload-slider-settings">See here for an example.</a>
 ```
@@ -566,7 +611,53 @@ slider = $('.bxslider').bxSlider();
 slider.destroySlider();
 ```
 
+### Install Grunt and Bower
+
+**Unfamiliar with npm? Don't have node installed?** [Download and install node.js](http://nodejs.org/download/) before proceeding.
+
+From the command line:
+
+1. Install `grunt-cli` and `bower` globally with `npm install -g grunt-cli bower`.
+2. Run `npm install`. npm will look at `package.json` and automatically install the necessary dependencies. 
+3. Run `bower install`, which installs front-end packages defined in `bower.json`.
+
+When completed, you'll be able to run the various Grunt commands provided from the command line.
+
+### Available Grunt commands
+
+* `grunt` — Clean, Compile LESS to CSS, concatenate and validate JS, build documentation.
+* `grunt dist` — Clean, Compile LESS to CSS, concatenate and validate JS for plugin only.
+* `grunt docs` — Clean, build documentation only.
+* `grunt watch` — loads LiveReload, connects, and watches all assets.
+* `grunt zip` — Creates a zip of `/dist` and places it in `/download`.
+
+## Contributing
+
+Everyone is welcome to help [contribute](CONTRIBUTING.md) and improve this project. There are several ways you can contribute:
+
+* Reporting issues (please read [issue guidelines](https://github.com/necolas/issue-guidelines))
+* Suggesting new features
+* Writing or refactoring code
+* Fixing [issues](https://github.com/roots/roots/issues)
+
 ## Changelog
+
+### Version 4.2.4
+NOTICE: We have switched to a Grunt based build process in order to leverage [Assemble](http://assemble.io) for local documentation building. Please review the above notes about Grunt for the commands available. 
+
+* Fix: Fixed transition from first to last slide during infinite loop #778
+* Fix: Reload on multiple sliders doesn't work? #755
+* Fix: bxSlider with text only #746
+* Fix: bower missing main and ignore entries #738
+* Fix: Tickermode transitionend event bubbling #737
+* Fix: Initializing before destroyed breaks slider #748
+* Enhancement: Added shrinkItems carousel setting #772
+* Enhancement: Maintain auto display of slides after a manual selection #594
+* Enhancement: Slider getter through jquery object #739
+* Enhancement: Add aria attributes #751
+* Enhancement: Slider element in every callback and a new method getSliderElement (#780)
+* Enhancement: Local Documentiation and examples. I have added buildable documentation to the repo. This will expand over time and allow for community corrections as needed. Please see above Grunt notes on how to build. 
+
 
 ### Version 4.2.3
 * Minor bug fix
