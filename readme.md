@@ -587,6 +587,27 @@ slider = $('.bxslider').bxSlider();
 var slideQty = slider.getSlideCount();
 ```
 
+**getSettings**
+Returns the current slider settings
+```
+example:
+slider = $('.bxslider').bxSlider();
+var settings = slider.getSettings();
+```
+
+**setSettings**
+Sets (extends) slider settings on the fly
+```
+example:
+slider = $('.bxslider').bxSlider({
+    speed:300
+});
+var newSpeed = 100;
+slider.setSettings({
+    speed:newSpeed
+});
+```
+
 **redrawSlider**
 Redraw the slider. Useful when needing to redraw a hidden slider after it is unhidden.
 ```
