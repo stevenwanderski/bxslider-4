@@ -1,0 +1,43 @@
+---
+title: Destroy Demo
+subTitle: Destroy
+nav: demos
+description: Basic usage demo
+sort: 13
+
+tags: 
+- demo
+---
+
+<div id="demoSlider" class="bxslider">
+	<div class="item"><img src="{{assets}}/img/photo1.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo2.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo3.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo5.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo6.jpeg"></div>
+</div>
+
+<p><a href="" id="slider-init">Click me to go to initialize</a><br />
+<a href="" id="slider-destroy">Click me to destroy</a></p>
+{{#markdown }}
+
+### Setup
+```
+$(document).ready(function(){
+  $('#demoSlider').bxSlider();
+});
+```
+### HTML
+```
+<div id="demoSlider" class="bxslider">
+	<div class="item"><img src="{{assets}}/img/photo1.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo2.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo3.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo5.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo6.jpeg"></div>
+</div>
+```
+
+{{/markdown }} 

@@ -1,4 +1,6 @@
-.jscsrc
+jscs.report.txt
+/docs/
+/bower_components/
 .DS_Store
 /node_modules
 jquery.bxslider.zip

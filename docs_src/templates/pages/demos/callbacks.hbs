@@ -1,0 +1,88 @@
+---
+title: Callbacks Demo
+subTitle: Callbacks
+nav: demos
+description: Callback usage demo
+sort: 9
+
+tags: 
+- demo
+---
+
+<div id="demoSlider" class="bxslider">
+	<div class="item"><img src="{{assets}}/img/photo1.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo2.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo3.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo5.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo6.jpeg"></div>
+</div>
+
+
+<h2>Callbacks</h2>
+    
+<div class="option-name">onSliderLoad</div>
+<div class="option-desc">Executes immediately after the slider is fully loaded</div>
+{{#markdown }}
+<pre><code class="livecodeserver">default: function(){return true}
+options: function(el, currentIndex){ // your codehere }
+arguments:
+  currentIndex: element index of the current slide</code></pre>
+{{/markdown }} 
+          
+<div class="option-name">onSlideBefore</div>
+<div class="option-desc">Executes immediately before each slide transition.</div>
+
+{{#markdown }}
+``` 
+default: function(){return true}
+options: function(el, $slideElement, oldIndex, newIndex){ // your codehere }
+arguments:
+  $slideElement: jQuery element of the destination element
+  oldIndex: element index of the previous slide (before the transition)
+  newIndex: element index of the destination slide (after the transition)
+```
+{{/markdown }} 
+
+<div class="option-name">onSlideAfter</div>
+<div class="option-desc">Executes immediately after each slide transition. Function argument is the current slide element (when transition completes).</div>
+
+{{#markdown }}
+``` 
+default: function(){return true}
+options: function(el, $slideElement, oldIndex, newIndex){ // your codehere }
+arguments:
+  $slideElement: jQuery element of the destination element
+  oldIndex: element index of the previous slide (before the transition)
+  newIndex: element index of the destination slide (after the transition)
+```
+{{/markdown }} 
+
+<div class="option-name" id="onSlideNext">onSlideNext</div>
+<div class="option-desc">Executes immediately before each "Next" slide transition. Function argument is the target (next) slide element.</div>
+
+{{#markdown }}
+``` 
+default: function(){return true}
+options: function(el, $slideElement, oldIndex, newIndex){ // your codehere }
+arguments:
+  $slideElement: jQuery element of the destination element
+  oldIndex: element index of the previous slide (before the transition)
+  newIndex: element index of the destination slide (after the transition)
+```
+{{/markdown }} 
+
+<div class="option-name" id="onSlidePrev">onSlidePrev</div>
+<div class="option-desc">Executes immediately before each "Prev" slide transition. Function argument is the target (prev) slide element.</div>
+
+{{#markdown }}
+``` 
+default: function(){return true}
+options: function(el, $slideElement, oldIndex, newIndex){ // your codehere }
+arguments:
+  $slideElement: jQuery element of the destination element
+  oldIndex: element index of the previous slide (before the transition)
+  newIndex: element index of the destination slide (after the transition)
+```
+{{/markdown }} 
+      

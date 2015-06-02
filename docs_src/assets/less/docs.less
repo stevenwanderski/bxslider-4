@@ -1,0 +1,112 @@
+@import "bootstrap"; 
+
+@font-family-sans-serif:  "Lato", Helvetica, Arial, sans-serif;
+@navbar-height: 80px;
+@navbar-default-bg: #e0e0e0;
+
+
+// Sticky Footer
+// --------------------
+
+html, body {
+	height: 100%;
+}
+.wrapper {
+	min-height: 100%;
+	height: auto !important; /* This line and the next line are not necessary unless you need IE6 support */
+	height: 100%;
+	margin: 0 auto -211px; /* the bottom margin is the negative value of the footer's height */
+}
+
+footer, .push {
+	height: 211px; /* .push must be the same height as .footer */
+}
+
+// Nav
+// --------------------
+
+.navbar-brand {
+	padding: 10px 15px;
+}
+
+// UI
+// --------------------
+
+.btn-outline {
+	.button-variant(#5280dd, transparent, #5280dd);
+	border-width: 3px;
+}
+
+.sub-lead {
+	margin-top: 5px;
+}
+
+// Home
+// --------------------
+
+.version {
+	font-family: monospace;
+}
+
+// Demos
+// --------------------
+
+.demo-list {
+	margin-bottom: 30px;
+}
+
+// Options
+// --------------------
+
+.options {
+	h1 {
+		margin-bottom: 10px;
+	}
+	h2 {
+		font-size: 1.5em;
+		margin-bottom: 15px;
+	}
+}
+
+.option-name {
+	font-weight: bold;
+	font-size: 1em;
+	margin-bottom: 2px;
+}
+
+.option-desc {
+	font-size: .8em;
+	line-height: 1.4em;
+	color: #666;
+}
+
+// Footer
+// --------------------
+
+footer {
+	background: #e0e0e0;
+	border-top: solid 3px #c3c3c3;
+	padding: 40px 0 40px;
+	font-family: "Arial", sans-serif;
+	p {
+		font-size: 1em;
+		margin-bottom: 5px;
+		.pix {
+			margin-top: 25px;
+		}
+	}
+	h4 {
+		font-size: 1.25em;
+		font-weight: bold;
+	}
+	.left {
+		float: left;
+		width: 500px;
+	}
+	.first h4 {
+		padding-top: 3px;
+	}
+	.twitter {
+		margin-top: 16px;
+	}
+}

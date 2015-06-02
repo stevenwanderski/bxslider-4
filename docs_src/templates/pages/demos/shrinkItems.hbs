@@ -1,0 +1,66 @@
+---
+title: Shrink Items Demo
+subTitle: Shrink
+description: Shrink Items usage demo
+sort: 11
+
+tags: 
+- demo
+---
+
+<h1>Shrink Items</h1>
+
+<p>This option causes a carousel to only show whole slides.</p>
+
+<h2>With shrinkItems set to true</h2>
+<div id="demoSlider1" class="bxslider">
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar8"></div>
+</div>
+
+<h2>With shrinkItems set to false</h2>
+<div id="demoSlider2" class="bxslider">
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar8"></div>
+</div>
+
+<h4>JS:</h4>
+{{#markdown }}
+```$(document).ready(function(){
+  $('#demoSlider').bxSlider({
+    slideWidth: 350,
+    minSlides: 2,
+    maxSlides: 3,
+    slideMargin: 10,
+    shrinkItems: true
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div id="demoSlider" class="bxslider">
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar9"></div>
+</div>
+```
+{{/markdown}}
