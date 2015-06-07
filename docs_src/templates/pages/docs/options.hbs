@@ -1,0 +1,624 @@
+---
+title: Options
+nav: docs
+description: bxSlider Documentation
+---
+<h1>Options</h1>
+<p class="intro">No two projects are the same. That is why bxSlider is packed full of options that allow the slider to adapt to the project’s specific needs. Check the <a href="/examples">examples</a> page for detailed implementations.</p>
+
+<div class="category-wrap">
+<h2>General</h2>
+
+<div class="option-name" id="mode">mode</div>
+<div class="option-desc">Type of transition between slides</div>
+
+<pre><code class="http">default: 'horizontal'
+options: 'horizontal', 'vertical', 'fade'
+</code></pre>
+
+
+
+<div class="option-name" id="speed">speed</div>
+<div class="option-desc">Slide transition duration (in ms)</div>
+
+<pre><code class="http">default: 500
+options: integer
+</code></pre>
+
+
+
+<div class="option-name" id="slideMargin">slideMargin</div>
+<div class="option-desc">Margin between each slide</div>
+
+<pre><code class="http">default: 0
+options: integer
+</code></pre>
+
+
+
+<div class="option-name" id="startSlide">startSlide</div>
+<div class="option-desc">Starting slide index (zero-based)</div>
+
+<pre><code class="http">default: 0
+options: integer
+</code></pre>
+
+
+
+<div class="option-name" id="randomStart">randomStart</div>
+<div class="option-desc">Start slider on a random slide</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="slideSelector">slideSelector</div>
+<div class="option-desc">Element to use as slides (ex. <code class="http">'div.slide'</code>).<br />Note: by default, bxSlider will use all immediate children of the slider element</div>
+
+<pre><code class="http">default: ''
+options: jQuery selector
+</code></pre>
+
+
+
+<div class="option-name" id="infiniteLoop">infiniteLoop</div>
+<div class="option-desc">If <code class="http">true</code>, clicking "Next" while on the last slide will transition to the first slide and vice-versa</div>
+
+<pre><code class="http">default: true
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="hideControlOnEnd">hideControlOnEnd</div>
+<div class="option-desc">If <code class="http">true</code>, "Next" control will be hidden on last slide and vice-versa<br/>Note: Only used when <code class="http">infiniteLoop: false</code></div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="easing">easing</div>
+<div class="option-desc">The type of "easing" to use during transitions. If using CSS transitions, include a value for the <code class="http">transition-timing-function</code> property. If not using CSS transitions, you may include <code class="http">plugins/jquery.easing.1.3.js</code> for many options.<br />See <a href="http://gsgd.co.uk/sandbox/jquery/easing/" target="_blank">http://gsgd.co.uk/sandbox/jquery/easing/</a> for more info.</div>
+
+<pre><code class="http">default: null
+options: if using CSS: 'linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier(n,n,n,n)'. If not using CSS: 'swing', 'linear' (see the above file for more options)
+</code></pre>
+
+
+
+<div class="option-name" id="captions">captions</div>
+<div class="option-desc">Include image captions. Captions are derived from the image's <code class="http">title</code> attribute</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="ticker">ticker</div>
+<div class="option-desc">Use slider in ticker mode (similar to a news ticker)</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="tickerHover">tickerHover</div>
+<div class="option-desc">Ticker will pause when mouse hovers over slider. Note: this functionality does NOT work if using CSS transitions!</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="adaptiveHeight">adaptiveHeight</div>
+<div class="option-desc">Dynamically adjust slider height based on each slide's height</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="adaptiveHeightSpeed">adaptiveHeightSpeed</div>
+<div class="option-desc">Slide height transition duration (in ms). Note: only used if <code class="http">adaptiveHeight: true</code></div>
+
+<pre><code class="http">default: 500
+options: integer
+</code></pre>
+
+
+
+<div class="option-name" id="video">video</div>
+<div class="option-desc">If any slides contain video, set this to <code class="http">true</code>. Also, include <code class="http">plugins/jquery.fitvids.js</code><br />See <a href="http://fitvidsjs.com/" target="_blank">http://fitvidsjs.com/</a> for more info</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="responsive">responsive</div>
+<div class="option-desc">Enable or disable auto resize of the slider. Useful if you need to use fixed width sliders.</div>
+
+<pre><code class="http">default: true
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="useCSS">useCSS</div>
+<div class="option-desc">If true, CSS transitions will be used for horizontal and vertical slide animations (this uses native hardware acceleration). If false, jQuery animate() will be used.</div>
+
+<pre><code class="http">default: true
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="preloadImages">preloadImages</div>
+<div class="option-desc">If 'all', preloads all images before starting the slider. If 'visible', preloads only images in the initially visible slides before starting the slider (tip: use 'visible' if all slides are identical dimensions)</div>
+
+<pre><code class="http">default: visible
+options: 'all', 'visible'
+</code></pre>
+
+
+
+<div class="option-name" id="touchEnabled">touchEnabled</div>
+<div class="option-desc">If <code class="http">true</code>, slider will allow touch swipe transitions</div>
+
+<pre><code class="http">default: true
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="swipeThreshold">swipeThreshold</div>
+<div class="option-desc">Amount of pixels a touch swipe needs to exceed in order to execute a slide transition. Note: only used if <code class="http">touchEnabled: true</code></div>
+
+<pre><code class="http">default: 50
+options: integer
+</code></pre>
+
+
+
+<div class="option-name" id="oneToOneTouch">oneToOneTouch</div>
+<div class="option-desc">If <code class="http">true</code>, non-fade slides follow the finger as it swipes</div>
+
+<pre><code class="http">default: true
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="preventDefaultSwipeX">preventDefaultSwipeX</div>
+<div class="option-desc">If <code class="http">true</code>, touch screen will not move along the x-axis as the finger swipes</div>
+
+<pre><code class="http">default: true
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="preventDefaultSwipeY">preventDefaultSwipeY</div>
+<div class="option-desc">If <code class="http">true</code>, touch screen will not move along the y-axis as the finger swipes</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+</div> 
+<div class="category-wrap">
+<h2>Pager</h2>
+
+<div class="option-name" id="pager">pager</div>
+<div class="option-desc">If <code class="http">true</code>, a pager will be added</div>
+
+<pre><code class="http">default: true
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="pagerType">pagerType</div>
+<div class="option-desc">If <code class="http">'full'</code>, a pager link will be generated for each slide. If <code class="http">'short'</code>, a x / y pager will be used (ex. 1 / 5)</div>
+
+<pre><code class="http">default: 'full'
+options: 'full', 'short'
+</code></pre>
+
+
+
+<div class="option-name" id="pagerShortSeparator">pagerShortSeparator</div>
+<div class="option-desc">If <code class="http">pagerType: 'short'</code>, pager will use this value as the separating character</div>
+
+<pre><code class="http">default: ' / '
+options: string
+</code></pre>
+
+
+
+<div class="option-name" id="pagerSelector">pagerSelector</div>
+<div class="option-desc">Element used to populate the populate the pager. By default, the pager is appended to the bx-viewport</div>
+
+<pre><code class="http">default: ''
+options: jQuery selector
+</code></pre>
+
+
+
+<div class="option-name" id="pagerCustom">pagerCustom</div>
+<div class="option-desc">Parent element to be used as the pager. Parent element must contain a <code class="http">&lt;a data-slide-index="x"&gt;</code> element for each slide. See example <a href="/examples/thumbnail-method-1">here</a>. Not for use with dynamic carousels.</div>
+
+<pre><code class="http">default: null
+options: jQuery selector
+</code></pre>
+
+
+
+<div class="option-name" id="buildPager">buildPager</div>
+<div class="option-desc">If supplied, function is called on every slide element, and the returned value is used as the pager item markup.<br />See <a href="http://bxslider.com/examples">examples</a> for detailed implementation</div>
+
+<pre><code class="http">default: null
+options: function(slideIndex)
+</code></pre>
+
+
+
+</div> 
+<div class="category-wrap">
+<h2>Controls</h2>
+
+<div class="option-name" id="controls">controls</div>
+<div class="option-desc">If <code class="http">true</code>, "Next" / "Prev" controls will be added</div>
+
+<pre><code class="http">default: true
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="nextText">nextText</div>
+<div class="option-desc">Text to be used for the "Next" control</div>
+
+<pre><code class="http">default: 'Next'
+options: string
+</code></pre>
+
+
+
+<div class="option-name" id="prevText">prevText</div>
+<div class="option-desc">Text to be used for the "Prev" control</div>
+
+<pre><code class="http">default: 'Prev'
+options: string
+</code></pre>
+
+
+
+<div class="option-name" id="nextSelector">nextSelector</div>
+<div class="option-desc">Element used to populate the "Next" control</div>
+
+<pre><code class="http">default: null
+options: jQuery selector
+</code></pre>
+
+
+
+<div class="option-name" id="prevSelector">prevSelector</div>
+<div class="option-desc">Element used to populate the "Prev" control</div>
+
+<pre><code class="http">default: null
+options: jQuery selector
+</code></pre>
+
+
+
+<div class="option-name" id="autoControls">autoControls</div>
+<div class="option-desc">If <code class="http">true</code>, "Start" / "Stop" controls will be added</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="startText">startText</div>
+<div class="option-desc">Text to be used for the "Start" control</div>
+
+<pre><code class="http">default: 'Start'
+options: string
+</code></pre>
+
+
+
+<div class="option-name" id="stopText">stopText</div>
+<div class="option-desc">Text to be used for the "Stop" control</div>
+
+<pre><code class="http">default: 'Stop'
+options: string
+</code></pre>
+
+
+
+<div class="option-name" id="autoControlsCombine">autoControlsCombine</div>
+<div class="option-desc">When slideshow is playing only "Stop" control is displayed and vice-versa</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="autoControlsSelector">autoControlsSelector</div>
+<div class="option-desc">Element used to populate the auto controls</div>
+
+<pre><code class="http">default: null
+options: jQuery selector
+</code></pre>
+
+
+
+</div> 
+<div class="category-wrap">
+<h2>Auto</h2>
+
+<div class="option-name" id="auto">auto</div>
+<div class="option-desc">Slides will automatically transition</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="pause">pause</div>
+<div class="option-desc">The amount of time (in ms) between each auto transition</div>
+
+<pre><code class="http">default: 4000
+options: integer
+</code></pre>
+
+
+
+<div class="option-name" id="autoStart">autoStart</div>
+<div class="option-desc">Auto show starts playing on load. If <code class="http">false</code>, slideshow will start when the "Start" control is clicked</div>
+
+<pre><code class="http">default: true
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="autoDirection">autoDirection</div>
+<div class="option-desc">The direction of auto show slide transitions</div>
+
+<pre><code class="http">default: 'next'
+options: 'next', 'prev'
+</code></pre>
+
+
+
+<div class="option-name" id="autoHover">autoHover</div>
+<div class="option-desc">Auto show will pause when mouse hovers over slider</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+
+
+<div class="option-name" id="autoDelay">autoDelay</div>
+<div class="option-desc">Time (in ms) auto show should wait before starting</div>
+
+<pre><code class="http">default: 0
+options: integer
+</code></pre>
+
+
+
+</div> 
+<div class="category-wrap">
+<h2>Carousel</h2>
+
+<div class="option-name" id="minSlides">minSlides</div>
+<div class="option-desc">The minimum number of slides to be shown. Slides will be sized down if carousel becomes smaller than the original size.</div>
+
+<pre><code class="http">default: 1
+options: integer
+</code></pre>
+
+
+
+<div class="option-name" id="maxSlides">maxSlides</div>
+<div class="option-desc">The maximum number of slides to be shown. Slides will be sized up if carousel becomes larger than the original size.</div>
+
+<pre><code class="http">default: 1
+options: integer
+</code></pre>
+
+
+
+<div class="option-name" id="moveSlides">moveSlides</div>
+<div class="option-desc">The number of slides to move on transition. This value must be <code class="http">>= minSlides</code>, and <code class="http"><= maxSlides</code>. If zero (default), the number of fully-visible slides will be used.</div>
+
+<pre><code class="http">default: 0
+options: integer
+</code></pre>
+
+
+
+<div class="option-name" id="slideWidth">slideWidth</div>
+<div class="option-desc">The width of each slide. This setting is required for all horizontal carousels!</div>
+
+<pre><code class="http">default: 0
+options: integer
+</code></pre>
+
+
+
+</div> 
+<div class="category-wrap">
+<h2>Callbacks</h2>
+
+<div class="option-name" id="onSliderLoad">onSliderLoad</div>
+<div class="option-desc">Executes immediately after the slider is fully loaded</div>
+
+<pre><code class="javascript">default: function(){return true;}
+options: function(el, currentIndex){ // your code here }
+arguments:
+el: slider element
+currentIndex: element index of the current slide
+</code></pre>
+
+
+
+<div class="option-name" id="onSlideBefore">onSlideBefore</div>
+<div class="option-desc">Executes immediately before each slide transition.</div>
+
+<pre><code class="javascript">default: function(){return true;}
+options: function(el, $slideElement, oldIndex, newIndex){ // your code here }
+arguments:
+el: slider element
+$slideElement: jQuery element of the destination element
+oldIndex: element index of the previous slide (before the transition)
+newIndex: element index of the destination slide (after the transition)
+</code></pre>
+
+
+
+<div class="option-name" id="onSlideAfter">onSlideAfter</div>
+<div class="option-desc">Executes immediately after each slide transition. Function argument is the current slide element (when transition completes).</div>
+
+<pre><code class="javascript">default: function(){return true;}
+options: function(el, $slideElement, oldIndex, newIndex){ // your code here }
+arguments:
+el: slider element
+$slideElement: jQuery element of the destination element
+oldIndex: element index of the previous slide (before the transition)
+newIndex: element index of the destination slide (after the transition)
+</code></pre>
+
+
+
+<div class="option-name" id="onSlideNext">onSlideNext</div>
+<div class="option-desc">Executes immediately before each "Next" slide transition. Function argument is the target (next) slide element.</div>
+
+<pre><code class="javascript">default: function(){return true;}
+options: function(el, $slideElement, oldIndex, newIndex){ // your code here }
+arguments:
+el: slider element
+$slideElement: jQuery element of the destination element
+oldIndex: element index of the previous slide (before the transition)
+newIndex: element index of the destination slide (after the transition)
+</code></pre>
+
+
+
+<div class="option-name" id="onSlidePrev">onSlidePrev</div>
+<div class="option-desc">Executes immediately before each "Prev" slide transition. Function argument is the target (prev) slide element.</div>
+
+<pre><code class="javascript">default: function(){return true;}
+options: function(el, $slideElement, oldIndex, newIndex){ // your code here }
+arguments:
+el: slider element
+$slideElement: jQuery element of the destination element
+oldIndex: element index of the previous slide (before the transition)
+newIndex: element index of the destination slide (after the transition)
+</code></pre>
+
+
+
+</div> 
+<div class="category-wrap">
+<h2>Public methods</h2>
+
+<div class="option-name" id="goToSlide">goToSlide</div>
+<div class="option-desc">Performs a slide transition to the supplied slide index (zero-based)</div>
+
+<pre><code class="javascript">example:
+slider = $('.bxslider').bxSlider();
+slider.goToSlide(3);</code></pre>
+
+
+
+<div class="option-name" id="goToNextSlide">goToNextSlide</div>
+<div class="option-desc">Performs a "Next" slide transition</div>
+
+<pre><code class="javascript">example:
+slider = $('.bxslider').bxSlider();
+slider.goToNextSlide();</code></pre>
+
+
+
+<div class="option-name" id="goToPrevSlide">goToPrevSlide</div>
+<div class="option-desc">Performs a "Prev" slide transition</div>
+
+<pre><code class="javascript">example:
+slider = $('.bxslider').bxSlider();
+slider.goToPrevSlide();</code></pre>
+
+
+
+<div class="option-name" id="startAuto">startAuto</div>
+<div class="option-desc">Starts the auto show. Provide an argument <code class="http">false</code> to prevent the auto controls from being updated.</div>
+
+<pre><code class="javascript">example:
+slider = $('.bxslider').bxSlider();
+slider.startAuto();</code></pre>
+
+
+
+<div class="option-name" id="stopAuto">stopAuto</div>
+<div class="option-desc">Stops the auto show. Provide an argument <code class="http">false</code> to prevent the auto controls from being updated.</div>
+
+<pre><code class="javascript">example:
+slider = $('.bxslider').bxSlider();
+slider.stopAuto();</code></pre>
+
+
+
+<div class="option-name" id="getCurrentSlide">getCurrentSlide</div>
+<div class="option-desc">Returns the current active slide</div>
+
+<pre><code class="javascript">example:
+slider = $('.bxslider').bxSlider();
+var current = slider.getCurrentSlide();</code></pre>
+
+
+
+<div class="option-name" id="getSlideCount">getSlideCount</div>
+<div class="option-desc">Returns the total number of slides in the slider</div>
+
+<pre><code class="javascript">example:
+slider = $('.bxslider').bxSlider();
+var slideQty = slider.getSlideCount();</code></pre>
+
+
+
+<div class="option-name" id="reloadSlider">reloadSlider</div>
+<div class="option-desc">Reload the slider. Useful when adding slides on the fly. Accepts an optional settings object. <a href="/examples/reload-slider-settings">See here for an example.</a></div>
+
+<pre><code class="javascript">example:
+slider = $('.bxslider').bxSlider();
+slider.reloadSlider();</code></pre>
+
+
+
+<div class="option-name" id="destroySlider">destroySlider</div>
+<div class="option-desc">Destroy the slider. This reverts all slider elements back to their original state (before calling the slider).</div>
+
+<pre><code class="javascript">example:
+slider = $('.bxslider').bxSlider();
+slider.destroySlider();</code></pre>
+
+

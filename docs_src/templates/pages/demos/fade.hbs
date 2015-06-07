@@ -1,0 +1,46 @@
+---
+title: Fade Demo
+subTitle: Fade
+nav: demos
+description: Fade demo
+sort: 3
+
+tags: 
+- demo
+---
+
+<div id="demoSlider" class="bxslider">
+	<div class="item"><img src="{{assets}}/img/photo1.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo2.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo3.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo5.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo6.jpeg"></div>
+</div>
+
+{{#markdown }}
+### Overview
+
+Basic usage of bxSlider and uses all default settings. The structure works with any kind of DOM element. In this example we use `<div class="item">...</div>` but you could put any other element `div/span/a/img...`
+
+### Setup
+```
+$(document).ready(function(){
+  $('#demoSlider').bxSlider({
+     mode: 'fade'
+  });
+});
+```
+### HTML
+```
+<div id="demoSlider" class="bxslider">
+	<div class="item"><img src="{{assets}}/img/photo1.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo2.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo3.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo5.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo6.jpeg"></div>
+</div>
+```
+
+{{/markdown }} 

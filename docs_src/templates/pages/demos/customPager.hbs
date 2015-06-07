@@ -1,0 +1,51 @@
+---
+title: Custom Pager Demo
+subTitle: Pager
+description: Custom Pager usage demo
+sort: 10
+
+tags: 
+- demo
+---
+
+<h1>Custom Pager</h1>
+
+<p>Note that the parent element (#bx-pager in this example), must contain an href tag for each slide. Each href tag must have a data-slide-index attribute that references the respecitve slide index (zero-based). See the HTML in this example. Also note that this method should not be used for dynamic carousels.</p>
+
+<div id="demoSlider1" class="bxslider">
+  <div class="item"><img src="{{assets}}/img/photo1.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo2.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo3.jpeg"></div>
+</div>
+
+<div id="bx-pager">
+  <a data-slide-index="0" href=""><img src="http://placehold.it/50x50&text=FooBar1" /></a>
+  <a data-slide-index="1" href=""><img src="http://placehold.it/50x50&text=FooBar2" /></a>
+  <a data-slide-index="2" href=""><img src="http://placehold.it/50x50&text=FooBar3" /></a>
+</div>
+
+<h4>JS:</h4>
+{{#markdown }}
+```
+$(document).ready(function(){
+  $('#demoSlider').bxSlider({
+     pagerCustom: '#bx-pager'
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div id="demoSlider1" class="bxslider">
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/350x350&text=FooBar3"></div>
+</div>
+
+<div id="bx-pager">
+  <a data-slide-index="0" href=""><img src="http://placehold.it/50x50&text=FooBar1" /></a>
+  <a data-slide-index="1" href=""><img src="http://placehold.it/50x50&text=FooBar2" /></a>
+  <a data-slide-index="2" href=""><img src="http://placehold.it/50x50&text=FooBar3" /></a>
+</div>
+```
+{{/markdown}}

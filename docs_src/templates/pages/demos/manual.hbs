@@ -1,0 +1,45 @@
+---
+title: Manual W/O Infinite Loop
+subTitle: Manual
+nav: demos
+description: Manual W/O Infinite Loop
+sort: 4
+
+tags: 
+- demo
+---
+
+<div id="demoSlider" class="bxslider">
+	<div class="item"><img src="{{assets}}/img/photo1.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo2.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo3.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo5.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo6.jpeg"></div>
+</div>
+
+{{#markdown }}
+### Overview
+
+This demo uses `infiniteLoop: false` and `hideControlOnEnd: true` to create a manual style that automatically hides controls when at the beginning and end of the slide show.
+
+### Setup
+```
+$('.bxslider').bxSlider({
+  infiniteLoop: false,
+  hideControlOnEnd: true
+});
+```
+### html
+```
+<div id="demoSlider" class="bxslider">
+	<div class="item"><img src="{{assets}}/img/photo1.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo2.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo3.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo5.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo6.jpeg"></div>
+</div>
+```
+
+{{/markdown }} 
