@@ -1,0 +1,40 @@
+---
+title: Adaptive Height
+subTitle: AdaptiveHeight
+description: Adaptive Height demo
+sort: 8
+
+tags: 
+- demo
+---
+
+<div id="demoSlider" class="bxslider">
+	<div class="item"><img src="{{assets}}/img/photo1-cropped.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo2-cropped.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo3-cropped.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+</div>
+
+{{#markdown }}
+### Overview
+
+Adaptive Height adjusts the height of the slider based on the height of the contained slide.
+
+### Setup
+```
+$('.bxslider').bxSlider({
+  adaptiveHeight: true,
+  mode: 'fade'
+});
+```
+### HTML
+```
+<div id="demoSlider" class="bxslider">
+	<div class="item"><img src="{{assets}}/img/photo1-cropped.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo2-cropped.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo3-cropped.jpeg"></div>
+	<div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+</div>
+```
+
+{{/markdown }} 

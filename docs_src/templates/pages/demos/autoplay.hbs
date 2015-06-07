@@ -1,0 +1,70 @@
+---
+title: Auto Demo
+subTitle: Auto
+nav: demos
+description: Autoplay usage demo
+sort: 7
+
+tags: 
+- demo
+---
+
+<div id="demoSlider" class="bxslider">
+	<div class="item"><img src="{{assets}}/img/photo1.jpeg" title="Caption 1"></div>
+	<div class="item"><img src="{{assets}}/img/photo2.jpeg" title="Caption 2"></div>
+	<div class="item"><img src="{{assets}}/img/photo3.jpeg" title="Caption 3"></div>
+	<div class="item"><img src="{{assets}}/img/photo4.jpeg" title="Caption 4"></div>
+	<div class="item"><img src="{{assets}}/img/photo5.jpeg" title="Caption 5"></div>
+	<div class="item"><img src="{{assets}}/img/photo6.jpeg" title="Caption 6"></div>
+</div>
+
+<h2>Auto</h2>
+
+<div class="option-name" id="auto">auto</div>
+<div class="option-desc">Slides will automatically transition</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+<div class="option-name" id="pause">pause</div>
+<div class="option-desc">The amount of time (in ms) between each auto transition</div>
+
+<pre><code class="http">default: 4000
+options: integer
+</code></pre>
+
+<div class="option-name" id="autoStart">autoStart</div>
+<div class="option-desc">Auto show starts playing on load. If <code>false</code>, slideshow will start when the "Start" control is clicked</div>
+
+<pre><code class="http">default: true
+options: boolean (true / false)
+</code></pre>
+      
+<div class="option-name" id="autoDirection">autoDirection</div>
+<div class="option-desc">The direction of auto show slide transitions</div>
+
+<pre><code class="http">default: 'next'
+options: 'next', 'prev'
+</code></pre>
+
+<div class="option-name" id="autoHover">autoHover</div>
+<div class="option-desc">Auto show will pause when mouse hovers over slider</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>
+
+<div class="option-name" id="autoDelay">autoDelay</div>
+<div class="option-desc">Time (in ms) auto show should wait before starting</div>
+
+<pre><code class="http">default: 0
+options: integer
+</code></pre>
+
+<div class="option-name" id="stopAutoOnClick">stopAutoOnClick</div>
+<div class="option-desc">Stop Auto when controls or pager are clicked</div>
+
+<pre><code class="http">default: false
+options: boolean (true / false)
+</code></pre>

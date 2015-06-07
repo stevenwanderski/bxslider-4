@@ -1,0 +1,438 @@
+---
+title: Carousel Demo
+subTitle: Carousel
+description: Carousel usage demo
+sort: 5
+
+tags: 
+- demo
+---
+
+<h1>Carousels De-mystified</h1>
+
+<p>Ever since releasing v4.0, which introduced responsive behavior, the carousel mode (displaying / moving multiple slides) has been the most misunderstood, troublesome aspect of the slider. Proper use of the settings required a secret knowledge of the underlying codebase, and did not allow for intuitive configuration. Plainly put - the carousel config was poopy.</p>
+
+<p>No longer! In version 4.1 the carousel functionality and settings have been re-worked to function in a straight forward, intuitive manner. Below is a detailed explanation of the new settings, with lots of examples. Let's do this thing.</p>
+
+<h3>Quick glance</h3>
+<p>
+  <ol>
+    <li><a href="#example1">Example #1: Standard responsive carousel</a></li>
+    <li><a href="#example2">Example #2: Locked number of slides</a></li>
+    <li><a href="#example3">Example #3: Too large slideWidth</a></li>
+    <li><a href="#example4">Example #4: Move number of slides (moveSlides)</a></li>
+    <li><a href="#example5">Example #5: Infinite carousel with odd number of slides</a></li>
+    <li><a href="#example6">Example #6: Start on a different slide</a></li>
+    <li><a href="#example7">Example #7: Not enough slides</a></li>
+    <li><a href="#example8">Example #8: Vertical carousel</a></li>
+  </ol>
+</p>
+
+<h2 id="example1">Example #1: Standard responsive carousel</h2>
+
+<div class="slider1">
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar9"></div>
+</div>
+
+<h4>JS:</h4>
+{{#markdown }}
+```$(document).ready(function(){
+  $('.slider1').bxSlider({
+    slideWidth: 200,
+    minSlides: 2,
+    maxSlides: 3,
+    slideMargin: 10
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div class="slider1">
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar9"></div>
+</div>
+```
+
+<p>In order to setup a <em>responsive</em> carousel, we need to supply three values:</p>
+
+<p>
+<ol>
+  <li>slideWidth</li>
+  <li>maxSlides</li>
+  <li>minSlides</li>
+</ol>
+</p>
+
+<p>Go ahead and resize your browser from very large, to very small. You will see that 3 slides are displayed when there is room (maxSlides) and 2 slides are displayed when room becomes tight (minSlides).</p>
+
+<p>Let's disect each of the settings.</p>
+
+<h3>slideWidth</h3>
+
+<p>When telling a horizontal slider to display more than one slide, we need to supply a width for which the slides should use. If no slideWidth is supplied, the slider will expand each slide to 100% width of the container. Therefore: <strong>use this setting as the maximum width for each slide.</strong> When space allows, slides will be set to this width, and will never grow beyond it.</p>
+
+<p>Another new feature regarding slideWidth, is that the slider container will now be assigned a max-width which will never be larger than the maximum number of visible slides. So, if we have a slider with the following settings: slideWidth: 100, minSlides: 2, maxSlides: 3, the slider container will recieve a max-width of "300px" (slideWidth * maxSlides). Another example: slideWidth: 200, minSlides: 1, maxSlides: 5, slider container will receive a max-width of "1000px" (slideWidth * maxSlides).</p>
+
+<p>Again, the slider container will always recieve a max-width of: slideWidth * maxSlides. This is different from v4.0 in that the slider container now will "shrink-wrap" to fit maximum visible slides.</p>
+
+<h3>minSlides / maxSlides</h3>
+
+<p>Because our carousel is repsonsive and needs to look good across <em>all</em> devices, we have the ability to tell the carousel to display different amounts of slides depending on our screen size. Let's look at each setting:</p>
+
+<p>
+  <ol>
+    <li>
+      <strong>minSlides:</strong> always display at least this many slides. This means that <em>no matter what</em>, this amount of slides will always be displayed. Even if we size our browser down to 200px wide, the specified value of slides will be shown.
+    </li>
+    <li>
+      <strong>maxSlides:</strong> never display more than this many slides. This value combined with the slideWidth value is used to generate the slider container's max-width value which ensures that the viewport can never display more than <em>y</em> slides. So basically, the width of our slider container will always be either: maxSlides * slideWidth or 100% (if maxSlides * slideWidth is greater than the page container).
+    </li>
+  </ol>
+</p>
+
+<p>If these settings seem confusing, think of how differently a carousel could be displayed on a small mobile screen as opposed to a large desktop screen. On a 1900px-wide desktop monitor, the carousel could easily display 10 slides at a time, with room to breathe. However, on a 300px-wide mobile phone, we would rather display 2 slides at a time (as showing 10 slides would make the slides unreadable).</p>
+
+<p>Also remember that once the minSlides number of slides are displayed, the slides will be scaled down as the browser becomes smaller and smaller.</p>
+
+<h3>slideMargin (optional)</h3>
+
+<p>This is purely for presentation purposes only. This setting injects a margin of <em>y</em> pixels between each slide.</p>
+
+
+{{/markdown }} 
+
+<hr />
+
+<h2 id="example2">Example #2: Locked number of slides</h2>
+
+<div class="slider2">
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar10"></div>
+</div>
+
+<h4>JS:</h4>
+{{#markdown }}
+```$(document).ready(function(){
+  $('.slider2').bxSlider({
+    slideWidth: 300,
+    minSlides: 2,
+    maxSlides: 2,
+    slideMargin: 10
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div class="slider2">
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/350x150&text=FooBar10"></div>
+</div>
+```
+
+<p>Here we want to <em>always</em> display 2 slides no matter the screen size. Therefore we set both minSlides and maxSlides to 2. Resize your browser to see that no matter how large or small the screen becomes, 2 slides are always displayed.</p>
+{{/markdown }} 
+
+<hr />
+
+<h2 id="example3">Example #3: Too large slideWidth</h2>
+
+<div class="slider3">
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar10"></div>
+</div>
+
+<h4>JS:</h4>
+{{#markdown}}
+```$(document).ready(function(){
+  $('.slider3').bxSlider({
+    slideWidth: 5000,
+    minSlides: 2,
+    maxSlides: 4,
+    slideMargin: 10
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div class="slider3">
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/500x150&text=FooBar10"></div>
+</div>
+```
+
+<p>Here we intentionally set a slideWidth larger than the available space. In this case, the slider defaults to the minSlide value, and scales appropriately.</p>
+{{/markdown }} 
+
+<hr />
+
+<h2 id="example4">Example #4: Move number of slides (moveSlides)</h2>
+
+<div class="slider4">
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar10"></div>
+</div>
+
+<h4>JS:</h4>
+{{#markdown}}
+```$(document).ready(function(){
+  $('.slider4').bxSlider({
+    slideWidth: 300,
+    minSlides: 2,
+    maxSlides: 3,
+    moveSlides: 1,
+    slideMargin: 10
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div class="slider4">
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar10"></div>
+</div>
+```
+
+<p>Here we see a new setting: moveSlides. This tells the carousel to move <em>y</em> slides each time next / prev is fired. If no value is supplied for moveSlides, the carousel will use the number of visible slides for this value.</p>
+{{/markdown}}
+
+<hr />
+
+<h2 id="example5">Example #5: Infinite carousel with odd number of slides</h2>
+
+<div class="slider5">
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar10"></div>
+</div>
+
+<h4>JS:</h4>
+{{#markdown}}
+```$(document).ready(function(){
+  $('.slider5').bxSlider({
+    slideWidth: 300,
+    minSlides: 3,
+    maxSlides: 3,
+    moveSlides: 3,
+    slideMargin: 10
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div class="slider5">
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar10"></div>
+</div>
+```
+
+<p>Here we have implemented an infinite carousel (continues to first slide after reaching the last slide). However, we are moving 3 slides at a time, but we only have 10 slides. When this occurs, the carousel will always return to slide 1, even if it does not follow the moveSlides setting. This is done so that we can achieve a truly <em>infinite</em> carousel that will not break due to an uneven slide quantity.</p>
+{{/markdown}}
+<hr />
+
+<h2 id="example6">Example #6: Start on a different slide</h2>
+
+<div class="slider6">
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar10"></div>
+</div>
+
+<h4>JS:</h4>
+{{#markdown}}
+```$(document).ready(function(){
+  $('.slider6').bxSlider({
+    slideWidth: 300,
+    minSlides: 2,
+    maxSlides: 3,
+    startSlide: 2,
+    slideMargin: 10
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div class="slider6">
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/300x150&text=FooBar10"></div>
+</div>
+```
+
+<p>This is a tricky one :) Here we specify a startSlide value of 2. This can be a little misleading as this does not refer to <em>slide</em> #2, but it refers to <em>pager</em> #2. Since slides and pagers are zero-based, we are telling the carousel to start on the thrid pager (remember that 2 in a zero-based world is the third element). Similar to the moveSlides explanation above, this occurs so that the carousel can stay in sync with the pager and prevents the markup from becoming unweildy.</p>
+{{/markdown}}
+<hr />
+
+<h2 id="example7">Example #7: Not enough slides</h2>
+
+<div class="slider7">
+  <div class="slide"><img src="http://placehold.it/200x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/200x150&text=FooBar2"></div>
+</div>
+
+<h4>JS:</h4>
+{{#markdown}}
+```$(document).ready(function(){
+  $('.slider7').bxSlider({
+    slideWidth: 200,
+    minSlides: 4,
+    maxSlides: 5,
+    slideMargin: 10
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div class="slider7">
+  <div class="slide"><img src="http://placehold.it/200x150&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/200x150&text=FooBar2"></div>
+</div>
+```
+
+<p>Here we have intentionally not provided enough slides to fill our requirements. In this case, the carousel will simply use the number of existing slides as the minSlide value, and continue as usual.</p>
+{{/markdown}}
+<hr />
+
+<h2 id="example8">Example #8: Vertical carousel</h2>
+
+<div class="slider8">
+  <div class="slide"><img src="http://placehold.it/300x100&text=FooBar1"></div>
+  <div class="slide"><img src="http://placehold.it/300x100&text=FooBar2"></div>
+  <div class="slide"><img src="http://placehold.it/300x100&text=FooBar3"></div>
+  <div class="slide"><img src="http://placehold.it/300x100&text=FooBar4"></div>
+  <div class="slide"><img src="http://placehold.it/300x100&text=FooBar5"></div>
+  <div class="slide"><img src="http://placehold.it/300x100&text=FooBar6"></div>
+  <div class="slide"><img src="http://placehold.it/300x100&text=FooBar7"></div>
+  <div class="slide"><img src="http://placehold.it/300x100&text=FooBar8"></div>
+  <div class="slide"><img src="http://placehold.it/300x100&text=FooBar9"></div>
+  <div class="slide"><img src="http://placehold.it/300x100&text=FooBar10"></div>
+</div>
+
+<h4>JS:</h4>
+{{#markdown}}
+```$(document).ready(function(){
+  $('.slider8').bxSlider({
+    mode: 'vertical',
+    slideWidth: 300,
+    minSlides: 2,
+    slideMargin: 10
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div class="slider8">
+	<div class="slide"><img src="http://placehold.it/300x100&text=FooBar1"></div> 
+	<div class="slide"><img src="http://placehold.it/300x100&text=FooBar2"></div> 
+	<div class="slide"><img src="http://placehold.it/300x100&text=FooBar3"></div> 
+	<div class="slide"><img src="http://placehold.it/300x100&text=FooBar4"></div> 
+	<div class="slide"><img src="http://placehold.it/300x100&text=FooBar5"></div> 
+	<div class="slide"><img src="http://placehold.it/300x100&text=FooBar6"></div> 
+	<div class="slide"><img src="http://placehold.it/300x100&text=FooBar7"></div> 
+	<div class="slide"><img src="http://placehold.it/300x100&text=FooBar8"></div> 
+	<div class="slide"><img src="http://placehold.it/300x100&text=FooBar9"></div> 
+	<div class="slide"><img src="http://placehold.it/300x100&text=FooBar10"></div> 
+</div>
+```
+
+<p>Vertical carousels follow most of the same rules as horizontal carousels. However, the maxSlides setting is not used as vertical carousels will always have only one slide across. Therefore, we do not have to accomodate different screen widths with this setting.</p>
+{{/markdown}}

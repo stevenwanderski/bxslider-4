@@ -1,0 +1,44 @@
+---
+title: Touch Demo
+subTitle: Touch
+description: Touch usage demo
+sort: 12
+
+tags: 
+- demo
+---
+
+<h1>Touch</h1>
+
+<p>This demonstrates some of the touch features.</p>
+
+<div id="demoSlider" class="bxslider">
+  <div class="item"><img src="{{assets}}/img/photo1.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo2.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo3.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo5.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo6.jpeg"></div>
+</div>
+
+<h4>JS:</h4>
+{{#markdown }}
+```$(document).ready(function(){
+  $('#demoSlider').bxSlider({
+    preventDefaultSwipeX: true
+  });
+});
+```
+
+<h4>HTML:</h4>
+```
+<div id="demoSlider" class="bxslider">
+  <div class="item"><img src="{{assets}}/img/photo1.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo2.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo3.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo4.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo5.jpeg"></div>
+  <div class="item"><img src="{{assets}}/img/photo6.jpeg"></div>
+</div>
+```
+{{/markdown}}

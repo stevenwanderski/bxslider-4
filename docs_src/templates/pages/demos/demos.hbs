@@ -1,0 +1,22 @@
+---
+title: Demos
+subTitle: Demos
+nav: demos
+description: A list of bxSlider examples.
+---
+
+<div class="demo-list container">
+	<div class="row">
+		{{#each tags}}
+			{{#is tag "demo"}}
+				{{#withSort pages "data.sort"}}
+					<div class="col-sm-12">
+						<a href="{{basename }}.html" class="demo-block">
+							<h5>{{data.subTitle}} </h5>
+						</a>
+					</div>
+				{{/withSort}}
+			{{/is}}
+		{{/each}}
+	</div>
+</div>
