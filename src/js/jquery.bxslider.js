@@ -1534,6 +1534,13 @@
 			init();
 		};
 
+		/**
+		 * Update slider settings like speed on the fly
+		 */
+		el.updateSettings = function(options) {
+			slider.settings = $.extend(slider.settings, options);
+		};
+
 		init();
 
 		// returns the current jQuery object
