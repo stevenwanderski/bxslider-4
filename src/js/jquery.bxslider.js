@@ -556,14 +556,18 @@
         if (type === 'slide') {
           // set the property value
           el.css(slider.animProp, propValue);
-          // bind a callback method - executes when CSS transition completes
-          el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(e) {
-            //make sure it's the correct one
-            if (!$(e.target).is(el)) { return; }
-            // unbind the callback
-            el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+          if (duration !== 0) {
+            // bind a callback method - executes when CSS transition completes
+            el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(e) {
+              //make sure it's the correct one
+              if (!$(e.target).is(el)) { return; }
+              // unbind the callback
+              el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+              updateAfterSlideTransition();
+            });
+          } else { //duration = 0
             updateAfterSlideTransition();
-          });
+          }
         } else if (type === 'reset') {
           el.css(slider.animProp, propValue);
         } else if (type === 'ticker') {
@@ -571,16 +575,21 @@
           el.css('-' + slider.cssPrefix + '-transition-timing-function', 'linear');
           el.css(slider.animProp, propValue);
           // bind a callback method - executes when CSS transition completes
-          el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(e) {
-            //make sure it's the correct one
-            if (!$(e.target).is(el)) { return; }
-            // unbind the callback
-            el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
-            // reset the position
+          if (duration !== 0) {
+            el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(e) {
+              //make sure it's the correct one
+              if (!$(e.target).is(el)) { return; }
+              // unbind the callback
+              el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+              // reset the position
+              setPositionProperty(params.resetValue, 'reset', 0);
+              // start the loop again
+              tickerLoop();
+            });
+          } else { //duration = 0
             setPositionProperty(params.resetValue, 'reset', 0);
-            // start the loop again
             tickerLoop();
-          });
+          }
         }
       // use JS animate
       } else {
