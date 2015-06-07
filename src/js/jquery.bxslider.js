@@ -1276,6 +1276,34 @@
     };
 
     /**
+     * Returns index according to present page range
+     *
+     * @param slideOndex (int)
+     *  - the desired slide index
+     */
+    var setSlideIndex = function(slideIndex) {
+      if (slideIndex < 0) {
+        if (slider.settings.infiniteLoop) {
+          return getPagerQty() - 1;
+        } else {
+          //we don't go to undefined slides
+          return slider.active.index;
+        }
+      // if slideIndex is greater than children length, set active index to 0 (this happens during infinite loop)
+      } else if (slideIndex >= getPagerQty()) {
+        if (slider.settings.infiniteLoop) {
+          return 0;
+        } else {
+          //we don't move to undefined pages
+          return slider.active.index;
+        }
+      // set active index to requested slide
+      } else {
+        return slideIndex;
+      }
+    };
+
+    /**
      * ===================================================================================
      * = PUBLIC FUNCTIONS
      * ===================================================================================
@@ -1298,31 +1326,25 @@
       position = {left: 0, top: 0},
       lastChild = null,
       lastShowingIndex, eq, value, requestEl;
-
-      // if plugin is currently in motion, ignore request
-      if (slider.working || slider.active.index === slideIndex) { return; }
-      // declare that plugin is in motion
-      slider.working = true;
       // store the old index
       slider.oldIndex = slider.active.index;
-      // if slideIndex is less than zero, set active index to last child (this happens during infinite loop)
-      if (slideIndex < 0) {
-        slider.active.index = getPagerQty() - 1;
-      // if slideIndex is greater than children length, set active index to 0 (this happens during infinite loop)
-      } else if (slideIndex >= getPagerQty()) {
-        slider.active.index = 0;
-      // set active index to requested slide
-      } else {
-        slider.active.index = slideIndex;
-      }
+      //set new index
+      slider.active.index = setSlideIndex(slideIndex);
+
+      // if plugin is currently in motion, ignore request
+      if (slider.working || slider.active.index === slider.oldIndex) { return; }
+      // declare that plugin is in motion
+      slider.working = true;
 
       performTransition = slider.settings.onSlideBefore.call(el, slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 
+      // If transitions canceled, reset and return
       if (typeof (performTransition) !== 'undefined' && !performTransition) {
         slider.active.index = slider.oldIndex; // restore old index
         slider.working = false; // is not in motion
         return;
       }
+
       if (direction === 'next') {
         // Prevent canceling in future functions or lack there-of from negating previous commands to cancel
         if (!slider.settings.onSlideNext.call(el, slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index)) {
@@ -1333,13 +1355,6 @@
         if (!slider.settings.onSlidePrev.call(el, slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index)) {
           performTransition = false;
         }
-      }
-
-      // If transitions canceled, reset and return
-      if (typeof (performTransition) !== 'undefined' && !performTransition) {
-        slider.active.index = slider.oldIndex; // restore old index
-        slider.working = false; // is not in motion
-        return;
       }
 
       // check if last slide
@@ -1393,7 +1408,8 @@
           slider.active.last = false;
         // normal non-zero requests
         } else if (slideIndex >= 0) {
-          requestEl = slideIndex * getMoveBy();
+          //parseInt is applied to allow floats for slides/page
+          requestEl = slideIndex * parseInt(getMoveBy());
           position = slider.children.eq(requestEl).position();
         }
 
@@ -1401,10 +1417,12 @@
          * (e.g. if you destroy the slider on a next click),
          * it doesn't throw an error.
          */
-        if (typeof (position) !== undefined) {
+        if (typeof (position) !== 'undefined') {
           value = slider.settings.mode === 'horizontal' ? -(position.left - moveBy) : -position.top;
           // plugin values to be animated
           setPositionProperty(value, 'slide', slider.settings.speed);
+        }else {
+          slider.working = false;
         }
       }
       if (slider.settings.ariaHidden) { applyAriaHiddenAttributes(slider.active.index * getMoveBy()); }
@@ -1542,7 +1560,7 @@
      */
     el.destroySlider = function() {
       // don't do anything if slider has already been destroyed
-      if (!slider.initialized) { return; }
+      //if (!slider.initialized) { return; }
       slider.initialized = false;
       $('.bx-clone', this).remove();
       slider.children.each(function() {
