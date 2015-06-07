@@ -1569,13 +1569,13 @@
       //store reference to self in order to access public functions later
       $(el).data('bxSlider', this);
     };
-	  
-	  /**
-	 * Update slider settings like speed on the fly
-	 */
-	el.updateSettings = function(options) {
-		slider.settings = $.extend(slider.settings, options);
-	};
+
+    /**
+     * Update slider settings like speed on the fly
+     */
+    el.updateSettings = function(options) {
+      slider.settings = $.extend(slider.settings, options);
+    };
 
     init();
 
