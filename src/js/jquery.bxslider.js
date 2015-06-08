@@ -1570,6 +1570,10 @@
       $(el).data('bxSlider', this);
     };
 
+    el.getNumberOfPages = function() {
+      return getPagerQty();
+    };
+
     init();
 
     $(el).data('bxSlider', this);
