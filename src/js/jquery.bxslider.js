@@ -338,7 +338,7 @@
      * Returns the calculated height of the viewport, used to determine either adaptiveHeight or the maxHeight value
      */
     var getViewportHeight = function() {
-      var height = el.outerHeight(),
+      var height = 0,
       currentIndex = null,
       // first determine which children (slides) should be used in our height calculation
       children = $();
