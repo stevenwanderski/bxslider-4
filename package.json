@@ -46,6 +46,5 @@
     "bxslider",
     "jQuery",
     "plugin"
-  ],
-  "private": true
+  ]
 }
