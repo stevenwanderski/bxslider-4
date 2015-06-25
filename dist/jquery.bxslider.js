@@ -1,5 +1,5 @@
 /**
- * bxSlider v4.2.5
+ * bxSlider v4.2.6
  * Copyright 2013-2015 Steven Wanderski
  * Written while drinking Belgian ales and listening to jazz
 
@@ -1332,6 +1332,8 @@
      *  - INTERNAL USE ONLY - the direction of travel ("prev" / "next")
      */
     el.goToSlide = function(slideIndex, direction) {
+      if (slider.working || slider.active.index === slideIndex) { return; }
+
       // onSlideBefore, onSlideNext, onSlidePrev callbacks
       // Allow transition canceling based on returned value
       var performTransition = true,
@@ -1446,7 +1448,7 @@
      */
     el.goToNextSlide = function() {
       // if infiniteLoop is false and last page is showing, disregard call
-      if (!slider.settings.infiniteLoop && slider.active.last) { return; }
+      if (slider.working || !slider.settings.infiniteLoop && slider.active.last) { return; }
       var pagerIndex = parseInt(slider.active.index) + 1;
       el.goToSlide(pagerIndex, 'next');
     };
@@ -1456,7 +1458,7 @@
      */
     el.goToPrevSlide = function() {
       // if infiniteLoop is false and last page is showing, disregard call
-      if (!slider.settings.infiniteLoop && slider.active.index === 0) { return; }
+      if (slider.working || !slider.settings.infiniteLoop && slider.active.index === 0) { return; }
       var pagerIndex = parseInt(slider.active.index) - 1;
       el.goToSlide(pagerIndex, 'prev');
     };
