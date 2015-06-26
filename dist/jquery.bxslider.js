@@ -1,5 +1,5 @@
 /**
- * bxSlider v4.2.6
+ * bxSlider v4.2.7
  * Copyright 2013-2015 Steven Wanderski
  * Written while drinking Belgian ales and listening to jazz
 
@@ -1558,6 +1558,13 @@
         updatePagerActive(slider.active.index);
       }
       if (slider.settings.ariaHidden) { applyAriaHiddenAttributes(slider.active.index * getMoveBy()); }
+    };
+
+    /**
+     * Update sliders height
+     */
+    el.recalculateHeight = function() {
+      slider.viewport.css('height', getViewportHeight());
     };
 
     /**
