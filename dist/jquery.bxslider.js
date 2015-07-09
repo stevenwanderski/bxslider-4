@@ -677,10 +677,14 @@
       slider.controls.prev.bind('click touchend', clickPrevBind);
       // if nextSelector was supplied, populate it
       if (slider.settings.nextSelector) {
+        // Clear nextSelector, to avoid multiple links when using reloadSlider()
+        $(slider.settings.nextSelector).html('');
         $(slider.settings.nextSelector).append(slider.controls.next);
       }
       // if prevSelector was supplied, populate it
       if (slider.settings.prevSelector) {
+        // Clear prevSelector, to avoid multiple links when using reloadSlider()
+        $(slider.settings.prevSelector).html('');
         $(slider.settings.prevSelector).append(slider.controls.prev);
       }
       // if no custom selectors were supplied
