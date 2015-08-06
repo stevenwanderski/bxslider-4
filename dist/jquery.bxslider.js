@@ -508,7 +508,7 @@
     var setSlidePosition = function() {
       var position, lastChild, lastShowingIndex;
       // if last slide, not infinite loop, and number of children is larger than specified maxSlides
-      if (slider.children.length > slider.settings.maxSlides && slider.active.last && !slider.settings.infiniteLoop) {
+      if (slider.children.length >= slider.settings.maxSlides && slider.active.last && !slider.settings.infiniteLoop) {
         if (slider.settings.mode === 'horizontal') {
           // get the last child's position
           lastChild = slider.children.last();
