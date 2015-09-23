@@ -22,8 +22,8 @@ ul.bxslider {
   list-style: none;
 }
 .bx-viewport {
-  /*fix other elements on the page moving (on Chrome)*/
-  -webkit-transform: translatez(0);
+  /* fix other elements on the page moving (in Chrome) */
+  -webkit-transform: translateZ(0);
 }
 /** THEME
 ===================================*/
