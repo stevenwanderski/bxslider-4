@@ -226,7 +226,8 @@
       }
       // apply css to all slider children
       slider.children.css({
-        float: slider.settings.mode === 'horizontal' ? 'left' : 'none',
+        // the float atttribute is a reserved word in compressors like YUI compressor and need to be quoted #48
+        'float': slider.settings.mode === 'horizontal' ? 'left' : 'none',
         listStyle: 'none',
         position: 'relative'
       });
