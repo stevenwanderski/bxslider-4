@@ -1339,7 +1339,7 @@
       slider.oldIndex = slider.active.index;
       //set new index
       slider.active.index = setSlideIndex(slideIndex);
-      
+
       // declare that plugin is in motion
       slider.working = true;
 
