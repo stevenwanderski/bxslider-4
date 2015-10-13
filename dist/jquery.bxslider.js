@@ -143,7 +143,7 @@
       // store active slide information
       slider.active = { index: slider.settings.startSlide };
       // store if the slider is in carousel mode (displaying / moving multiple slides)
-      slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1 ? true : false;
+      slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1;
       // if carousel, force preloadImages = 'all'
       if (slider.carousel) { slider.settings.preloadImages = 'all'; }
       // calculate the min / max width thresholds based on min / max number of slides
@@ -276,7 +276,11 @@
       } else {
         slider.settings.pager = false;
       }
-      loadElements(preloadSelector, start);
+      if (slider.settings.preloadImages === 'all' || slider.settings.preloadImages === 'visible') {
+        loadElements(preloadSelector, start);
+      } else {
+        start();
+      }
     };
 
     var loadElements = function(selector, callback) {
