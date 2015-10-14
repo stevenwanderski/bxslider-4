@@ -1328,9 +1328,14 @@
      *  - INTERNAL USE ONLY - the direction of travel ("prev" / "next")
      */
     el.goToSlide = function(slideIndex, direction) {
+      // if plugin is currently in motion, ignore request
+      if (slider.working || slider.active.index === slider.oldIndex) { return; }
+      // declare that plugin is in motion
+      slider.working = true;
+
       // onSlideBefore, onSlideNext, onSlidePrev callbacks
       // Allow transition canceling based on returned value
-      var performTransition = true,
+      var performTransition,
       moveBy = 0,
       position = {left: 0, top: 0},
       lastChild = null,
@@ -1339,11 +1344,6 @@
       slider.oldIndex = slider.active.index;
       //set new index
       slider.active.index = setSlideIndex(slideIndex);
-
-      // if plugin is currently in motion, ignore request
-      if (slider.working || slider.active.index === slider.oldIndex) { return; }
-      // declare that plugin is in motion
-      slider.working = true;
 
       performTransition = slider.settings.onSlideBefore.call(el, slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
 
