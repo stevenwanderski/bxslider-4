@@ -89,7 +89,8 @@
     onSlideAfter: function() { return true; },
     onSlideNext: function() { return true; },
     onSlidePrev: function() { return true; },
-    onSliderResize: function() { return true; }
+    onSliderResizeBefore: function() { return true; },
+    onSliderResizeAfter: function() { return true; }
   };
 
   $.fn.bxSlider = function(options) {
@@ -1260,13 +1261,15 @@
         // *we must check this because our dinosaur friend IE fires a window resize event when certain DOM elements
         // are resized. Can you just die already?*
         if (windowWidth !== windowWidthNew || windowHeight !== windowHeightNew) {
+          // Call user resize-before handler
+          slider.settings.onSliderResizeBefore.call(el, slider.active.index);
           // set the new window dimens
           windowWidth = windowWidthNew;
           windowHeight = windowHeightNew;
           // update all dynamic elements
           el.redrawSlider();
           // Call user resize handler
-          slider.settings.onSliderResize.call(el, slider.active.index);
+          slider.settings.onSliderResizeAfter.call(el, slider.active.index);
         }
       }
     };
