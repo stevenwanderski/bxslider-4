@@ -313,7 +313,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('assemble');
 
   // tasks
-  grunt.registerTask('dist', ['clean:dist', 'less:dist', 'jshint:dist', 'concat:dist', 'cssmin:dist', 'copy:distImages', 'copy:distVendor', 'uglify:dist', 'copy:readme']);
+  grunt.registerTask('dist', ['clean:dist', 'less:dist', 'jshint:dist', 'concat:dist', 'cssmin:dist', 'copy:distImages', 'copy:distVendor', 'jscs:dist', 'uglify:dist', 'copy:readme']);
 
   grunt.registerTask('docs', ['clean:docs', 'assemble', 'less:docs', 'concat:docs', 'copy:docsAssets', 'copy:docsHighlightAssets', 'copy:distToDocs']);
 
