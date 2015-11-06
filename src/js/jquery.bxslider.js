@@ -320,8 +320,17 @@
       slider.settings.onSliderLoad.call(el, slider.active.index);
       // slider has been fully initialized
       slider.initialized = true;
-      // bind the resize call to the window
-      if (slider.settings.responsive) { $(window).bind('resize', resizeWindow); }
+
+      var timer;
+      if (slider.settings.responsive) {
+        $(window).bind('resize orientationchange', function (e) {
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            resizeWindow(e);
+          }, 100);
+        });
+      }
+
       // if auto is true and has more than 1 page, start the show
       if (slider.settings.auto && slider.settings.autoStart && (getPagerQty() > 1 || slider.settings.autoSlideForOnePage)) { initAuto(); }
       // if ticker is true, start the ticker
