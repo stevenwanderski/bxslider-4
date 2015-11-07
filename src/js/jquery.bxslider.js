@@ -30,6 +30,7 @@
     oneToOneTouch: true,
     preventDefaultSwipeX: true,
     preventDefaultSwipeY: false,
+    lockToSlide: false,
 
     // ACCESSIBILITY
     ariaLive: true,
