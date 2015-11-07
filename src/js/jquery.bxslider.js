@@ -1215,7 +1215,7 @@
         // if not infinite loop and first / last slide, do not attempt a slide transition
         if (!slider.settings.infiniteLoop && ((slider.active.index === 0 && distance > 0) || (slider.active.last && distance < 0))) {
           setPositionProperty(value, 'reset', 200);
-        } else {
+        } else if(slider.settings.lockToSlide) {
           // check if distance clears threshold
           if (Math.abs(distance) >= slider.settings.swipeThreshold) {
             if (distance < 0) {
