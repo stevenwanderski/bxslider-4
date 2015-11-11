@@ -485,7 +485,7 @@ arguments:
   currentIndex: element index of the current slide
 ```
 
-**onNeedsData**
+**onNeedData**
 Executes when the next page to be displayed will require more data to be fetched
 ```
 default: function($slideElement, callback) { callback(); }
