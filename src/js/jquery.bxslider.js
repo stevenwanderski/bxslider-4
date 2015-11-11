@@ -484,10 +484,10 @@
     };
 
     var needData = function() {
-        var curr = (slider.active.index + 1) * getNumberSlidesShowing(),
-            needed = curr + getNumberSlidesShowing();
+      var curr = (slider.active.index + 1) * getNumberSlidesShowing(),
+          needed = curr + getNumberSlidesShowing();
 
-        return !slider.settings.infiniteLoop && needed > slider.children.length;
+      return !slider.settings.infiniteLoop && needed > slider.children.length;
     };
 
     /**
@@ -1442,14 +1442,14 @@
     };
 
     el.goToSlide = function(slideIndex, direction) {
-        if (needData()) {
-            slider.settings.onNeedData(slider.children.eq(slider.active.index), function() {
-               slider.children = el.children(slider.settings.slideSelector);
-                _goToSlide(slideIndex, direction);
-            });
-        } else {
-            _goToSlide(slideIndex, direction);
-        }
+      if (needData()) {
+        slider.settings.onNeedData(slider.children.eq(slider.active.index), function() {
+          slider.children = el.children(slider.settings.slideSelector);
+          _goToSlide(slideIndex, direction);
+        });
+      } else {
+        _goToSlide(slideIndex, direction);
+      }
     };
 
     /**
