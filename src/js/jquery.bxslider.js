@@ -79,6 +79,7 @@
     onSliderLoad: function() { return true; },
     onSlideBefore: function() { return true; },
     onSlideAfter: function() { return true; },
+    onNeedData: function(slideElement, callback) { callback(false); },
     onSlideNext: function() { return true; },
     onSlidePrev: function() { return true; },
     onSliderResize: function() { return true; }
@@ -480,6 +481,13 @@
         pagerQty = Math.ceil(slider.children.length / getNumberSlidesShowing());
       }
       return pagerQty;
+    };
+
+    var needData = function() {
+        var curr = (slider.active.index + 1) * getNumberSlidesShowing(),
+            needed = curr + getNumberSlidesShowing();
+
+        return !slider.settings.infiniteLoop && needed > slider.children.length;
     };
 
     /**
@@ -1323,7 +1331,7 @@
      * @param direction (string)
      *  - INTERNAL USE ONLY - the direction of travel ("prev" / "next")
      */
-    el.goToSlide = function(slideIndex, direction) {
+    var _goToSlide = function(slideIndex, direction) {
       // onSlideBefore, onSlideNext, onSlidePrev callbacks
       // Allow transition canceling based on returned value
       var performTransition = true,
@@ -1431,6 +1439,17 @@
         }
       }
       if (slider.settings.ariaHidden) { applyAriaHiddenAttributes(slider.active.index * getMoveBy()); }
+    };
+
+    el.goToSlide = function(slideIndex, direction) {
+        if (needData()) {
+            slider.settings.onNeedData(slider.children.eq(slider.active.index), function() {
+               slider.children = el.children(slider.settings.slideSelector);
+                _goToSlide(slideIndex, direction);
+            });
+        } else {
+            _goToSlide(slideIndex, direction);
+        }
     };
 
     /**
