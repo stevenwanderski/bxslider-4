@@ -17,6 +17,8 @@
 .bxslider {
   margin: 0;
   padding: 0;
+  /*fix flickering when used background-image instead of <img> (on Chrome)*/
+  -webkit-perspective: 1000;
 }
 ul.bxslider {
   list-style: none;
