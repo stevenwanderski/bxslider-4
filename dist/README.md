@@ -1,4 +1,4 @@
-#bxSlider 4.2.4
+#bxSlider 4.2.5
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
@@ -641,6 +641,11 @@ Everyone is welcome to help [contribute](CONTRIBUTING.md) and improve this proje
 * Fixing [issues](https://github.com/roots/roots/issues)
 
 ## Changelog
+
+### Version 4.2.5
+* Fix: Vertical carousel minSlides not working #840
+* Fix: slider breaks with css animations if settings.speed set to 0 #838
+* Fix: Slider runs into undefined state when reloadSlider is called before initialization was finished #833
 
 ### Version 4.2.4
 NOTICE: We have switched to a Grunt based build process in order to leverage [Assemble](http://assemble.io) for local documentation building. Please review the above notes about Grunt for the commands available. 
