@@ -282,7 +282,7 @@
         $(this).one('load error', function() {
           if (++count === total) { callback(); }
         }).each(function() {
-          if (this.complete) { $(this).load(); }
+          if (this.complete) { $(this).trigger('load'); }
         });
       });
     };
