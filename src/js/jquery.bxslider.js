@@ -667,6 +667,8 @@
       // bind click actions to the controls
       slider.controls.next.bind('click touchend', clickNextBind);
       slider.controls.prev.bind('click touchend', clickPrevBind);
+      $(slider.settings.prevSelector).bind('click', clickPrevBind);
+      $(slider.settings.nextSelector).bind('click', clickNextBind);      
       // if nextSelector was supplied, populate it
       if (slider.settings.nextSelector) {
         $(slider.settings.nextSelector).append(slider.controls.next);
