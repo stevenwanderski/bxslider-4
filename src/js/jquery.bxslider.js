@@ -52,6 +52,8 @@
     prevText: 'Prev',
     nextSelector: null,
     prevSelector: null,
+    nextPrevEl: null,
+    nextPrevElClass: null,
     autoControls: false,
     startText: 'Start',
     stopText: 'Stop',
@@ -662,8 +664,19 @@
      * Appends prev / next controls to the controls element
      */
     var appendControls = function() {
-      slider.controls.next = $('<a class="bx-next" href="">' + slider.settings.nextText + '</a>');
-      slider.controls.prev = $('<a class="bx-prev" href="">' + slider.settings.prevText + '</a>');
+      // if nextPrevEl was supplied use it to construct control elements
+      if(slider.settings.nextPrevEl) {
+        slider.controls.next = $('<' + slider.settings.nextPrevEl + ' class="bx-next">' + slider.settings.nextText + '</' + slider.settings.nextPrevEl + '>');
+        slider.controls.prev = $('<' + slider.settings.nextPrevEl + ' class="bx-prev">' + slider.settings.prevText + '</' + slider.settings.nextPrevEl + '>');
+      } else {
+        slider.controls.next = $('<a class="bx-next" href="">' + slider.settings.nextText + '</a>');
+        slider.controls.prev = $('<a class="bx-prev" href="">' + slider.settings.prevText + '</a>');  
+      }
+      // if nextPrevElClass was supplied add to element
+      if(slider.settings.nextPrevElClass) {
+        slider.controls.next.addClass(slider.settings.nextPrevElClass);
+        slider.controls.prev.addClass(slider.settings.nextPrevElClass);
+      }
       // bind click actions to the controls
       slider.controls.next.bind('click touchend', clickNextBind);
       slider.controls.prev.bind('click touchend', clickPrevBind);
