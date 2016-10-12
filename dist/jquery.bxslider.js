@@ -1,6 +1,6 @@
 /**
  * bxSlider v4.2.5
- * Copyright 2013-2015 Steven Wanderski
+ * Copyright 2013-2016 Steven Wanderski
  * Written while drinking Belgian ales and listening to jazz
 
  * Licensed under MIT (http://opensource.org/licenses/MIT)
@@ -290,7 +290,7 @@
         $(this).one('load error', function() {
           if (++count === total) { callback(); }
         }).each(function() {
-          if (this.complete) { $(this).load(); }
+          if (this.complete) { $(this).trigger('load'); }
         });
       });
     };
