@@ -38,7 +38,7 @@
     "handlebars-helpers": "~0.5.8"
   },
   "engines": {
-    "node": "~0.10.28"
+    "node": ">=0.10.28"
   },
   "keywords": [
     "responsive",
