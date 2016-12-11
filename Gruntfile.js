@@ -317,11 +317,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask('docs', ['clean:docs', 'assemble', 'less:docs', 'concat:docs', 'copy:docsAssets', 'copy:docsHighlightAssets', 'copy:distToDocs']);
 
-  grunt.registerTask('test', ['jshint:dist']);
-
   grunt.registerTask('default', ['dist', 'docs']);
 
-  grunt.registerTask('serve', ['connect:docs', 'watch']);
+  grunt.registerTask('watch', ['connect:docs', 'watch']);
 
   grunt.registerTask('zip', ['compress']);
 
