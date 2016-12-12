@@ -1,5 +1,8 @@
 /**
  This is a modified version of bxslider from bxslider fork at: https://github.com/smohadjer/bxslider-4
+
+BxSlider 4.1.7
+
 */
 
 /**
@@ -281,9 +284,11 @@
 			var count = 0;
 			selector.find('img, iframe').each(function(){
 				$(this).one('load', function() {
-				  if(++count == total) callback();
+					if(++count == total) callback();
 				}).each(function() {
-				  if(this.complete) $(this).load();
+				  if(this.complete) {
+					$(this).trigger('load');
+				  }
 				});
 			});
 		}
@@ -314,7 +319,7 @@
 			// slider has been fully initialized
 			slider.initialized = true;
 			// bind the resize call to the window
-			if (slider.settings.responsive) $(window).bind('resize', resizeWindow);
+			if (slider.settings.responsive) $(window).on('resize', resizeWindow);
 			// if auto is true and has more than 1 page, start the show
 			if (slider.settings.auto && slider.settings.autoStart && (getPagerQty() > 1 || slider.settings.autoSlideForOnePage)) initAuto();
 			// if ticker is true, start the ticker
@@ -554,9 +559,9 @@
 						el.css(slider.animProp, propValue);
 
 						// bind a callback method - executes when CSS transition completes
-						el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
+						el.on('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
 							// unbind the callback
-							el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+							el.off('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
 							updateAfterSlideTransition();
 						});
 						if (duration == -1) {
@@ -654,8 +659,8 @@
 			slider.controls.next = $('<a class="bx-next" href="">' + slider.settings.nextText + '</a>');
 			slider.controls.prev = $('<a class="bx-prev" href="">' + slider.settings.prevText + '</a>');
 			// bind click actions to the controls
-			slider.controls.next.bind('click touchend', clickNextBind);
-			slider.controls.prev.bind('click touchend', clickPrevBind);
+			slider.controls.next.on('click touchend', clickNextBind);
+			slider.controls.prev.on('click touchend', clickPrevBind);
 			// if nextSlector was supplied, populate it
 			if(slider.settings.nextSelector){
 				$(slider.settings.nextSelector).append(slider.controls.next);
@@ -992,7 +997,7 @@
 				start: {x: 0, y: 0},
 				end: {x: 0, y: 0}
 			}
-			slider.viewport.bind('touchstart MSPointerDown pointerdown', onTouchStart);
+			slider.viewport.on('touchstart MSPointerDown pointerdown', onTouchStart);
 
 			//for browsers that have implemented pointer events and fire a click after
 			//every pointerup regardless of whether pointerup is on same screen location as pointerdown or not
