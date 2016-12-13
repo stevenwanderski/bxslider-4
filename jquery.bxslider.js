@@ -1,7 +1,7 @@
 /**
  This is a modified version of bxslider from bxslider fork at: https://github.com/smohadjer/bxslider-4
 
-BxSlider 4.1.7
+BxSlider 4.1.9
 
 */
 
@@ -577,7 +577,7 @@ BxSlider 4.1.7
 					// bind a callback method - executes when CSS transition completes
 					el.bind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(){
 						// unbind the callback
-						el.unbind('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
+						el.off('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd');
 						// reset the position
 						setPositionProperty(params['resetValue'], 'reset', 0);
 						// start the loop again
@@ -1053,9 +1053,9 @@ BxSlider 4.1.7
 
 			//remove handlers
 			slider.controls.el.removeClass('disabled');
-			slider.viewport.unbind('MSPointerCancel pointercancel', onPointerCancel);
-			slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
-			slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
+			slider.viewport.off('MSPointerCancel pointercancel', onPointerCancel);
+			slider.viewport.off('touchmove MSPointerMove pointermove', onTouchMove);
+			slider.viewport.off('touchend MSPointerUp pointerup', onTouchEnd);
 			if (slider.viewport.get(0).releasePointerCapture) {
 				slider.viewport.get(0).releasePointerCapture(slider.pointerId);
 			}
@@ -1111,7 +1111,7 @@ BxSlider 4.1.7
 		var onTouchEnd = function(e){
 			//enable slider controls as soon as user stops interacing with slides
 			slider.controls.el.removeClass('disabled');
-			slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
+			slider.viewport.off('touchmove MSPointerMove pointermove', onTouchMove);
 			var orig = e.originalEvent;
 			var touchPoints = (typeof orig.changedTouches != 'undefined') ? orig.changedTouches : [orig];
 			var value = 0;
@@ -1150,8 +1150,8 @@ BxSlider 4.1.7
 					}
 				}
 			}
-			slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
-			slider.viewport.unbind('MSPointerCancel pointercancel', onPointerCancel);
+			slider.viewport.off('touchend MSPointerUp pointerup', onTouchEnd);
+			slider.viewport.off('MSPointerCancel pointercancel', onPointerCancel);
 			if (slider.viewport.get(0).releasePointerCapture) {
 				slider.viewport.get(0).releasePointerCapture(slider.pointerId);
 			}
@@ -1415,7 +1415,7 @@ BxSlider 4.1.7
 			$('.bx-caption', this).remove();
 			if(slider.controls.autoEl) slider.controls.autoEl.remove();
 			clearInterval(slider.interval);
-			if(slider.settings.responsive) $(window).unbind('resize', resizeWindow);
+			if(slider.settings.responsive) $(window).off('resize', resizeWindow);
 		}
 
 		/**
