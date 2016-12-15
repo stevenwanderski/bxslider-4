@@ -1393,7 +1393,14 @@ BxSlider 4.1.9
 				populatePager();
 				updatePagerActive(slider.active.index);
 			}
-		}
+		};
+
+        /**
+		 * Update sliders height
+		 */
+         el.recalculateHeight = function() {
+            slider.viewport.css('height', getViewportHeight());
+        };
 
 		/**
 		 * Destroy the current instance of the slider (revert everything back to original state)
