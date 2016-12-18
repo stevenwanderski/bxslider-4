@@ -290,7 +290,7 @@
         $(this).one('load error', function() {
           if (++count === total) { callback(); }
         }).each(function() {
-          if (this.complete) { $(this).load(); }
+          if (this.complete) { $(this).trigger('load'); }
         });
       });
     };
@@ -453,7 +453,7 @@
           slidesShowing = slider.settings.maxSlides;
         // if viewport is between min / max thresholds, divide viewport width by first child width
         } else {
-          childWidth = slider.children.first().width() + slider.settings.slideMargin;
+          childWidth = slider.children.first().outerWidth() + slider.settings.slideMargin;
           slidesShowing = Math.floor((slider.viewport.width() +
             slider.settings.slideMargin) / childWidth);
         }
@@ -530,8 +530,8 @@
         if (slider.active.index === getPagerQty() - 1) { slider.active.last = true; }
         // set the respective position
         if (position !== undefined) {
-          if (slider.settings.mode === 'horizontal') { setPositionProperty(-position.left, 'reset', 0); }
-          else if (slider.settings.mode === 'vertical') { setPositionProperty(-position.top, 'reset', 0); }
+          if (slider.settings.mode === 'horizontal') { setPositionProperty(-position.left, 'reset', 0.01); }// .01 to prevent flash on repositioning of slider when cycling through infinite
+          else if (slider.settings.mode === 'vertical') { setPositionProperty(-position.top, 'reset', 0.01); }
         }
       }
     };

@@ -31,7 +31,7 @@ ul.bxslider {
 }
 .bx-viewport {
   /*fix other elements on the page moving (on Chrome)*/
-  -webkit-transform: translatez(0);
+  -webkit-transform: translateZ(0);
 }
 /** THEME
 ===================================*/
@@ -81,8 +81,7 @@ ul.bxslider {
   border-radius: 5px;
 }
 .bx-wrapper .bx-pager.bx-default-pager a:hover,
-.bx-wrapper .bx-pager.bx-default-pager a.active,
-.bx-wrapper .bx-pager.bx-default-pager a:focus {
+.bx-wrapper .bx-pager.bx-default-pager a.active {
   background: #000;
 }
 .bx-wrapper .bx-pager-item,

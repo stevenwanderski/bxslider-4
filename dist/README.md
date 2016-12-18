@@ -1,5 +1,6 @@
-#bxSlider 4.2.5
+#bxSlider 4.3
 ##The fully-loaded, responsive jQuery content slider
+##Now working with Jquery 3.x
 
 ###Why should I use this slider?
 * Fully responsive - will adapt to any device
