@@ -2,8 +2,8 @@
 <link href="jquery.bxslider.css" rel="stylesheet" />
 
 <ul class="bxslider">
-  <li><img src="images/pic1.jpg" /></li>
-  <li><img src="images/pic2.jpg" /></li>
+  <li><img src="images/pic1.jpg" data-caption="picture 1" /></li>
+  <li><img src="images/pic2.jpg" data-caption="picture: alps" /></li>
   <li><img src="images/pic3.jpg" /></li>
 </ul>
 
@@ -13,6 +13,9 @@
 <script src="jquery.bxslider.js"></script>
 <script>
 $(document).ready(function(){
-  $('.bxslider').bxSlider();
+  $('.bxslider').bxSlider({
+	captions: true,
+	captionsAttr: 'data-caption'
+  });
 });
 </script>

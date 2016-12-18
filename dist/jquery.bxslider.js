@@ -21,6 +21,7 @@
     startSlide: 0,
     randomStart: false,
     captions: false,
+	captionsAttr: 'title',
     ticker: false,
     tickerHover: false,
     adaptiveHeight: false,
@@ -234,7 +235,7 @@
       }
       // apply css to all slider children
       slider.children.css({
-        float: slider.settings.mode === 'horizontal' ? 'left' : 'none',
+        'float': slider.settings.mode === 'horizontal' ? 'left' : 'none',
         listStyle: 'none',
         position: 'relative'
       });
@@ -290,7 +291,7 @@
         $(this).one('load error', function() {
           if (++count === total) { callback(); }
         }).each(function() {
-          if (this.complete) { $(this).trigger('load'); }
+          if (this.complete || this.src == '') { $(this).trigger('load'); }
         });
       });
     };
@@ -482,6 +483,7 @@
             breakPoint = counter + getNumberSlidesShowing();
             counter += slider.settings.moveSlides <= getNumberSlidesShowing() ? slider.settings.moveSlides : getNumberSlidesShowing();
           }
+		  return counter;
         }
       // if moveSlides is 0 (auto) divide children length by sides showing, then round up
       } else {
@@ -508,7 +510,7 @@
     var setSlidePosition = function() {
       var position, lastChild, lastShowingIndex;
       // if last slide, not infinite loop, and number of children is larger than specified maxSlides
-      if (slider.children.length > slider.settings.maxSlides && slider.active.last && !slider.settings.infiniteLoop) {
+      if (slider.children.length >= slider.settings.maxSlides && slider.active.last && !slider.settings.infiniteLoop) {
         if (slider.settings.mode === 'horizontal') {
           // get the last child's position
           lastChild = slider.children.last();
@@ -730,7 +732,7 @@
       // cycle through each child
       slider.children.each(function(index) {
         // get the image title attribute
-        var title = $(this).find('img:first').attr('title');
+        var title = $(this).find('img:first').attr(slider.settings.captionsAttr);
         // append the caption
         if (title !== undefined && ('' + title).length) {
           $(this).append('<div class="bx-caption"><span>' + title + '</span></div>');
@@ -1339,13 +1341,13 @@
       position = {left: 0, top: 0},
       lastChild = null,
       lastShowingIndex, eq, value, requestEl;
+      // if plugin is currently in motion, ignore request
+      if (slider.working || slider.active.index === slider.oldIndex) { return; }
+
       // store the old index
       slider.oldIndex = slider.active.index;
       //set new index
       slider.active.index = setSlideIndex(slideIndex);
-
-      // if plugin is currently in motion, ignore request
-      if (slider.working || slider.active.index === slider.oldIndex) { return; }
       // declare that plugin is in motion
       slider.working = true;
 
@@ -1408,8 +1410,8 @@
             lastShowingIndex = slider.children.length - slider.settings.minSlides;
             position = slider.children.eq(lastShowingIndex).position();
           }
-          // horizontal carousel, going previous while on first slide (infiniteLoop mode)
-        } else if (slider.carousel && slider.active.last && direction === 'prev') {
+        // going previous while on first slide (infiniteLoop mode)
+        } else if (slider.active.last && direction === 'prev') {
           // get the last child position
           eq = slider.settings.moveSlides === 1 ? slider.settings.maxSlides - getMoveBy() : ((getPagerQty() - 1) * getMoveBy()) - (slider.children.length - slider.settings.maxSlides);
           lastChild = el.children('.bx-clone').eq(eq);
@@ -1583,7 +1585,9 @@
       if (slider.controls.next) { slider.controls.next.remove(); }
       if (slider.controls.prev) { slider.controls.prev.remove(); }
       if (slider.pagerEl && slider.settings.controls && !slider.settings.pagerCustom) { slider.pagerEl.remove(); }
-      $('.bx-caption', this).remove();
+      if (slider.pagerEl && slider.settings.controls && slider.settings.pagerCustom) { slider.pagerEl.off('click touchend', 'a', clickPagerBind); }
+      if (slider.pagerEl) { slider.pagerEl.find('.active').removeClass('active'); }
+	  $('.bx-caption', this).remove();
       if (slider.controls.autoEl) { slider.controls.autoEl.remove(); }
       clearInterval(slider.interval);
       if (slider.settings.responsive) { $(window).unbind('resize', resizeWindow); }
