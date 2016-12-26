@@ -90,8 +90,9 @@
     onSlideAfter: function() { return true; },
     onSlideNext: function() { return true; },
     onSlidePrev: function() { return true; },
-    onSliderResize: function() { return true; }
-  };
+    onSliderResize: function() { return true; },
+    onAutoChange: function() { return true; }//Add a callback for when the auto rotate status changes? Like when the pause/play buttons are pressed
+ };
 
   $.fn.bxSlider = function(options) {
 
@@ -1480,6 +1481,8 @@
           el.goToPrevSlide();
         }
       }, slider.settings.pause);
+	  // onAutoChange callback
+	  slider.settings.onAutoChange.call(el, true);
       // if auto controls are displayed and preventControlUpdate is not true
       if (slider.settings.autoControls && preventControlUpdate !== true) { updateAutoControls('stop'); }
     };
@@ -1496,6 +1499,8 @@
       // clear the interval
       clearInterval(slider.interval);
       slider.interval = null;
+	  // onAutoChange callback
+	  slider.settings.onAutoChange.call(el, false);	  
       // if auto controls are displayed and preventControlUpdate is not true
       if (slider.settings.autoControls && preventControlUpdate !== true) { updateAutoControls('start'); }
     };
