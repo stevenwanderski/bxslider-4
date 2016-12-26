@@ -1,0 +1,21 @@
+<!-- bxSlider CSS file -->
+<link href="jquery.bxslider.css" rel="stylesheet" />
+
+<ul class="bxslider">
+  <li><img src="images/pic1.jpg" data-caption="picture 1" /></li>
+  <li><img src="images/pic2.jpg" data-caption="picture: alps" /></li>
+  <li><img src="images/pic3.jpg" /></li>
+</ul>
+
+<!-- jQuery library -->
+<script src="jquery-3.1.1.min.js"></script>
+<!-- bxSlider Javascript file -->
+<script src="jquery.bxslider.js"></script>
+<script>
+$(document).ready(function(){
+  $('.bxslider').bxSlider({
+	captions: true,
+	captionsAttr: 'data-caption'
+  });
+});
+</script>

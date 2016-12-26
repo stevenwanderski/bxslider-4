@@ -1,3 +1,11 @@
+/**
+ * bxSlider v4.2.5
+ * Copyright 2013-2015 Steven Wanderski
+ * Written while drinking Belgian ales and listening to jazz
+
+ * Licensed under MIT (http://opensource.org/licenses/MIT)
+ */
+
 /** VARIABLES 
 ===================================*/
 /** RESET AND LAYOUT
@@ -17,13 +25,15 @@
 .bxslider {
   margin: 0;
   padding: 0;
+  /*fix flickering when used background-image instead of <img> (on Chrome)*/
+  -webkit-perspective: 1000;
 }
 ul.bxslider {
   list-style: none;
 }
 .bx-viewport {
   /*fix other elements on the page moving (on Chrome)*/
-  -webkit-transform: translatez(0);
+  -webkit-transform: translateZ(0);
 }
 /** THEME
 ===================================*/
@@ -73,8 +83,7 @@ ul.bxslider {
   border-radius: 5px;
 }
 .bx-wrapper .bx-pager.bx-default-pager a:hover,
-.bx-wrapper .bx-pager.bx-default-pager a.active,
-.bx-wrapper .bx-pager.bx-default-pager a:focus {
+.bx-wrapper .bx-pager.bx-default-pager a.active {
   background: #000;
 }
 .bx-wrapper .bx-pager-item,

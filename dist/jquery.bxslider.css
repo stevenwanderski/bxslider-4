@@ -23,15 +23,19 @@
   display: block;
 }
 .bxslider {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
+	/*fix flickering when used background-image instead of <img> (on Chrome)*/
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
 }
 ul.bxslider {
   list-style: none;
 }
 .bx-viewport {
-  /*fix other elements on the page moving (on Chrome)*/
-  -webkit-transform: translatez(0);
+	/*fix other elements on the page moving (on Chrome)*/
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
 }
 /** THEME
 ===================================*/
@@ -81,8 +85,7 @@ ul.bxslider {
   border-radius: 5px;
 }
 .bx-wrapper .bx-pager.bx-default-pager a:hover,
-.bx-wrapper .bx-pager.bx-default-pager a.active,
-.bx-wrapper .bx-pager.bx-default-pager a:focus {
+.bx-wrapper .bx-pager.bx-default-pager a.active {
   background: #000;
 }
 .bx-wrapper .bx-pager-item,
