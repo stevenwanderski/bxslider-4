@@ -1,5 +1,5 @@
 /**
- * bxSlider v4.2.5
+ * bxSlider v4.2.6
  * Copyright 2013-2017 Steven Wanderski
  * Written while drinking Belgian ales and listening to jazz
 
