@@ -254,6 +254,7 @@
       // if video is true, set up the fitVids plugin
       if (slider.settings.video) { el.fitVids(); }
       if (slider.settings.preloadImages === 'all' || slider.settings.ticker) { preloadSelector = slider.children; }
+      if (slider.settings.preloadImages === 'none') { preloadSelector = null; }
       // only check for control addition if not in "ticker" mode
       if (!slider.settings.ticker) {
         // if controls are requested, add them
@@ -268,7 +269,12 @@
       } else {
         slider.settings.pager = false;
       }
-      loadElements(preloadSelector, start);
+
+      if (preloadSelector === null) {
+        start();
+      } else {
+        loadElements(preloadSelector, start);
+      }
     };
 
     var loadElements = function(selector, callback) {
