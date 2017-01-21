@@ -1,0 +1,32 @@
+$animate-name: 'zoomOut';
+
+@mixin zoomOut($prefix: '') {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+		#{$prefix}transform: scale3d(.3, .3, .3);
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+@if $use-zoomOut == true {
+
+	@-webkit-keyframes #{$animate-name} {
+		@include zoomOut('-webkit-');
+	}
+
+	@keyframes #{$animate-name} {
+		@include zoomOut();
+	}
+
+	.out .#{$animate-name} {
+		@include animate-prefixer(animation-name, $animate-name);
+	}
+
+}

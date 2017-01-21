@@ -1,0 +1,35 @@
+@if $use-rotateInUpRight == true {
+
+	@-webkit-keyframes rotateInUpRight {
+		0% {
+			-webkit-transform-origin: right bottom;
+			-webkit-transform: rotate(-$rotate-degrees);
+			opacity: 0;
+		}
+
+		100% {
+			-webkit-transform-origin: right bottom;
+			-webkit-transform: rotate(0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes rotateInUpRight {
+		0% {
+			transform-origin: right bottom;
+			transform: rotate(-$rotate-degrees);
+			opacity: 0;
+		}
+
+		100% {
+			transform-origin: right bottom;
+			transform: rotate(0);
+			opacity: 1;
+		}
+	}
+
+	.in .rotateInUpRight  {
+		@include animate-prefixer(animation-name, rotateInUpRight);
+	}
+
+}

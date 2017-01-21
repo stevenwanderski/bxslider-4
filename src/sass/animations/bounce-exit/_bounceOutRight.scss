@@ -1,0 +1,39 @@
+@if $use-bounceOutRight == true {
+
+	@-webkit-keyframes bounceOutRight {
+		0% {
+			-webkit-transform: translateX(0);
+		}
+
+		20% {
+			opacity: 1;
+			-webkit-transform: translateX(-$base-distance * 2);
+		}
+
+		100% {
+			opacity: 0;
+			-webkit-transform: translateX($base-distance-big * 2);
+		}
+	}
+
+	@keyframes bounceOutRight {
+		0% {
+			transform: translateX(0);
+		}
+
+		20% {
+			opacity: 1;
+			transform: translateX(-$base-distance * 2);
+		}
+
+		100% {
+			opacity: 0;
+			transform: translateX($base-distance-big * 2);
+		}
+	}
+
+	.out .bounceOutRight {
+		@include animate-prefixer(animation-name, bounceOutRight);
+	}
+
+}

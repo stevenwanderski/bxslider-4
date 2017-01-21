@@ -1,0 +1,31 @@
+@if $use-fadeOutLeft == true {
+
+	@-webkit-keyframes fadeOutLeft {
+		0% {
+			opacity: 1;
+			-webkit-transform: translateX(0);
+		}
+
+		100% {
+			opacity: 0;
+			-webkit-transform: translateX(-$base-distance * 2);
+		}
+	}
+
+	@keyframes fadeOutLeft {
+		0% {
+			opacity: 1;
+			transform: translateX(0);
+		}
+
+		100% {
+			opacity: 0;
+			transform: translateX(-$base-distance * 2);
+		}
+	}
+
+	.out .fadeOutLeft {
+		@include animate-prefixer(animation-name, fadeOutLeft);
+	}
+
+}

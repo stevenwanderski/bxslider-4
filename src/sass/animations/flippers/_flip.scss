@@ -1,0 +1,55 @@
+@if $use-flip == true {
+
+	@-webkit-keyframes flip {
+		0% {
+			-webkit-transform: perspective($flipper-perspective) rotateY(0);
+			-webkit-animation-timing-function: ease-out;
+		}
+		40% {
+			-webkit-transform: perspective($flipper-perspective) translateZ($flipper-translate) rotateY(170deg);
+			-webkit-animation-timing-function: ease-out;
+		}
+		50% {
+			-webkit-transform: perspective($flipper-perspective) translateZ($flipper-translate) rotateY(190deg) scale(1);
+			-webkit-animation-timing-function: ease-in;
+		}
+		80% {
+			-webkit-transform: perspective($flipper-perspective) rotateY($flipper-degrees-max * 4) scale(0.95);
+			-webkit-animation-timing-function: ease-in;
+		}
+		100% {
+			-webkit-transform: perspective($flipper-perspective) scale(1);
+			-webkit-animation-timing-function: ease-in;
+		}
+	}
+
+	@keyframes flip {
+		0% {
+			transform: perspective($flipper-perspective) rotateY(0);
+			animation-timing-function: ease-out;
+		}
+		40% {
+			transform: perspective($flipper-perspective) translateZ($flipper-translate) rotateY(170deg);
+			animation-timing-function: ease-out;
+		}
+		50% {
+			transform: perspective($flipper-perspective) translateZ($flipper-translate) rotateY(190deg) scale(1);
+			animation-timing-function: ease-in;
+		}
+		80% {
+			transform: perspective($flipper-perspective) rotateY($flipper-degrees-max * 4) scale(0.95);
+			animation-timing-function: ease-in;
+		}
+		100% {
+			transform: perspective($flipper-perspective) scale(1);
+			animation-timing-function: ease-in;
+		}
+	}
+
+	.flip {
+		@include animate-prefixer(transform-style, preserve-3d);
+		@include animate-prefixer(backface-visibility, visible !important);
+		@include animate-prefixer(animation-name, flip)
+	}
+
+}

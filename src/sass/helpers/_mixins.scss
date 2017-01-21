@@ -1,0 +1,40 @@
+///////////////////////////////////////////////////////////////////
+// Sass Mixins which will be used by the modules                 //
+///////////////////////////////////////////////////////////////////
+
+//===============================================================//
+//          Automatically add vendor prefixes in one hit         //
+//===============================================================//
+//      .fadeIn {                                                //
+//          @include animate-prefixer(animation, 'fadeIn');        //
+//      }                                                        //
+//===============================================================//
+//                                                               //
+//===============================================================//
+@mixin animate-prefixer($property, $value...) {
+    -webkit-#{$property}: unquote('#{$value}');
+    #{$property}: unquote('#{$value}');
+}
+//===============================================================//
+// Generate keyframes animations with vendor prefixes in one hit //
+//===============================================================//
+//      .fadeIn {                                                //
+//          @include animate-prefixer(animation, fadeIn);        //
+//      }                                                        //
+//      @include animate-keyframe(fadeIn) {                      //
+//          0% {opacity: 0;}                                     //
+//          100% {opacity: 1;}                                   //
+//      }                                                        //
+//===============================================================//
+// Courtesy of @integralist: (twitter.com)                       //
+//===============================================================//
+
+@mixin animate-keyframe($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}

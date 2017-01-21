@@ -1,0 +1,25 @@
+@if $use-swing == true {
+
+	@-webkit-keyframes swing {
+		20%, 40%, 60%, 80%, 100% { -webkit-transform-origin: $base-origin; }
+		20% { -webkit-transform: rotate(15deg); }
+		40% { -webkit-transform: rotate(-10deg); }
+		60% { -webkit-transform: rotate(5deg); }
+		80% { -webkit-transform: rotate(-5deg); }
+		100% { -webkit-transform: rotate(0deg); }
+	}
+
+	@keyframes swing {
+		20% { transform: rotate(15deg); }
+		40% { transform: rotate(-10deg); }
+		60% { transform: rotate(5deg); }
+		80% { transform: rotate(-5deg); }
+		100% { transform: rotate(0deg); }
+	}
+
+	.swing {
+		@include animate-prefixer(transform-origin, $base-origin);
+		@include animate-prefixer(animation-name, swing);
+	}
+
+}

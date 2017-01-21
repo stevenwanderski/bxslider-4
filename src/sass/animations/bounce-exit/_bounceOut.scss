@@ -1,0 +1,47 @@
+@if $use-bounceOut == true {
+
+	@-webkit-keyframes bounceOut {
+		0% {
+			-webkit-transform: scale(1);
+		}
+
+		25% {
+			-webkit-transform: scale(0.95);
+		}
+
+		50% {
+			opacity: 1;
+			-webkit-transform: scale(1.1);
+		}
+
+		100% {
+			opacity: 0;
+			-webkit-transform: scale(0.3);
+		}
+	}
+
+	@keyframes bounceOut {
+		0% {
+			transform: scale(1);
+		}
+
+		25% {
+			transform: scale(0.95);
+		}
+
+		50% {
+			opacity: 1;
+			transform: scale(1.1);
+		}
+
+		100% {
+			opacity: 0;
+			transform: scale(0.3);
+		}
+	}
+
+	.out .bounceOut {
+		@include animate-prefixer(animation-name, bounceOut);
+	}
+
+}

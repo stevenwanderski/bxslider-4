@@ -1,0 +1,31 @@
+@if $use-fadeInUpBig == true {
+
+	@-webkit-keyframes fadeInUpBig {
+		0% {
+			opacity: 0;
+			-webkit-transform: translateY($base-distance-big * 2);
+		}
+
+		100% {
+			opacity: 1;
+			-webkit-transform: translateY(0);
+		}
+	}
+
+	@keyframes fadeInUpBig {
+		0% {
+			opacity: 0;
+			transform: translateY($base-distance-big * 2);
+		}
+
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.in .fadeInUpBig  {
+		@include animate-prefixer(animation-name, fadeInUpBig);
+	}
+
+}

@@ -1,0 +1,48 @@
+@if $use-flipInX == true {
+
+	@-webkit-keyframes flipInX {
+        0% {
+            -webkit-transform: perspective($flipper-perspective) rotateX($flipper-degrees-max);
+            opacity: 0;
+        }
+
+        40% {
+            -webkit-transform: perspective($flipper-perspective) rotateX(-$flipper-degrees);
+        }
+
+        70% {
+            -webkit-transform: perspective($flipper-perspective) rotateX($flipper-degrees);
+        }
+
+        100% {
+            -webkit-transform: perspective($flipper-perspective) rotateX(0deg);
+            opacity: 1;
+        }
+    }
+
+    @keyframes flipInX {
+        0% {
+            transform: perspective($flipper-perspective) rotateX($flipper-degrees-max);
+            opacity: 0;
+        }
+
+        40% {
+            transform: perspective($flipper-perspective) rotateX(-$flipper-degrees);
+        }
+
+        70% {
+            transform: perspective($flipper-perspective) rotateX($flipper-degrees);
+        }
+
+        100% {
+            transform: perspective($flipper-perspective) rotateX(0deg);
+            opacity: 1;
+        }
+    }
+
+    .in .flipInX  {
+    	@include animate-prefixer(backface-visibility, visible !important);
+    	@include animate-prefixer(animation-name, flipInX);
+    }
+
+}
