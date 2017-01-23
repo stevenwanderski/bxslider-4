@@ -1,0 +1,110 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files (x86)\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'generate-assemble' ]
+2 info using npm@3.10.8
+3 info using node@v6.9.1
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readGlobalPackageData
+7 silly fetchPackageMetaData generate-assemble
+8 silly fetchNamedPackageData generate-assemble
+9 silly mapToRegistry name generate-assemble
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry data Result {
+12 silly mapToRegistry   raw: 'generate-assemble',
+12 silly mapToRegistry   scope: null,
+12 silly mapToRegistry   escapedName: 'generate-assemble',
+12 silly mapToRegistry   name: 'generate-assemble',
+12 silly mapToRegistry   rawSpec: '',
+12 silly mapToRegistry   spec: 'latest',
+12 silly mapToRegistry   type: 'tag' }
+13 silly mapToRegistry uri https://registry.npmjs.org/generate-assemble
+14 verbose request uri https://registry.npmjs.org/generate-assemble
+15 verbose request no auth needed
+16 info attempt registry request try #1 at 17:10:10
+17 verbose request id 8ca6115e2633200e
+18 http request GET https://registry.npmjs.org/generate-assemble
+19 http 404 https://registry.npmjs.org/generate-assemble
+20 verbose headers { 'content-type': 'application/json',
+20 verbose headers   'cache-control': 'max-age=0',
+20 verbose headers   'content-length': '2',
+20 verbose headers   'accept-ranges': 'bytes',
+20 verbose headers   date: 'Fri, 20 Jan 2017 16:10:05 GMT',
+20 verbose headers   via: '1.1 varnish',
+20 verbose headers   age: '0',
+20 verbose headers   connection: 'keep-alive',
+20 verbose headers   'x-served-by': 'cache-hhn1535-HHN',
+20 verbose headers   'x-cache': 'MISS',
+20 verbose headers   'x-cache-hits': '0',
+20 verbose headers   'x-timer': 'S1484928605.549081,VS0,VE438',
+20 verbose headers   vary: 'Accept-Encoding' }
+21 silly get cb [ 404,
+21 silly get   { 'content-type': 'application/json',
+21 silly get     'cache-control': 'max-age=0',
+21 silly get     'content-length': '2',
+21 silly get     'accept-ranges': 'bytes',
+21 silly get     date: 'Fri, 20 Jan 2017 16:10:05 GMT',
+21 silly get     via: '1.1 varnish',
+21 silly get     age: '0',
+21 silly get     connection: 'keep-alive',
+21 silly get     'x-served-by': 'cache-hhn1535-HHN',
+21 silly get     'x-cache': 'MISS',
+21 silly get     'x-cache-hits': '0',
+21 silly get     'x-timer': 'S1484928605.549081,VS0,VE438',
+21 silly get     vary: 'Accept-Encoding' } ]
+22 silly fetchPackageMetaData Error: Registry returned 404 for GET on https://registry.npmjs.org/generate-assemble
+22 silly fetchPackageMetaData     at makeError (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:302:12)
+22 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:280:14)
+22 silly fetchPackageMetaData     at Request._callback (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:210:14)
+22 silly fetchPackageMetaData     at Request.self.callback (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:187:22)
+22 silly fetchPackageMetaData     at emitTwo (events.js:106:13)
+22 silly fetchPackageMetaData     at Request.emit (events.js:191:7)
+22 silly fetchPackageMetaData     at Request.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:1044:10)
+22 silly fetchPackageMetaData     at emitOne (events.js:96:13)
+22 silly fetchPackageMetaData     at Request.emit (events.js:188:7)
+22 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:965:12)
+22 silly fetchPackageMetaData  error for generate-assemble { Error: Registry returned 404 for GET on https://registry.npmjs.org/generate-assemble
+22 silly fetchPackageMetaData     at makeError (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:302:12)
+22 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:280:14)
+22 silly fetchPackageMetaData     at Request._callback (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:210:14)
+22 silly fetchPackageMetaData     at Request.self.callback (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:187:22)
+22 silly fetchPackageMetaData     at emitTwo (events.js:106:13)
+22 silly fetchPackageMetaData     at Request.emit (events.js:191:7)
+22 silly fetchPackageMetaData     at Request.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:1044:10)
+22 silly fetchPackageMetaData     at emitOne (events.js:96:13)
+22 silly fetchPackageMetaData     at Request.emit (events.js:188:7)
+22 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:965:12) pkgid: 'generate-assemble', statusCode: 404, code: 'E404' }
+23 silly rollbackFailedOptional Starting
+24 silly rollbackFailedOptional Finishing
+25 silly runTopLevelLifecycles Finishing
+26 silly install printInstalled
+27 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/generate-assemble
+27 verbose stack     at makeError (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:302:12)
+27 verbose stack     at CachingRegistryClient.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:280:14)
+27 verbose stack     at Request._callback (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:210:14)
+27 verbose stack     at Request.self.callback (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:187:22)
+27 verbose stack     at emitTwo (events.js:106:13)
+27 verbose stack     at Request.emit (events.js:191:7)
+27 verbose stack     at Request.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:1044:10)
+27 verbose stack     at emitOne (events.js:96:13)
+27 verbose stack     at Request.emit (events.js:188:7)
+27 verbose stack     at IncomingMessage.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:965:12)
+28 verbose statusCode 404
+29 verbose pkgid generate-assemble
+30 verbose cwd c:\Users\BrunoMigliaretti\Documents\GitHub\jQuery plugins\mb_forks\bxslider-4
+31 error Windows_NT 10.0.14393
+32 error argv "c:\\Program Files (x86)\\nodejs\\node.exe" "c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "-g" "generate-assemble"
+33 error node v6.9.1
+34 error npm  v3.10.8
+35 error code E404
+36 error 404 Registry returned 404 for GET on https://registry.npmjs.org/generate-assemble
+37 error 404
+38 error 404 'generate-assemble' is not in the npm registry.
+39 error 404 You should bug the author to publish it (or use the name yourself!)
+40 error 404 Note that you can also install from a
+41 error 404 tarball, folder, http url, or git url.
+42 verbose exit [ 1, true ]
