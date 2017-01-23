@@ -1,0 +1,36 @@
+@if $use-wiggle == true {
+
+	@-webkit-keyframes wiggle {
+	    0% { -webkit-transform: skewX(9deg); }
+	    10% { -webkit-transform: skewX(-8deg); }
+	    20% { -webkit-transform: skewX(7deg); }
+	    30% { -webkit-transform: skewX(-6deg); }
+	    40% { -webkit-transform: skewX(5deg); }
+	    50% { -webkit-transform: skewX(-4deg); }
+	    60% { -webkit-transform: skewX(3deg); }
+	    70% { -webkit-transform: skewX(-2deg); }
+	    80% { -webkit-transform: skewX(1deg); }
+	    90% { -webkit-transform: skewX(0deg); }
+		100% { -webkit-transform: skewX(0deg); }
+	}
+
+	@keyframes wiggle {
+	    0% { transform: skewX(9deg); }
+	    10% { transform: skewX(-8deg); }
+	    20% { transform: skewX(7deg); }
+	    30% { transform: skewX(-6deg); }
+	    40% { transform: skewX(5deg); }
+	    50% { transform: skewX(-4deg); }
+	    60% { transform: skewX(3deg); }
+	    70% { transform: skewX(-2deg); }
+	    80% { transform: skewX(1deg); }
+	    90% { transform: skewX(0deg); }
+		100% { transform: skewX(0deg); }
+	}
+
+	.wiggle {
+	   @include animate-prefixer(animation-name, wiggle);
+	   @include animate-prefixer(animation-timing-function, $base-timing-function-in);
+	}
+
+}

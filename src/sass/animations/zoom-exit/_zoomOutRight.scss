@@ -1,0 +1,30 @@
+$animate-name: 'zoomOutRight';
+
+@mixin zoomOutRight($prefix: '') {
+	40% {
+		opacity: 1;
+		#{$prefix}transform: scale3d(.475, .475, .475) translate3d(-42px, 0, 0);
+	}
+
+	100% {
+		opacity: 0;
+		#{$prefix}transform: scale3d(.1) translate3d(2000px, 0, 0);
+		#{$prefix}transform-origin: right center;
+	}
+}
+
+@if $use-zoomOutRight == true {
+
+	@-webkit-keyframes #{$animate-name} {
+		@include zoomOutRight('-webkit-');
+	}
+
+	@keyframes #{$animate-name} {
+		@include zoomOutRight();
+	}
+
+	.out .#{$animate-name} {
+		@include animate-prefixer(animation-name, $animate-name);
+	}
+
+}

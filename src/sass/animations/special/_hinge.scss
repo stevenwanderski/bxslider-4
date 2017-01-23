@@ -1,0 +1,22 @@
+ @if $use-hinge == true {
+
+	@-webkit-keyframes hinge {
+		0% { -webkit-transform: rotate(0); -webkit-transform-origin: $hinge-origin; -webkit-animation-timing-function: $base-timing-function-in-out; }
+		20%, 60% { -webkit-transform: rotate($hinge-degrees-max); -webkit-transform-origin: $hinge-origin; -webkit-animation-timing-function: $base-timing-function-in-out; }
+		40% { -webkit-transform: rotate($base-degrees * 2); -webkit-transform-origin: $hinge-origin; -webkit-animation-timing-function: $base-timing-function-in-out; }
+		80% { -webkit-transform: rotate($base-degrees * 2) translateY(0); opacity: 1; -webkit-transform-origin: $hinge-origin; -webkit-animation-timing-function: $base-timing-function-in-out; }
+		100% { -webkit-transform: translateY($hinge-translate); opacity: 0; }
+	}
+
+	@keyframes hinge {
+		0% { transform: rotate(0); transform-origin: $hinge-origin; animation-timing-function: $base-timing-function-in-out; }
+		20%, 60% { transform: rotate($hinge-degrees-max); transform-origin: $hinge-origin; animation-timing-function: $base-timing-function-in-out; }
+		40% { transform: rotate($base-degrees * 2); transform-origin: $hinge-origin; animation-timing-function: $base-timing-function-in-out; }
+		80% { transform: rotate($base-degrees * 2) translateY(0); opacity: 1; transform-origin: $hinge-origin; animation-timing-function: $base-timing-function-in-out; }
+		100% { transform: translateY($hinge-translate); opacity: 0; }
+	}
+
+	.out .hingeOut {
+		@include animate-prefixer(animation-name, hinge);
+	}
+}

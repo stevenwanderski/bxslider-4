@@ -1,0 +1,31 @@
+@if $use-fadeInUp == true {
+
+	@-webkit-keyframes fadeInUp {
+		0% {
+			opacity: 0;
+			-webkit-transform: translateY($base-distance * 2);
+		}
+
+		100% {
+			opacity: 1;
+			-webkit-transform: translateY(0);
+		}
+	}
+
+	@keyframes fadeInUp {
+		0% {
+			opacity: 0;
+			transform: translateY($base-distance * 2);
+		}
+
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.in .fadeInUp  {
+		@include animate-prefixer(animation-name, fadeInUp);
+	}
+
+}

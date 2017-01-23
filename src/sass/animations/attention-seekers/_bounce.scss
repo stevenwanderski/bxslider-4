@@ -1,0 +1,19 @@
+@if $use-bounce == true {
+
+	@-webkit-keyframes bounce {
+		0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
+		40% {-webkit-transform: translateY(-$base-distance * 3);}
+		60% {-webkit-transform: translateY(-$base-distance * 1.5);}
+	}
+
+	@keyframes bounce {
+		0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+		40% {transform: translateY(-$base-distance * 3);}
+		60% {transform: translateY(-$base-distance * 1.5);}
+	}
+
+	.bounce {
+		@include animate-prefixer(animation-name, bounce);
+	}
+
+}

@@ -1,5 +1,133 @@
-#bxSlider 4.2.5
-##The fully-loaded, responsive jQuery content slider
+#This is a fork of bxSlider 4.2.5
+####This fork adds some new features aimed to create animated presentations.
+
+* You can define timing for every slide via data- attributes
+* You can define in (entering) and out (exiting) animations for every HTML element in the slide
+* Finally you can add your custom animations using included sass project
+
+##New configuration options
+**pauseBeforeOut**
+
+Pause before slide change in milliseconds. It allows out animation completion before the next slide enter. It works both in auto mode and in manual mode. 
+```
+default: 0
+options: integer
+```
+
+**pauseAfterIn**
+
+Pause added to slide pause in milliseconds. For every slide you may define a pause for in animation completion an a pause for slide reading. It works both in auto mode and in manual mode. 
+```
+default: 0
+options: integer
+```
+###data-... attributes
+**data-pauseBeforeOut**
+
+Pause before slide change. It allows out animation completion before the next slide enter. It works both in auto mode and in manual mode. It overrides pauseBeforeOut option setting. 
+```
+<li id="slide 1" data-pauseBeforeOut="3000">
+.....
+</li>
+```
+
+**data-pauseAfterIn**
+
+Pause added to slide pause in milliseconds. For every slide you may define a pause for in animation completion an a pause for slide reading. It works both in auto mode and in manual mode.  It overrides pauseAfterIn option setting. 
+```
+<li id="slide 1" data-pauseAfterIn="3000">
+.....
+</li>
+```
+**data-pause**
+The amount of time (in ms) between the end of pauseAfterIn time and the beginning of pauseBeforeOut time in auto transition mode. It overrides pause option setting. 
+```
+<li id="slide 1" data-pause="10000">
+.....
+</li>
+```
+##Installation
+Animation css stuff is integrated in jquery.bxslider.css. So you don't need to do any special installation. Simply follow bxSlider installation instruction.
+If you want to modify provided animations or create new once you must install compass-sass (http://compass-style.org/install/):
+* All scss files are in the /src/sass folder
+* Generated css files are located in src/css folder
+* Compass settings are defined is /src/config.rb
+* `$ grunt ` or `$ grunt dist` commands will assemble all generated css into /dist/jquery.bxslider.css
+
+After editing you may
+1. Compile compass project launching compass (`$ compass compile`)
+2. Run grunt to assemble and copy files (`$ grunt`)
+
+or
+1. Install proper grunt compass component
+2. Automate compiling changing Gruntfile.js
+
+##Use
+To animate every HTML element in a slide you must assign to it some classes.
+###General class
+To every animated element you must assign the class `animated`.This class assign general bhaviors to animated elements.
+###Animation classes
+Then you must:
+* Assign a class for enter animation that have the "In" suffix or infix (`fadeIn, flipInX, rotateIn, slideInUp`, etc.)
+* Assign a class for exit animation that have the "Out" suffix or infix (`fadeOut, flipInX, rotateIn, slideInUp`, etc.)
+
+**Available enter animation classes**: `fadeIn, fadeInUp, fadeInUpBig, fadeInDown, fadeInDownBig, fadeInLeft, fadeInLeftBig, fadeInRight, fadeInRightBig, bounceIn, bounceInUp, bounceInDown, bounceInLeft, bounceInRight, rotateIn, rotateInUpLeft, rotateInUpRight, rotateInDownLeft, rotateInDownRight, slideIn, slideInUp, slideInDown, slideInLeft, slideInRight, flipInX, flipOutX, lightSpeedIn, rollIn, zoomIn, zoomInDown, zoomInLeft, zoomInRight, zoomInUp`
+
+**Available exit animation classes**: `fadeOut, fadeOutUp, fadeOutUpBig, fadeOutDown, fadeOutDownBig, fadeOutLeft, fadeOutLeftBig, fadeOutRight, fadeOutRightBig, bounceOut, bounceOutUp, bounceOutDown, bounceOutLeft, bounceOutRight, rotateOut, rotateOutUpLeft, rotateOutUpRight, rotateOutDownLeft, rotateOutDownRight, slideOut, slideOutUp, slideOutDown, slideOutLeft, slideOutRight, flipOutX, flipOutX, lightSpeedOut, hingeOut, rollOut, zoomOut, zoomOutDown, zoomOutLeft, zoomOutRight, zoomOutUp`
+
+###Modifier classes
+* **Delay**: Animations has a base delay of 0.5 seconds (500 ms). You can use delayInXXXX and delayOutXXXX classes (where XXXX is 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000) to delay in and/or out animation and create temporized animation sequences.
+* **Speed**: Animations has a base speed of 1 second. You can modify animation speed using `slowIn, slowOut, fastIn, fastOut, xslowIn, xslowOut` classes.
+
+###Slideshow Example
+```
+  .......
+    <ul class="bxSlider fade">
+      <li id='slide_24' class="out">
+        <h1>
+          <img alt="" class="img-responsive center-block animated delay1000 flipInX hingeOut" src="{{assets}}/img/LogoWinstrap.png" />
+        </h1>
+        <h3 class="text-center animated bounceInRight bounceOutLeft">
+          Sample animations: flip
+        </h3> 
+      </li>
+      <li id='slide_29' class="out">
+        <h1>
+          <img alt="" class="img-responsive center-block animated delay1000 zoomIn zoomOut" src="{{assets}}/img/LogoWinstrap.png" />
+        </h1>
+        <h3 class="text-center animated bounceInRight bounceOutLeft">
+          Sample animations: zoom
+        </h3> 
+      </li>
+      <li id='slide_31' class="out">
+        <h1>
+          <img alt="" class="img-responsive center-block animated delay1000 rotateIn rotateOut" src="{{assets}}/img/LogoWinstrap.png" />
+        </h1>
+        <h3 class="text-center animated bounceInRight bounceOutLeft">
+          Sample animations: rotate
+        </h3> 
+      </li>
+    </ul>
+    .....
+    <script>
+      $(function() {
+        var slider = $('.bxSlider');
+        slider.mbSlider({
+          speed: 50,
+          auto: true,
+          pause: 10000,
+          pauseBeforeOut: 2000,
+          startSlide: 0,
+          pager: false,
+          controls: false,
+          onSliderLoad: function(currentIndex) {
+            setTimeout(function() {
+              slider.removeClass('fade');
+            }, 2000);
+          }
+      })
+    </script>
+```
 
 ###Why should I use this slider?
 * Fully responsive - will adapt to any device

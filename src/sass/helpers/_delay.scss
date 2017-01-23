@@ -1,0 +1,67 @@
+.in .animated {
+  @include animate-prefixer (animation-delay, 0.5s);
+  &.delay500, &.delayIn500 {
+    @include animate-prefixer (animation-delay, 1s);
+  }
+  &.delay1, &.delay1000, &.delayIn1000 {
+    @include animate-prefixer (animation-delay, 1.5s);
+  }
+  &.delay1500, &.delayIn1500 {
+    @include animate-prefixer (animation-delay, 2s);
+  }
+  &.delay2,&.delay2000, &.delayIn2000 {
+    @include animate-prefixer (animation-delay, 2.5s);
+  }
+  &.delay2500, &.delayIn2500 {
+    @include animate-prefixer (animation-delay, 3s);
+  }
+  &.delay3,&.delay3000, &.delayIn3000 {
+    @include animate-prefixer (animation-delay, 3.5s);
+  }
+  &.delay3500, &.delayIn3500 {
+    @include animate-prefixer (animation-delay, 4s);
+  }
+  &.delay4, &.delay4000, &.delayIn4000 {
+    @include animate-prefixer (animation-delay, 4.5s);
+  }
+  &.delay4500, &.delayIn4500 {
+    @include animate-prefixer (animation-delay, 5s);
+  }
+  &.delay5, &delay5000, &delayIn5000 {
+    @include animate-prefixer (animation-delay, 5.5s);
+  }
+}
+
+.out .animated {
+  //@include animate-prefixer (animation-delay, 0.5s);
+  &.delayOut500 {
+    @include animate-prefixer (animation-delay, 1s);
+  }
+  &.delayOut1000 {
+    @include animate-prefixer (animation-delay, 1.5s);
+  }
+  &.delayOut1500 {
+    @include animate-prefixer (animation-delay, 2s);
+  }
+  &.delayOut2000 {
+    @include animate-prefixer (animation-delay, 2.5s);
+  }
+  &.delayOut2500 {
+    @include animate-prefixer (animation-delay, 3s);
+  }
+  &.delayOut3000 {
+    @include animate-prefixer (animation-delay, 3.5s);
+  }
+  &.delayOut3500 {
+    @include animate-prefixer (animation-delay, 4s);
+  }
+  &.delayOut4000 {
+    @include animate-prefixer (animation-delay, 4.5s);
+  }
+  &.delayOut4500 {
+    @include animate-prefixer (animation-delay, 5s);
+  }
+  &delayOut5000 {
+    @include animate-prefixer (animation-delay, 5.5s);
+  }
+}

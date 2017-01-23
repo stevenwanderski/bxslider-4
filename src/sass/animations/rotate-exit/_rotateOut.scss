@@ -1,0 +1,35 @@
+@if $use-rotateOut == true {
+
+	@-webkit-keyframes rotateOut {
+		0% {
+			-webkit-transform-origin: $rotate-origin;
+			-webkit-transform: rotate(0);
+			opacity: 1;
+		}
+
+		100% {
+			-webkit-transform-origin: $rotate-origin;
+			-webkit-transform: rotate($rotate-degrees-max);
+			opacity: 0;
+		}
+	}
+
+	@keyframes rotateOut {
+		0% {
+			transform-origin: $rotate-origin;
+			transform: rotate(0);
+			opacity: 1;
+		}
+
+		100% {
+			transform-origin: $rotate-origin;
+			transform: rotate($rotate-degrees-max);
+			opacity: 0;
+		}
+	}
+
+	.out .rotateOut {
+		@include animate-prefixer(animation-name, rotateOut);
+	}
+
+}

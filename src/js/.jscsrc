@@ -75,7 +75,6 @@
         "typeof"
     ],
     "safeContextKeyword": "el",
-    "validateLineBreaks": "LF",
     "validateQuoteMarks": "'",
     "validateIndentation": 2
 }

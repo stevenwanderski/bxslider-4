@@ -1,0 +1,30 @@
+@if $use-fadeOutRightBig == true {
+
+	@-webkit-keyframes fadeOutRightBig {
+		0% {
+			opacity: 1;
+			-webkit-transform: translateX(0);
+		}
+
+		100% {
+			opacity: 0;
+			-webkit-transform: translateX($base-distance-big * 2);
+		}
+	}
+
+	@keyframes fadeOutRightBig {
+		0% {
+			opacity: 1;
+			transform: translateX(0);
+		}
+
+		100% {
+			opacity: 0;
+			transform: translateX($base-distance-big * 2);
+		}
+	}
+
+	.out .fadeOutRightBig {
+		@include animate-prefixer(animation-name, fadeOutRightBig);
+	}
+}
