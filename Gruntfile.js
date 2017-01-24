@@ -30,7 +30,7 @@ module.exports = function(grunt) {
           production: false,
           assets: '<%= app.docs.dest %>/assets',
           postprocess: require('pretty'),
-       //   mybaseDir: path.resolve('<%= app.docs.dest %>'),
+          mybaseDir: path.resolve('<%= app.docs.dest %>'),
           mybaseDir: '/<%= app.docs.dest %>',
 
           // metadata
@@ -175,16 +175,16 @@ module.exports = function(grunt) {
       },
 
       //jscs
-//      jscs: {
-//        options: {
-//          config: 'src/js/.jscsrc',
-//          reporter: 'text.js',
-//          reporterOutput: 'jscs.report.txt'
-//        },
-//        dist: {
-//          src: ['<%= app.src.scripts %>', 'Gruntfile.js']
-//        }
-//      },
+      jscs: {
+        options: {
+          config: 'src/js/.jscsrc',
+          reporter: 'text.js',
+          reporterOutput: 'jscs.report.txt'
+        },
+        dist: {
+          src: ['<%= app.src.scripts %>', 'Gruntfile.js']
+        }
+      },
 
       // uglify
       uglify: {
@@ -320,7 +320,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('assemble');
 
   // tasks
-  grunt.registerTask('dist', ['clean:dist', 'less:dist', 'jshint:dist', 'concat:dist', 'cssmin:dist', 'copy:distImages', 'copy:distVendor', /*'jscs:dist',*/ 'uglify:dist', 'copy:readme']);
+  grunt.registerTask('dist', ['clean:dist', 'less:dist', 'jshint:dist', 'concat:dist', 'cssmin:dist', 'copy:distImages', 'copy:distVendor', 'jscs:dist', 'uglify:dist', 'copy:readme']);
 
   grunt.registerTask('docs', ['clean:docs', 'assemble', 'less:docs', 'concat:docs', 'copy:docsAssets', 'copy:docsHighlightAssets', 'copy:distToDocs']);
 
