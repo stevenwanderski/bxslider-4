@@ -31,7 +31,7 @@ module.exports = function(grunt) {
           assets: '<%= app.docs.dest %>/assets',
           postprocess: require('pretty'),
           mybaseDir: path.resolve('<%= app.docs.dest %>'),
-          mybaseDir: '/<%= app.docs.dest %>',
+          //mybaseDir: '/<%= app.docs.dest %>',
 
           // metadata
           pkg: '<%= pkg %>',
@@ -163,11 +163,7 @@ module.exports = function(grunt) {
       jshint: {
         options: {
           jshintrc: 'src/js/.jshintrc',
-<<<<<<< HEAD
           reporterOutput: ''
-=======
-          reporterOutput: ""
->>>>>>> origin/mb_master
         },
         dist: {
           src: ['<%= app.src.scripts %>', 'Gruntfile.js']
