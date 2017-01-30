@@ -1,3 +1,7 @@
+#This project is discontinued. I'm developing my own slider based on bxSlider: https://github.com/magicbruno/mbSlider 
+
+
+
 #This is a fork of bxSlider 4.2.5
 ####This fork adds some new features aimed to create animated presentations.
 
