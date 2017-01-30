@@ -1,0 +1,30 @@
+@if $use-flipOutX == true {
+
+	@-webkit-keyframes flipOutX {
+        0% {
+            -webkit-transform: perspective($flipper-perspective) rotateX(0deg);
+            opacity: 1;
+        }
+    	100% {
+            -webkit-transform: perspective($flipper-perspective) rotateX($flipper-degrees-max);
+            opacity: 0;
+        }
+    }
+
+    @keyframes flipOutX {
+        0% {
+            transform: perspective($flipper-perspective) rotateX(0deg);
+            opacity: 1;
+        }
+    	100% {
+            transform: perspective($flipper-perspective) rotateX($flipper-degrees-max);
+            opacity: 0;
+        }
+    }
+
+    .out .flipOutX {
+    	@include animate-prefixer(animation-name, flipOutX);
+    	@include animate-prefixer(backface-visibility, visible !important);
+    }
+
+}

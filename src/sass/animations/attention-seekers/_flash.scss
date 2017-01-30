@@ -1,0 +1,12 @@
+@if $use-flash == true {
+
+	@include animate-keyframe(flash) {
+		0%, 50%, 100% {opacity: 1;}
+		25%, 75% {opacity: 0;}
+	}
+
+	.flash {
+		@include animate-prefixer(animation-name, flash);
+	}
+
+}

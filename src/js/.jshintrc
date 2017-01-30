@@ -12,5 +12,6 @@
   "noarg": true,
   "node": true,
   "strict": false,
-  "trailing": true
+  "trailing": true,
+  "laxcomma": true
 }

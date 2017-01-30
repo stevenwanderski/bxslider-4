@@ -1,0 +1,17 @@
+@if $use-lightSpeedOut == true {
+
+	@-webkit-keyframes lightSpeedOut {
+		0% { -webkit-transform: translateX(0%) skewX(0deg); opacity: 1; }
+		100% { -webkit-transform: translateX(100%) skewX(-$base-degrees); opacity: 0; }
+	}
+
+	@keyframes lightSpeedOut {
+		0% { transform: translateX(0%) skewX(0deg); opacity: 1; }
+		100% { transform: translateX(100%) skewX(-$base-degrees); opacity: 0; }
+	}
+
+	.out .lightSpeedOut {
+		@include animate-prefixer(animation-name, lightSpeedOut);
+		@include animate-prefixer(animation-timing-function, $base-timing-function-in);
+	}
+}

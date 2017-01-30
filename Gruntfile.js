@@ -1,11 +1,12 @@
-/**
+
+/**********************************
  * bxSlider
  *
  * Steven Wanderski
  *
  * Copyright (c) 2014
  * Licensed under the MIT license.
- */
+ **********************************/
 module.exports = function(grunt) {
 
   var path = require('path');
@@ -30,6 +31,7 @@ module.exports = function(grunt) {
           assets: '<%= app.docs.dest %>/assets',
           postprocess: require('pretty'),
           mybaseDir: path.resolve('<%= app.docs.dest %>'),
+          //mybaseDir: '/<%= app.docs.dest %>',
 
           // metadata
           pkg: '<%= pkg %>',
@@ -160,7 +162,8 @@ module.exports = function(grunt) {
       // jshint
       jshint: {
         options: {
-          jshintrc: 'src/js/.jshintrc'
+          jshintrc: 'src/js/.jshintrc',
+          reporterOutput: ''
         },
         dist: {
           src: ['<%= app.src.scripts %>', 'Gruntfile.js']

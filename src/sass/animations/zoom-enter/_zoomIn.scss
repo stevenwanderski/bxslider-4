@@ -1,0 +1,28 @@
+$animate-name: 'zoomIn';
+
+@mixin zoomIn($prefix: '') {
+	0% {
+		opacity: 0;
+		#{$prefix}transform: scale3d(.3, .3, .3);
+	}
+
+	50% {
+		opacity: 1;
+	}
+}
+
+@if $use-zoomIn == true {
+
+	@-webkit-keyframes #{$animate-name} {
+		@include zoomIn('-webkit-');
+	}
+
+	@keyframes #{$animate-name} {
+		@include zoomIn();
+	}
+
+	.in .#{$animate-name}  {
+		@include animate-prefixer(animation-name, $animate-name);
+	}
+
+}

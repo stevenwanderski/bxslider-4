@@ -1,0 +1,30 @@
+@if $use-fadeOutDown == true {
+
+	@-webkit-keyframes fadeOutDown {
+		0% {
+			opacity: 1;
+			-webkit-transform: translateY(0);
+		}
+
+		100% {
+			opacity: 0;
+			-webkit-transform: translateY($base-distance * 2);
+		}
+	}
+
+	@keyframes fadeOutDown {
+		0% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		100% {
+			opacity: 0;
+			transform: translateY($base-distance * 2);
+		}
+	}
+
+	.out .fadeOutDown {
+		@include animate-prefixer(animation-name, fadeOutDown);
+	}
+}

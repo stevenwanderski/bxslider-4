@@ -1,0 +1,47 @@
+@if $use-bounceInDown == true {
+
+	@-webkit-keyframes bounceInDown {
+		0% {
+			opacity: 0;
+			-webkit-transform: translateY(-$base-distance-big * 2);
+		}
+
+		60% {
+			opacity: 1;
+			-webkit-transform: translateY($base-distance * 3);
+		}
+
+		80% {
+			-webkit-transform: translateY(-$base-distance);
+		}
+
+		100% {
+			-webkit-transform: translateY(0);
+		}
+	}
+
+	@keyframes bounceInDown {
+		0% {
+			opacity: 0;
+			transform: translateY(-$base-distance-big * 2);
+		}
+
+		60% {
+			opacity: 1;
+			transform: translateY($base-distance * 3);
+		}
+
+		80% {
+			transform: translateY(-$base-distance);
+		}
+
+		100% {
+			transform: translateY(0);
+		}
+	}
+
+	.in .bounceInDown {
+		@include animate-prefixer(animation-name, bounceInDown);
+	}
+
+}

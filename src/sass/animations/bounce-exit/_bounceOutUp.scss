@@ -1,0 +1,39 @@
+@if $use-bounceOutUp == true {
+
+	@-webkit-keyframes bounceOutUp {
+		0% {
+			-webkit-transform: translateY(0);
+		}
+
+		20% {
+			opacity: 1;
+			-webkit-transform: translateY($base-distance * 2);
+		}
+
+		100% {
+			opacity: 0;
+			-webkit-transform: translateY(-$base-distance-big * 2);
+		}
+	}
+
+	@keyframes bounceOutUp {
+		0% {
+			transform: translateY(0);
+		}
+
+		20% {
+			opacity: 1;
+			transform: translateY($base-distance * 2);
+		}
+
+		100% {
+			opacity: 0;
+			transform: translateY(-$base-distance-big * 2);
+		}
+	}
+
+	.out .bounceOutUp {
+		@include animate-prefixer(animation-name, bounceOutUp);
+	}
+
+}

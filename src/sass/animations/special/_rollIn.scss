@@ -1,0 +1,19 @@
+@if $use-rollIn == true {
+
+	// originally authored by Nick Pettit - https://github.com/nickpettit/glide
+
+	@-webkit-keyframes rollIn {
+		0% { opacity: 0; -webkit-transform: translateX(-100%) rotate(-$base-degrees * 4); }
+		100% { opacity: 1; -webkit-transform: translateX(0px) rotate(0deg); }
+	}
+
+	@keyframes rollIn {
+		0% { opacity: 0; transform: translateX(-100%) rotate(-$base-degrees * 4); }
+		100% { opacity: 1; transform: translateX(0px) rotate(0deg); }
+	}
+
+	.in .rollIn {
+		@include animate-prefixer(animation-name, rollIn);
+	}
+
+}

@@ -1,0 +1,12 @@
+@if $use-fadeIn == true {
+
+	@include animate-keyframe(fadeIn) {
+		0% {opacity: 0;}
+		100% {opacity: 1;}
+	}
+
+	.in .fadeIn  {
+		@include animate-prefixer(animation-name, fadeIn);
+	}
+
+}
