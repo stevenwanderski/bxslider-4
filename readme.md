@@ -617,25 +617,15 @@ slider = $('.bxslider').bxSlider();
 slider.destroySlider();
 ```
 
-### Install Grunt and Bower
+### Local Development with Gulp
 
 **Unfamiliar with npm? Don't have node installed?** [Download and install node.js](http://nodejs.org/download/) before proceeding.
 
 From the command line:
 
-1. Install `grunt-cli` and `bower` globally with `npm install -g grunt-cli bower`.
-2. Run `npm install`. npm will look at `package.json` and automatically install the necessary dependencies.
-3. Run `bower install`, which installs front-end packages defined in `bower.json`.
-
-When completed, you'll be able to run the various Grunt commands provided from the command line.
-
-### Available Grunt commands
-
-* `grunt` — Clean, Compile LESS to CSS, concatenate and validate JS, build documentation.
-* `grunt dist` — Clean, Compile LESS to CSS, concatenate and validate JS for plugin only.
-* `grunt docs` — Clean, build documentation only.
-* `grunt watch` — loads LiveReload, connects, and watches all assets.
-* `grunt zip` — Creates a zip of `/dist` and places it in `/download`.
+1. Install the CLI: `npm install --global gulp-cli`
+2. Run `npm install` to install local development tools
+3. Run `gulp` which will build the project
 
 ## Contributing
 
@@ -647,6 +637,10 @@ Everyone is welcome to help [contribute](CONTRIBUTING.md) and improve this proje
 * Fixing [issues](https://github.com/roots/roots/issues)
 
 ## Changelog
+
+### Version 4.2.6
+* Fix: jQuery 3 support
+* Adds Gulp and removes Grunt (for easier local development)
 
 ### Version 4.2.5
 * Fix: Vertical carousel minSlides not working #840
