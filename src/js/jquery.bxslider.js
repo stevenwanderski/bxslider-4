@@ -45,6 +45,7 @@
     pagerSelector: null,
     buildPager: null,
     pagerCustom: null,
+    stateful: false,
 
     // CONTROLS
     controls: true,
@@ -332,6 +333,7 @@
       if (slider.settings.keyboardEnabled && !slider.settings.ticker) {
         $(document).keydown(keyPress);
       }
+      if (slider.settings.stateful){ changeState(0, true); }
     };
 
     /**
@@ -1308,6 +1310,47 @@
       }
     };
 
+    var changeState = function(slideNumber, firstLoad){
+      url = location.search;
+      theParam = slider.settings.stateful.toString(); // allows you to change the query string based on 
+      if(url){
+        searchIndex = url.indexOf('&' + theParam + '=');
+        // Decides if the param is listed in the url query, appends it if necessary.
+        if(searchIndex !== -1){
+          queryString = url.substring(0, searchIndex);
+          queryString += '&';
+        }else if(url.indexOf('?' + theParam + '=') > -1){
+          queryString = '?';
+        }else{
+          queryString = url  + '&';
+        }
+      }else{
+        queryString = '?';
+      }
+      if(firstLoad){ // on first loading, and boolean.
+        slideSetTo = unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(theParam).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
+        
+        goState = true;
+        // set up event listener
+        window.onpopstate = function(e) {
+          // make sure pushstate doesn't trigger when using browser buttons
+          goState = false; 
+          el.goToSlide(parseInt(e.state));
+        };
+        if(slideSetTo){
+          goState = false;
+          window.history.replaceState(slideSetTo, slideSetTo, queryString + theParam + "=" + slideSetTo); // ensures state is set when someone comes in with query string.
+          el.goToSlide(slideSetTo);
+        }
+        
+      }else {
+        if(goState){ // won't run if using back or forward button, otherwise it's a redundant call.
+          window.history.pushState(slideNumber, slideNumber, queryString +  theParam + "=" + slideNumber);
+        }
+        goState = true;
+      }
+    };
+
     /**
      * ===================================================================================
      * = PUBLIC FUNCTIONS
@@ -1431,6 +1474,9 @@
         }
       }
       if (slider.settings.ariaHidden) { applyAriaHiddenAttributes(slider.active.index * getMoveBy()); }
+
+      // if stateful is enabled
+      if (slider.settings.stateful){ changeState(slider.active.index, false); }
     };
 
     /**
@@ -1583,6 +1629,7 @@
       //remove self reference in data
       $(this).removeData('bxSlider');
     };
+
 
     /**
      * Reload the slider (revert all DOM changes, and re-initialize)

@@ -237,6 +237,14 @@ default: 'bx-wrapper'
 options: string
 ```
 
+**stateful**
+Adds browser history state for any paging action, which views previous slides based on pager when users use browser 'back' or 'forward' buttons. Also appends the specified string to the address URL history. This is most useful for linking a specific slide, or when dynamic content is being loaded based on which slide is being viewed.
+
+```
+default: false
+options: string
+```
+
 ###Pager
 
 **pager**
