@@ -1338,14 +1338,18 @@
       moveBy = 0,
       position = {left: 0, top: 0},
       lastChild = null,
-      lastShowingIndex, eq, value, requestEl;
+      lastShowingIndex, eq, value, requestEl, tempActiveIndex;
+      //set temporary new index for change slide check
+      tempActiveIndex = setSlideIndex(slideIndex);
+
+      // if plugin is currently in motion, ignore request
+      if (slider.working || tempActiveIndex === slider.active.index) { return; }
+
       // store the old index
       slider.oldIndex = slider.active.index;
       //set new index
-      slider.active.index = setSlideIndex(slideIndex);
+      slider.active.index = tempActiveIndex;
 
-      // if plugin is currently in motion, ignore request
-      if (slider.working || slider.active.index === slider.oldIndex) { return; }
       // declare that plugin is in motion
       slider.working = true;
 
