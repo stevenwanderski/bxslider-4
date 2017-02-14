@@ -1,5 +1,5 @@
 /**
- * bxSlider v4.2.5
+ * bxSlider v4.2.7
  * Copyright 2013-2015 Steven Wanderski
  * Written while drinking Belgian ales and listening to jazz
 
@@ -89,7 +89,8 @@
     onSlideAfter: function() { return true; },
     onSlideNext: function() { return true; },
     onSlidePrev: function() { return true; },
-    onSliderResize: function() { return true; }
+    onSliderResizeBefore: function() { return true; },
+    onSliderResizeAfter: function() { return true; }
   };
 
   $.fn.bxSlider = function(options) {
@@ -1260,13 +1261,15 @@
         // *we must check this because our dinosaur friend IE fires a window resize event when certain DOM elements
         // are resized. Can you just die already?*
         if (windowWidth !== windowWidthNew || windowHeight !== windowHeightNew) {
+          // Call user resize-before handler
+          slider.settings.onSliderResizeBefore.call(el, slider.active.index);
           // set the new window dimens
           windowWidth = windowWidthNew;
           windowHeight = windowHeightNew;
           // update all dynamic elements
           el.redrawSlider();
           // Call user resize handler
-          slider.settings.onSliderResize.call(el, slider.active.index);
+          slider.settings.onSliderResizeAfter.call(el, slider.active.index);
         }
       }
     };
@@ -1332,6 +1335,8 @@
      *  - INTERNAL USE ONLY - the direction of travel ("prev" / "next")
      */
     el.goToSlide = function(slideIndex, direction) {
+      if (slider.working || slider.active.index === slideIndex) { return; }
+
       // onSlideBefore, onSlideNext, onSlidePrev callbacks
       // Allow transition canceling based on returned value
       var performTransition = true,
@@ -1446,7 +1451,7 @@
      */
     el.goToNextSlide = function() {
       // if infiniteLoop is false and last page is showing, disregard call
-      if (!slider.settings.infiniteLoop && slider.active.last) { return; }
+      if (slider.working || !slider.settings.infiniteLoop && slider.active.last) { return; }
       var pagerIndex = parseInt(slider.active.index) + 1;
       el.goToSlide(pagerIndex, 'next');
     };
@@ -1456,7 +1461,7 @@
      */
     el.goToPrevSlide = function() {
       // if infiniteLoop is false and last page is showing, disregard call
-      if (!slider.settings.infiniteLoop && slider.active.index === 0) { return; }
+      if (slider.working || !slider.settings.infiniteLoop && slider.active.index === 0) { return; }
       var pagerIndex = parseInt(slider.active.index) - 1;
       el.goToSlide(pagerIndex, 'prev');
     };
@@ -1556,6 +1561,13 @@
         updatePagerActive(slider.active.index);
       }
       if (slider.settings.ariaHidden) { applyAriaHiddenAttributes(slider.active.index * getMoveBy()); }
+    };
+
+    /**
+     * Update sliders height
+     */
+    el.recalculateHeight = function() {
+      slider.viewport.css('height', getViewportHeight());
     };
 
     /**
