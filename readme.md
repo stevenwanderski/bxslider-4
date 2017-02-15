@@ -4,7 +4,7 @@ https://github.com/stevenwanderski/bxslider-4/issues/1095
 
 ---
 
-#bxSlider 4.2.6
+#bxSlider 4.2.7
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
@@ -637,6 +637,9 @@ Everyone is welcome to help [contribute](CONTRIBUTING.md) and improve this proje
 * Fixing [issues](https://github.com/roots/roots/issues)
 
 ## Changelog
+
+### Version 4.2.7
+* Allows new version to be published to NPM
 
 ### Version 4.2.6
 * Fix: jQuery 3 support
