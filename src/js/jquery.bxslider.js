@@ -454,7 +454,7 @@
         } else {
           childWidth = slider.children.first().width() + slider.settings.slideMargin;
           slidesShowing = Math.floor((slider.viewport.width() +
-            slider.settings.slideMargin) / childWidth);
+            slider.settings.slideMargin) / childWidth) || 1;
         }
       // if "vertical" mode, slides showing will always be minSlides
       } else if (slider.settings.mode === 'vertical') {
