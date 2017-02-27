@@ -4,7 +4,7 @@ https://github.com/stevenwanderski/bxslider-4/issues/1095
 
 ---
 
-#bxSlider 4.2.9
+#bxSlider 4.2.10
 ##The fully-loaded, responsive jQuery content slider
 
 ###Why should I use this slider?
