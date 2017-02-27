@@ -638,6 +638,9 @@ Everyone is welcome to help [contribute](CONTRIBUTING.md) and improve this proje
 
 ## Changelog
 
+### Version 4.2.10
+* Bumps npm and bower versions
+
 ### Version 4.2.9
 * Removes node engine version requirement
 
