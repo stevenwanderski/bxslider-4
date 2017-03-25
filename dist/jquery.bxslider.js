@@ -476,7 +476,7 @@
             breakPoint = counter + getNumberSlidesShowing();
             counter += slider.settings.moveSlides <= getNumberSlidesShowing() ? slider.settings.moveSlides : getNumberSlidesShowing();
           }
-	  return counter;
+		  return counter;
         }
       // if moveSlides is 0 (auto) divide children length by sides showing, then round up
       } else {
