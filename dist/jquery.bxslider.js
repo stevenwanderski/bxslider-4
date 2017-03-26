@@ -896,7 +896,9 @@
         }
       }
     };
-
+	/* auto start and stop functions */
+	var windowFocusHandler = function() { el.startAuto(); };
+	var windowBlurHandler = function() { el.stopAuto(); };
     /**
      * Initializes the auto process
      */
@@ -909,11 +911,7 @@
         el.startAuto();
 
         //add focus and blur events to ensure its running if timeout gets paused
-        $(window).focus(function() {
-          el.startAuto();
-        }).blur(function() {
-          el.stopAuto();
-        });
+        $(window).focus(windowFocusHandler).blur(windowBlurHandler);
       }
       // if autoHover is requested
       if (slider.settings.autoHover) {
@@ -1585,6 +1583,8 @@
       if (slider.settings.keyboardEnabled) { $(document).unbind('keydown', keyPress); }
       //remove self reference in data
       $(this).removeData('bxSlider');
+	  // remove global window handlers
+	  $(window).off('blur', windowBlurHandler).off('focus', windowFocusHandler);
     };
 
     /**
