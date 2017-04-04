@@ -1,0 +1,29 @@
+<!-- bxSlider CSS file -->
+<link href="jquery.bxslider.css" rel="stylesheet" />
+
+<ul class="bxslider">
+  <li><img src="images/pic1.jpg" /></li>
+  <li><img src="images/pic2.jpg" /></li>
+  <li><img src="images/pic3.jpg" /></li>
+  <li><img src="images/pic1.jpg" /></li>
+  <li><img src="images/pic2.jpg" /></li>
+</ul>
+
+<!-- jQuery library -->
+<script src="jquery-3.1.1.min.js"></script>
+<!-- bxSlider Javascript file -->
+<script src="jquery.bxslider.js"></script>
+<script>
+	$(document).ready(function(){
+		$('.bxslider').bxSlider({
+			mode: 'horizontal',
+			moveSlides: 1,
+			slideMargin: 40,
+			infiniteLoop: true,
+			slideWidth: 660,
+			minSlides: 3,
+			maxSlides: 3,
+			speed: 800,
+		});
+	});
+</script>
