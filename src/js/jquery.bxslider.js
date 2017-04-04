@@ -88,7 +88,8 @@
     onSlideAfter: function() { return true; },
     onSlideNext: function() { return true; },
     onSlidePrev: function() { return true; },
-    onSliderResize: function() { return true; }
+    onSliderResize: function() { return true; },
+	onAutoChange: function() { return true; } //calls when auto slides starts and stops
   };
 
   $.fn.bxSlider = function(options) {
@@ -1472,6 +1473,8 @@
           el.goToPrevSlide();
         }
       }, slider.settings.pause);
+	  //allback for when the auto rotate status changes
+	  slider.settings.onAutoChange.call(el, true);
       // if auto controls are displayed and preventControlUpdate is not true
       if (slider.settings.autoControls && preventControlUpdate !== true) { updateAutoControls('stop'); }
     };
@@ -1488,6 +1491,8 @@
       // clear the interval
       clearInterval(slider.interval);
       slider.interval = null;
+	  //allback for when the auto rotate status changes
+	  slider.settings.onAutoChange.call(el, false);
       // if auto controls are displayed and preventControlUpdate is not true
       if (slider.settings.autoControls && preventControlUpdate !== true) { updateAutoControls('start'); }
     };

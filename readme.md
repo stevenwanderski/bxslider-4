@@ -596,6 +596,16 @@ arguments:
   newIndex: element index of the destination slide (after the transition)
 ```
 
+**onAutoChange**
+
+Executes immediately after auto transtion starts or stops.
+```
+default: function(){}
+options: function(state){ // your code here }
+arguments:
+  state: the new state of "auto": boolean (true / false)
+```
+
 ### Public methods
 
 **goToSlide**
