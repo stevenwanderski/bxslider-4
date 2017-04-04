@@ -1428,7 +1428,7 @@
           // plugin values to be animated
           setPositionProperty(value, 'slide', slider.settings.speed);
         }
-          slider.working = false;
+        slider.working = false;
       }
       if (slider.settings.ariaHidden) { applyAriaHiddenAttributes(slider.active.index * getMoveBy()); }
     };
@@ -1439,6 +1439,7 @@
     el.goToNextSlide = function() {
       // if infiniteLoop is false and last page is showing, disregard call
       if (!slider.settings.infiniteLoop && slider.active.last) { return; }
+	  if (slider.working == true){ return ;}
       var pagerIndex = parseInt(slider.active.index) + 1;
       el.goToSlide(pagerIndex, 'next');
     };
@@ -1449,6 +1450,7 @@
     el.goToPrevSlide = function() {
       // if infiniteLoop is false and last page is showing, disregard call
       if (!slider.settings.infiniteLoop && slider.active.index === 0) { return; }
+	  if (slider.working == true){ return ;}
       var pagerIndex = parseInt(slider.active.index) - 1;
       el.goToSlide(pagerIndex, 'prev');
     };

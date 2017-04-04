@@ -449,7 +449,7 @@
         } else {
           childWidth = slider.children.first().width() + slider.settings.slideMargin;
           slidesShowing = Math.floor((slider.viewport.width() +
-            slider.settings.slideMargin) / childWidth);
+            slider.settings.slideMargin) / childWidth) || 1;
         }
       // if "vertical" mode, slides showing will always be minSlides
       } else if (slider.settings.mode === 'vertical') {
@@ -1427,9 +1427,8 @@
           value = slider.settings.mode === 'horizontal' ? -(position.left - moveBy) : -position.top;
           // plugin values to be animated
           setPositionProperty(value, 'slide', slider.settings.speed);
-        } else {
-          slider.working = false;
         }
+        slider.working = false;
       }
       if (slider.settings.ariaHidden) { applyAriaHiddenAttributes(slider.active.index * getMoveBy()); }
     };
@@ -1440,6 +1439,7 @@
     el.goToNextSlide = function() {
       // if infiniteLoop is false and last page is showing, disregard call
       if (!slider.settings.infiniteLoop && slider.active.last) { return; }
+	  if (slider.working == true){ return ;}
       var pagerIndex = parseInt(slider.active.index) + 1;
       el.goToSlide(pagerIndex, 'next');
     };
@@ -1450,6 +1450,7 @@
     el.goToPrevSlide = function() {
       // if infiniteLoop is false and last page is showing, disregard call
       if (!slider.settings.infiniteLoop && slider.active.index === 0) { return; }
+	  if (slider.working == true){ return ;}
       var pagerIndex = parseInt(slider.active.index) - 1;
       el.goToSlide(pagerIndex, 'prev');
     };
