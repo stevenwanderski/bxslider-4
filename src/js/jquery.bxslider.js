@@ -285,7 +285,7 @@
         $(this).one('load error', function() {
           if (++count === total) { callback(); }
         }).each(function() {
-          if (this.complete) { $(this).trigger('load'); }
+          if (this.complete || this.src == '') { $(this).trigger('load'); }
         });
       });
     };
