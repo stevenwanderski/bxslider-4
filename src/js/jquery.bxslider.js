@@ -35,6 +35,7 @@
     touchEnabled: true,
     swipeThreshold: 50,
     oneToOneTouch: true,
+    delayedTouch: 300,
     preventDefaultSwipeX: true,
     preventDefaultSwipeY: false,
 
@@ -1110,13 +1111,26 @@
           slider.pointerId = orig.pointerId;
           slider.viewport.get(0).setPointerCapture(slider.pointerId);
         }
-        // bind a "touchmove" event to the viewport
-        slider.viewport.bind('touchmove MSPointerMove pointermove', onTouchMove);
-        // bind a "touchend" event to the viewport
-        slider.viewport.bind('touchend MSPointerUp pointerup', onTouchEnd);
-        slider.viewport.bind('MSPointerCancel pointercancel', onPointerCancel);
+        //delayed touch-work
+        slider.viewport.bind('touchend MSPointerUp pointerup', onTouchSkip);
+        slider.delayedTimer = setTimeout(function(){
+          slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchSkip);
+          // bind a "touchmove" event to the viewport
+          slider.viewport.bind('touchmove MSPointerMove pointermove', onTouchMove);
+          // bind a "touchend" event to the viewport
+          slider.viewport.bind('touchend MSPointerUp pointerup', onTouchEnd);
+          slider.viewport.bind('MSPointerCancel pointercancel', onPointerCancel);
+        }, slider.settings.delayedTouch);
       }
     };
+    
+    /**
+     * Skip touch by delayed
+     *
+     */
+    var onTouchSkip = function() {
+      if (slider.delayedTimer) clearTimeout(slider.delayedTimer);
+    }
 
     /**
      * Cancel Pointer for Windows Phone
