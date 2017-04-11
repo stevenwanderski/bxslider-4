@@ -1582,6 +1582,8 @@
       if (slider.controls.next) { slider.controls.next.remove(); }
       if (slider.controls.prev) { slider.controls.prev.remove(); }
       if (slider.pagerEl && slider.settings.controls && !slider.settings.pagerCustom) { slider.pagerEl.remove(); }
+      if (slider.pagerEl && slider.settings.controls && slider.settings.pagerCustom) { slider.pagerEl.off('click touchend', 'a', clickPagerBind); }
+      if (slider.pagerEl) { slider.pagerEl.find('.active').removeClass('active'); }
       $('.bx-caption', this).remove();
       if (slider.controls.autoEl) { slider.controls.autoEl.remove(); }
       clearInterval(slider.interval);
