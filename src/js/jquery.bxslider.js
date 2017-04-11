@@ -282,7 +282,7 @@
         return;
       }
       selector.find('img:not([src=""]), iframe').each(function() {
-        $(this).one('load error', function() {
+        $(this).on('load error', function() {
           if (++count === total) { callback(); }
         }).each(function() {
           if (this.complete || this.src == '') { $(this).trigger('load'); }
