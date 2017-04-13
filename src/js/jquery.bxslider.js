@@ -358,7 +358,7 @@
           // add the current slide to the children
           children = slider.children.eq(currentIndex);
           // cycle through the remaining "showing" slides
-          for (i = 1; i <= slider.settings.maxSlides - 1; i++) {
+          for (var i = 1; i <= slider.settings.maxSlides - 1; i++) {
             // if looped back to the start
             if (currentIndex + i >= slider.children.length) {
               children = children.add(slider.children.eq(i - 1));
