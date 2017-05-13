@@ -1102,6 +1102,14 @@
         slider.touch.originalPos = el.position();
         var orig = e.originalEvent,
         touchPoints = (typeof orig.changedTouches !== 'undefined') ? orig.changedTouches : [orig];
+
+        // fix for https://github.com/stevenwanderski/bxslider-4/issues/1086
+        var chromePointerEvents = typeof PointerEvent === 'function';
+        if (chromePointerEvents && orig.pointerId === undefined) {
+          return;
+        }
+        // end fix
+
         // record the starting touch x, y coordinates
         slider.touch.start.x = touchPoints[0].pageX;
         slider.touch.start.y = touchPoints[0].pageY;
