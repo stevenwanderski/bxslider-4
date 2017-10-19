@@ -1486,6 +1486,8 @@
      *  - if true, auto controls state will not be updated
      */
     el.stopAuto = function(preventControlUpdate) {
+      // if slider is auto paused, just clear that state
+      if (slider.autoPaused) slider.autoPaused = false;
       // if no interval exists, disregard call
       if (!slider.interval) { return; }
       // clear the interval
