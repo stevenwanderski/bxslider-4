@@ -1091,11 +1091,11 @@
      *  - DOM event object
      */
     var onTouchStart = function(e) {
+      e.preventDefault();
       //disable slider controls while user is interacting with slides to avoid slider freeze that happens on touch devices when a slide swipe happens immediately after interacting with slider controls
       slider.controls.el.addClass('disabled');
 
       if (slider.working) {
-        e.preventDefault();
         slider.controls.el.removeClass('disabled');
       } else {
         // record the original position when touch starts
@@ -1106,10 +1106,15 @@
         slider.touch.start.x = touchPoints[0].pageX;
         slider.touch.start.y = touchPoints[0].pageY;
 
-        if (slider.viewport.get(0).setPointerCapture && orig.pointerId > 0) {
+        if(slider.viewport.get(0).setPointerCapture) {
           slider.pointerId = orig.pointerId;
           slider.viewport.get(0).setPointerCapture(slider.pointerId);
         }
+        // store original event data for click fixation
+        slider.originalClickTarget = orig.originalTarget;
+        slider.originalClickButton = orig.button;
+        // at this moment we don`t know what it is click or swipe
+        slider.hasMove = false;
         // bind a "touchmove" event to the viewport
         slider.viewport.bind('touchmove MSPointerMove pointermove', onTouchMove);
         // bind a "touchend" event to the viewport
@@ -1125,6 +1130,7 @@
      *  - DOM event object
      */
     var onPointerCancel = function(e) {
+      e.preventDefault();
       /* onPointerCancel handler is needed to deal with situations when a touchend
       doesn't fire after a touchstart (this happens on windows phones only) */
       setPositionProperty(slider.touch.originalPos.left, 'reset', 0);
@@ -1134,7 +1140,7 @@
       slider.viewport.unbind('MSPointerCancel pointercancel', onPointerCancel);
       slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
       slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
-      if (slider.viewport.get(0).releasePointerCapture) {
+      if(slider.viewport.get(0).releasePointerCapture) {
         slider.viewport.get(0).releasePointerCapture(slider.pointerId);
       }
     };
@@ -1146,6 +1152,7 @@
      *  - DOM event object
      */
     var onTouchMove = function(e) {
+      e.preventDefault();
       var orig = e.originalEvent,
       touchPoints = (typeof orig.changedTouches !== 'undefined') ? orig.changedTouches : [orig],
       // if scrolling on y axis, do not prevent default
@@ -1153,14 +1160,9 @@
       yMovement = Math.abs(touchPoints[0].pageY - slider.touch.start.y),
       value = 0,
       change = 0;
+      // this is swipe
+      slider.hasMove = true;
 
-      // x axis swipe
-      if ((xMovement * 3) > yMovement && slider.settings.preventDefaultSwipeX) {
-        e.preventDefault();
-      // y axis swipe
-      } else if ((yMovement * 3) > xMovement && slider.settings.preventDefaultSwipeY) {
-        e.preventDefault();
-      }
       if (slider.settings.mode !== 'fade' && slider.settings.oneToOneTouch) {
         // if horizontal, drag along x axis
         if (slider.settings.mode === 'horizontal') {
@@ -1182,6 +1184,7 @@
      *  - DOM event object
      */
     var onTouchEnd = function(e) {
+      e.preventDefault();
       slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
       //enable slider controls as soon as user stops interacing with slides
       slider.controls.el.removeClass('disabled');
@@ -1216,6 +1219,7 @@
         // if not infinite loop and first / last slide, do not attempt a slide transition
         if (!slider.settings.infiniteLoop && ((slider.active.index === 0 && distance > 0) || (slider.active.last && distance < 0))) {
           setPositionProperty(value, 'reset', 200);
+
         } else {
           // check if distance clears threshold
           if (Math.abs(distance) >= slider.settings.swipeThreshold) {
@@ -1232,8 +1236,14 @@
         }
       }
       slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
-      if (slider.viewport.get(0).releasePointerCapture) {
+
+      if(slider.viewport.get(0).releasePointerCapture) {
         slider.viewport.get(0).releasePointerCapture(slider.pointerId);
+      }
+      // if slider had swipe with left mouse button or touch
+      if (slider.hasMove === false && slider.originalClickButton === 0) {
+        // trigger click event (fix for Firefox59 and PointerEvent standard compatibility)
+        $(slider.originalClickTarget).trigger('click');
       }
     };
 
