@@ -35,6 +35,8 @@
     touchEnabled: true,
     swipeThreshold: 50,
     oneToOneTouch: true,
+    preventDefaultSwipeX: true,
+    preventDefaultSwipeY: false,
 
     // ACCESSIBILITY
     ariaLive: true,
@@ -1094,6 +1096,7 @@
       if (e.type !== 'touchstart' && e.button !== 0) {
         return;
       }
+      e.preventDefault();
       //disable slider controls while user is interacting with slides to avoid slider freeze that happens on touch devices when a slide swipe happens immediately after interacting with slider controls
       slider.controls.el.addClass('disabled');
 
@@ -1166,6 +1169,17 @@
       change = 0;
       // this is swipe
       slider.hasMove = true;
+
+      // x axis swipe
+      if ((xMovement * 3) > yMovement && slider.settings.preventDefaultSwipeX) {
+        e.preventDefault();
+      // y axis swipe
+      } else if ((yMovement * 3) > xMovement && slider.settings.preventDefaultSwipeY) {
+        e.preventDefault();
+      }
+      if (e.type !== 'touchmove') {
+        e.preventDefault();
+      }
 
       if (slider.settings.mode !== 'fade' && slider.settings.oneToOneTouch) {
         // if horizontal, drag along x axis
