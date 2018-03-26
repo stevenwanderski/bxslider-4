@@ -1159,7 +1159,6 @@
      *  - DOM event object
      */
     var onTouchMove = function(e) {
-      e.preventDefault();
       var orig = e.originalEvent,
       touchPoints = (typeof orig.changedTouches !== 'undefined') ? orig.changedTouches : [orig],
       // if scrolling on y axis, do not prevent default
