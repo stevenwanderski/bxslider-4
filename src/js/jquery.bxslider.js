@@ -35,8 +35,6 @@
     touchEnabled: true,
     swipeThreshold: 50,
     oneToOneTouch: true,
-    preventDefaultSwipeX: true,
-    preventDefaultSwipeY: false,
 
     // ACCESSIBILITY
     ariaLive: true,
@@ -1091,7 +1089,11 @@
      *  - DOM event object
      */
     var onTouchStart = function(e) {
-      e.preventDefault();
+      // watch only for left mouse, touch contact and pen contact
+      // touchstart event object doesn`t have button property
+      if (e.type !== 'touchstart' && e.button !== 0) {
+        return;
+      }
       //disable slider controls while user is interacting with slides to avoid slider freeze that happens on touch devices when a slide swipe happens immediately after interacting with slider controls
       slider.controls.el.addClass('disabled');
 
@@ -1113,6 +1115,8 @@
         // store original event data for click fixation
         slider.originalClickTarget = orig.originalTarget;
         slider.originalClickButton = orig.button;
+        slider.originalClickButtons = orig.buttons;
+        slider.originalEventType = orig.type;
         // at this moment we don`t know what it is click or swipe
         slider.hasMove = false;
         // bind a "touchmove" event to the viewport
@@ -1240,10 +1244,14 @@
       if(slider.viewport.get(0).releasePointerCapture) {
         slider.viewport.get(0).releasePointerCapture(slider.pointerId);
       }
-      // if slider had swipe with left mouse button or touch
-      if (slider.hasMove === false && slider.originalClickButton === 0) {
+      // if slider had swipe with left mouse, touch contact and pen contact
+      if (slider.hasMove === false && (slider.originalClickButton === 0 || slider.originalEventType === 'touchstart')) {
         // trigger click event (fix for Firefox59 and PointerEvent standard compatibility)
-        $(slider.originalClickTarget).trigger('click');
+        $(slider.originalClickTarget).trigger({
+          type: 'click',
+          button: slider.originalClickButton,
+          buttons: slider.originalClickButtons
+        });
       }
     };
 
