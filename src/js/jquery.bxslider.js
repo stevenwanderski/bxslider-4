@@ -1108,7 +1108,7 @@
         slider.touch.start.x = touchPoints[0].pageX;
         slider.touch.start.y = touchPoints[0].pageY;
 
-        if(slider.viewport.get(0).setPointerCapture) {
+        if (slider.viewport.get(0).setPointerCapture) {
           slider.pointerId = orig.pointerId;
           slider.viewport.get(0).setPointerCapture(slider.pointerId);
         }
@@ -1144,7 +1144,7 @@
       slider.viewport.unbind('MSPointerCancel pointercancel', onPointerCancel);
       slider.viewport.unbind('touchmove MSPointerMove pointermove', onTouchMove);
       slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
-      if(slider.viewport.get(0).releasePointerCapture) {
+      if (slider.viewport.get(0).releasePointerCapture) {
         slider.viewport.get(0).releasePointerCapture(slider.pointerId);
       }
     };
@@ -1223,7 +1223,6 @@
         // if not infinite loop and first / last slide, do not attempt a slide transition
         if (!slider.settings.infiniteLoop && ((slider.active.index === 0 && distance > 0) || (slider.active.last && distance < 0))) {
           setPositionProperty(value, 'reset', 200);
-
         } else {
           // check if distance clears threshold
           if (Math.abs(distance) >= slider.settings.swipeThreshold) {
@@ -1241,7 +1240,7 @@
       }
       slider.viewport.unbind('touchend MSPointerUp pointerup', onTouchEnd);
 
-      if(slider.viewport.get(0).releasePointerCapture) {
+      if (slider.viewport.get(0).releasePointerCapture) {
         slider.viewport.get(0).releasePointerCapture(slider.pointerId);
       }
       // if slider had swipe with left mouse, touch contact and pen contact
