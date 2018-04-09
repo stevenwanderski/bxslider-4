@@ -143,7 +143,7 @@
       // store active slide information
       slider.active = { index: slider.settings.startSlide };
       // store if the slider is in carousel mode (displaying / moving multiple slides)
-      slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1 ? true : false;
+      slider.carousel = slider.settings.minSlides > 1 || slider.settings.maxSlides > 1;
       // if carousel, force preloadImages = 'all'
       if (slider.carousel) { slider.settings.preloadImages = 'all'; }
       // calculate the min / max width thresholds based on min / max number of slides
@@ -906,7 +906,7 @@
     var initAuto = function() {
       // if autoDelay was supplied, launch the auto show using a setTimeout() call
       if (slider.settings.autoDelay > 0) {
-        var timeout = setTimeout(el.startAuto, slider.settings.autoDelay);
+        setTimeout(el.startAuto, slider.settings.autoDelay);
       // if autoDelay was not supplied, start the auto show normally
       } else {
         el.startAuto();
@@ -1470,7 +1470,7 @@
     el.goToNextSlide = function() {
       // if infiniteLoop is false and last page is showing, disregard call
       if (!slider.settings.infiniteLoop && slider.active.last) { return; }
-	  if (slider.working == true){ return ;}
+	  if (slider.working === true){ return ;}
       var pagerIndex = parseInt(slider.active.index) + 1;
       el.goToSlide(pagerIndex, 'next');
     };
@@ -1481,7 +1481,7 @@
     el.goToPrevSlide = function() {
       // if infiniteLoop is false and last page is showing, disregard call
       if (!slider.settings.infiniteLoop && slider.active.index === 0) { return; }
-	  if (slider.working == true){ return ;}
+	  if (slider.working === true){ return ;}
       var pagerIndex = parseInt(slider.active.index) - 1;
       el.goToSlide(pagerIndex, 'prev');
     };
