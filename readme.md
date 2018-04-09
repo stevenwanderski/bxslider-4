@@ -1,10 +1,4 @@
-# ⚠️ Looking for a maintainer ⚠️
-Please contact me if you are interested in keeping our community alive:  
-https://github.com/stevenwanderski/bxslider-4/issues/1095
-
----
-
-# bxSlider 4.2.13
+# bxSlider 4.2.14
 ## The fully-loaded, responsive jQuery content slider
 
 ### Why should I use this slider?
@@ -717,6 +711,13 @@ Everyone is welcome to help [contribute](CONTRIBUTING.md) and improve this proje
 * Fixing [issues](https://github.com/roots/roots/issues)
 
 ## Changelog
+
+### Version 4.2.14
+* Fixing flickering (on -webkit) when used background-image to instead of <img>
+* FIX calling API method stopAuto()
+* InvalidPointerId on Android 6
+* Use jQuery.fn.on instead of jQuery.fn.bind #1126
+* InvalidPointerId on Android 6
 
 ### Version 4.2.13
 * Fix error pagerqty
