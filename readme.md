@@ -4,7 +4,7 @@ https://github.com/stevenwanderski/bxslider-4/issues/1095
 
 ---
 
-# bxSlider 4.2.12
+# bxSlider 4.2.13
 ## The fully-loaded, responsive jQuery content slider
 
 ### Why should I use this slider?
@@ -717,6 +717,18 @@ Everyone is welcome to help [contribute](CONTRIBUTING.md) and improve this proje
 * Fixing [issues](https://github.com/roots/roots/issues)
 
 ## Changelog
+
+### Version 4.2.13
+* Fix error pagerqty
+* Fix the problem #48 in the version 4.2.5 when using YUI Compressor
+* Fix division by 0
+* Ensure that slider.working is set to false at the end of goToSlide(), regardless of what happened with position.
+* Add Callback for when Auto changes...
+* Fix for Firefox59 and PointerEvent standard compatibility
+* Fix for middle mouse click
+* Fix typo
+* Format the license in package.json to match the SPDX standard
+* Code formatting
 
 ### Version 4.2.12
 * Fixes auto control theme
