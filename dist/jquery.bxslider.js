@@ -1,6 +1,6 @@
 /**
- * bxSlider v4.2.12
- * Copyright 2013-2015 Steven Wanderski
+ * bxSlider v4.2.13
+ * Copyright 2013-2017 Steven Wanderski
  * Written while drinking Belgian ales and listening to jazz
  * Licensed under MIT (http://opensource.org/licenses/MIT)
  */
@@ -256,7 +256,13 @@
       slider.active.last = slider.settings.startSlide === getPagerQty() - 1;
       // if video is true, set up the fitVids plugin
       if (slider.settings.video) { el.fitVids(); }
-      if (slider.settings.preloadImages === 'all' || slider.settings.ticker) { preloadSelector = slider.children; }
+	  //preloadImages
+	  if (slider.settings.preloadImages === 'none') { 
+		  preloadSelector = null; 
+	  }
+      else if (slider.settings.preloadImages === 'all' || slider.settings.ticker) { 
+		  preloadSelector = slider.children; 
+	  }
       // only check for control addition if not in "ticker" mode
       if (!slider.settings.ticker) {
         // if controls are requested, add them
@@ -271,7 +277,11 @@
       } else {
         slider.settings.pager = false;
       }
-      loadElements(preloadSelector, start);
+	  if (preloadSelector === null) {
+        start();
+      } else {
+        loadElements(preloadSelector, start);
+      }
     };
 
     var loadElements = function(selector, callback) {
