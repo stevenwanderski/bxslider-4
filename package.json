@@ -9,6 +9,7 @@
     "url": "http://stevenwanderski.com"
   },
   "license": "MIT",
+  "main": "./dist/jquery.bxslider.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/stevenwanderski/bxslider-4/bxslider-4.git"
