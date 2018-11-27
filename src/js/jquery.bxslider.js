@@ -257,11 +257,11 @@
       // if video is true, set up the fitVids plugin
       if (slider.settings.video) { el.fitVids(); }
 	  //preloadImages
-	  if (slider.settings.preloadImages === 'none') { 
-		  preloadSelector = null; 
+	  if (slider.settings.preloadImages === 'none') {
+		  preloadSelector = null;
 	  }
-      else if (slider.settings.preloadImages === 'all' || slider.settings.ticker) { 
-		  preloadSelector = slider.children; 
+      else if (slider.settings.preloadImages === 'all' || slider.settings.ticker) {
+		  preloadSelector = slider.children;
 	  }
       // only check for control addition if not in "ticker" mode
       if (!slider.settings.ticker) {
@@ -1117,11 +1117,11 @@
         slider.touch.originalPos = el.position();
         var orig = e.originalEvent,
         touchPoints = (typeof orig.changedTouches !== 'undefined') ? orig.changedTouches : [orig];
-		var chromePointerEvents = typeof PointerEvent === 'function'; 
-		if (chromePointerEvents) { 
-			if (orig.pointerId === undefined) { 
+		var chromePointerEvents = typeof PointerEvent === 'function';
+		if (chromePointerEvents) {
+			if (orig.pointerId === undefined) {
 				return;
-			} 
+			}
 		}
         // record the starting touch x, y coordinates
         slider.touch.start.x = touchPoints[0].pageX;
@@ -1423,7 +1423,7 @@
           slider.viewport.animate({height: getViewportHeight()}, slider.settings.adaptiveHeightSpeed);
         }
         // fade out the visible child and reset its z-index value
-        slider.children.filter(':visible').fadeOut(slider.settings.speed).css({zIndex: 0});
+        slider.children.fadeOut(slider.settings.speed).css({zIndex: 0});
         // fade in the newly requested slide
         slider.children.eq(slider.active.index).css('zIndex', slider.settings.slideZIndex + 1).fadeIn(slider.settings.speed, function() {
           $(this).css('zIndex', slider.settings.slideZIndex);
