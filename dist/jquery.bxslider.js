@@ -1103,7 +1103,7 @@
     var onTouchStart = function(e) {
       // watch only for left mouse, touch contact and pen contact
       // touchstart event object doesn`t have button property
-      if (e.type !== 'touchstart' && e.button !== 0) {
+      if ((e.type !== 'touchstart' ||  e.type !== 'pointerdown') && e.button !== 0) {
         return;
       }
       e.preventDefault();
