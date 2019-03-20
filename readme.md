@@ -1,4 +1,4 @@
-# bxSlider 4.2.14
+# bxSlider 4.2.15
 ## The fully-loaded, responsive jQuery content slider
 
 ### Why should I use this slider?
@@ -10,12 +10,12 @@
 * Browser support: Firefox, Chrome, Safari, iOS, Android, IE7+
 * Tons of configuration options
 
-For complete documentation, tons of examples, and a good time, visit: [http://bxslider.com](http://bxslider.com)
+For complete documentation, tons of examples, and a good time, visit: [https://bxslider.com](https://bxslider.com)
 
 Written by: Steven Wanderski - [http://stevenwanderski.com](http://stevenwanderski.com)
 
 ### License
-Released under the MIT license - http://opensource.org/licenses/MIT
+Released under the MIT license - https://opensource.org/licenses/MIT
 
 Let's get on with it!
 
@@ -718,6 +718,10 @@ Everyone is welcome to help [contribute](CONTRIBUTING.md) and improve this proje
 * Fixing [issues](https://github.com/roots/roots/issues)
 
 ## Changelog
+
+### Version 4.2.15
+* Restore original event target correctly
+* Fix event target restore
 
 ### Version 4.2.14
 * Fixing flickering (on -webkit) when used background-image to instead of <img>
