@@ -260,6 +260,14 @@ default: 'bx-wrapper'
 options: string
 ```
 
+**sliderSlopSize**
+
+Amount of pixels the pointer needs to exceed before the slider starts swiping.
+```
+default: 5
+options: integer
+```
+
 ### Pager
 
 **pager**
