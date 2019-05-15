@@ -30,6 +30,7 @@
     responsive: true,
     slideZIndex: 50,
     wrapperClass: 'bx-wrapper',
+    sliderSlopSize: 5,
 
     // TOUCH
     touchEnabled: true,
@@ -1117,19 +1118,22 @@
         slider.touch.originalPos = el.position();
         var orig = e.originalEvent,
         touchPoints = (typeof orig.changedTouches !== 'undefined') ? orig.changedTouches : [orig];
-		var chromePointerEvents = typeof PointerEvent === 'function'; 
-		if (chromePointerEvents) { 
-			if (orig.pointerId === undefined) { 
-				return;
-			} 
-		}
+        var PointerEventsSupported = typeof PointerEvent === 'function';
+        if (PointerEventsSupported) {
+          if (orig.pointerId === undefined) {
+            // Skip touch events as the rest of the code runs with pointer events already.
+            return;
+          }
+        }
         // record the starting touch x, y coordinates
         slider.touch.start.x = touchPoints[0].pageX;
         slider.touch.start.y = touchPoints[0].pageY;
 
-        if (slider.viewport.get(0).setPointerCapture) {
+        // This captures the event stream to the target to make sure even if the pointer leaves
+        // the slider bounday in the very next move it still keeps the events.
+        if (e.target.setPointerCapture) {
           slider.pointerId = orig.pointerId;
-          slider.viewport.get(0).setPointerCapture(slider.pointerId);
+          e.target.setPointerCapture(slider.pointerId);
         }
         // store original event data for click fixation
         slider.originalClickTarget = orig.originalTarget || orig.target;
@@ -1182,8 +1186,23 @@
       yMovement = Math.abs(touchPoints[0].pageY - slider.touch.start.y),
       value = 0,
       change = 0;
-      // this is swipe
-      slider.hasMove = true;
+
+      if (xMovement > slider.settings.sliderSlopSize || yMovement > slider.settings.sliderSlopSize) {
+        // From now on all moves will be considered swipe.
+        slider.hasMove = true;
+
+        // Capture the pointerevent stream to the slider instead of the element that the pointerdown
+        // started on. This ensures the start element such as link doesn't get activated when user
+        // is done with swiping the slider and releases the pointer.
+        if (slider.viewport.get(0).setPointerCapture && typeof orig.pointerId !== 'undefined') {
+          slider.viewport.get(0).setPointerCapture(slider.pointerId);
+        }
+      }
+
+      // Only move the slider if we determined that we are in swipe mode. This ensures
+      // users can still click/tap on links even if the pointer moves within sliderSlopSize.
+      if (!slider.hasMove)
+        return;
 
       // x axis swipe
       if ((xMovement * 3) > yMovement && slider.settings.preventDefaultSwipeX) {
