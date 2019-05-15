@@ -1130,7 +1130,7 @@
         slider.touch.start.y = touchPoints[0].pageY;
 
         // This captures the event stream to the target to make sure even if the pointer leaves
-        // the slider bounday in the very next move it still keeps the events.
+        // the slider boundary in the very next move it still keeps the events.
         if (e.target.setPointerCapture) {
           slider.pointerId = orig.pointerId;
           e.target.setPointerCapture(slider.pointerId);
