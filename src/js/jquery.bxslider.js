@@ -1106,7 +1106,7 @@
       if (e.type !== 'touchstart' && e.button !== 0) {
         return;
       }
-      e.preventDefault();
+
       //disable slider controls while user is interacting with slides to avoid slider freeze that happens on touch devices when a slide swipe happens immediately after interacting with slider controls
       slider.controls.el.addClass('disabled');
 
@@ -1127,9 +1127,9 @@
         slider.touch.start.x = touchPoints[0].pageX;
         slider.touch.start.y = touchPoints[0].pageY;
 
-        if (slider.viewport.get(0).setPointerCapture) {
+        if (e.target.setPointerCapture) {
           slider.pointerId = orig.pointerId;
-          slider.viewport.get(0).setPointerCapture(slider.pointerId);
+          e.target.setPointerCapture(slider.pointerId);
         }
         // store original event data for click fixation
         slider.originalClickTarget = orig.originalTarget || orig.target;
