@@ -285,13 +285,13 @@
     };
 
     var loadElements = function(selector, callback) {
-      var total = selector.find('img:not([src=""]), iframe').length,
+      var total = selector.find('img').filter(function(){return this.complete === true;}).length,
       count = 0;
       if (total === 0) {
         callback();
         return;
       }
-      selector.find('img:not([src=""]), iframe').each(function() {
+      selector.find('img').filter(function(){return this.complete === true;}).each(function() {
         $(this).one('load error', function() {
           if (++count === total) { callback(); }
         }).each(function() {
