@@ -23,6 +23,7 @@
     responsive: true,
     slideZIndex: 50,
     wrapperClass: 'bx-wrapper',
+    activeClass: 'bx-active-slide',
 
     // TOUCH
     touchEnabled: true,
@@ -332,6 +333,8 @@
       if (slider.settings.keyboardEnabled && !slider.settings.ticker) {
         $(document).keydown(keyPress);
       }
+      // Set active class
+      slider.children.eq(slider.active.index).addClass(slider.settings.activeClass)
     };
 
     /**
@@ -844,6 +847,10 @@
       slider.working = false;
       // onSlideAfter callback
       slider.settings.onSlideAfter.call(el, slider.children.eq(slider.active.index), slider.oldIndex, slider.active.index);
+      // remove all sliders active classes
+      slider.children.removeClass(slider.settings.activeClass);
+      // apply the active class to the current slider
+      slider.children.eq(slider.active.index).addClass(slider.settings.activeClass)
     };
 
     /**

@@ -231,7 +231,15 @@ default: 'bx-wrapper'
 options: string
 ```
 
-###Pager
+**activeClass**
+
+Active slide's class.
+```
+default: 'bx-active-slide'
+options: string
+```
+
+### Pager
 
 **pager**
 If <code>true</code>, a pager will be added
