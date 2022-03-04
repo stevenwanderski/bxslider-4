@@ -483,11 +483,11 @@
         } else {
           // when breakpoint goes above children length, counter is the number of pages
           while (breakPoint < slider.children.length) {
-            ++pagerQty;
-            breakPoint = counter + getNumberSlidesShowing();
-            counter += slider.settings.moveSlides <= getNumberSlidesShowing() ? slider.settings.moveSlides : getNumberSlidesShowing();
-          }
-		  return counter;
+              ++pagerQty;
+              breakPoint = counter + getNumberSlidesShowing();
+              counter += slider.settings.moveSlides < getNumberSlidesShowing() ? slider.settings.moveSlides : getNumberSlidesShowing();
+          } 
+		      return pagerQty;
         }
       // if moveSlides is 0 (auto) divide children length by sides showing, then round up
       } else {
