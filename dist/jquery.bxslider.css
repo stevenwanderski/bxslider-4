@@ -6,7 +6,7 @@
   position: relative;
   margin-bottom: 60px;
   padding: 0;
-  *zoom: 1;
+  zoom: 1;
   -ms-touch-action: pan-y;
   touch-action: pan-y;
 }
@@ -83,8 +83,6 @@ ul.bxslider {
 .bx-wrapper .bx-controls-auto .bx-controls-auto-item {
   display: inline-block;
   vertical-align: bottom;
-  *zoom: 1;
-  *display: inline;
 }
 .bx-wrapper .bx-pager-item {
   font-size: 0;
