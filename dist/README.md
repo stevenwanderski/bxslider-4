@@ -1,4 +1,4 @@
-# bxSlider 4.2.16
+# bxSlider 4.2.17
 ## The fully-loaded, responsive jQuery content slider
 
 ### Why should I use this slider?
@@ -37,8 +37,8 @@ First and most important, the jQuery library needs to be included (no need to do
 Or, if you prefer, you can get the bxSlider's resources from the **CDN**:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.17/jquery.bxslider.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.17/jquery.bxslider.min.css" rel="stylesheet" />
 ```
 
 ### Step 2: Create HTML markup

@@ -1,8 +1,8 @@
 {
   "name": "bxslider",
   "description": "Touch enabled jQuery plugin for creating responsive carousels and sliders.",
-  "version": "4.2.16",
-  "homepage": "http://bxslider.com",
+  "version": "4.2.17",
+  "homepage": "https://bxslider.com",
   "author": {
     "name": "Steven Wanderski",
     "email": "steven.wanderski@gmail.com",
