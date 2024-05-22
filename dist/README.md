@@ -34,6 +34,13 @@ First and most important, the jQuery library needs to be included (no need to do
 <link href="/lib/jquery.bxslider.css" rel="stylesheet" />
 ```
 
+Or, if you prefer, you can get the bxSlider's resources from the **CDN**:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
+```
+
 ### Step 2: Create HTML markup
 
 Create a `<ul class="bxslider">` element, with a `<li>` for each slide. Slides can contain images, video, or any other HTML content!
