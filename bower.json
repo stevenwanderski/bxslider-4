@@ -1,0 +1,28 @@
+{
+  "name": "bxslider-4",
+  "homepage": "http://bxslider.com",
+  "license": "MIT",
+  "main": [
+    "dist/jquery.bxslider.js",
+    "dist/jquery.bxslider.css",
+    "dist/images/bx_loader.gif",
+    "dist/images/controls.png"
+  ],
+  "ignore": [
+    "docs_src/*",
+    "docs/*"
+  ],
+  "keywords": [
+    "bxslider",
+    "javascript",
+    "jquery",
+    "library"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.8.3"
+  },
+  "devDependencies": {
+    "bootstrap": ">= 3.3.2",
+    "highlightjs": "~8.4.0"
+  }
+}

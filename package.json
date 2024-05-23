@@ -1,0 +1,35 @@
+{
+  "name": "bxslider",
+  "description": "Touch enabled jQuery plugin for creating responsive carousels and sliders.",
+  "version": "4.2.17",
+  "homepage": "https://bxslider.com",
+  "author": {
+    "name": "Steven Wanderski",
+    "email": "steven.wanderski@gmail.com",
+    "url": "https://stevenwanderski.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevenwanderski/bxslider-4/bxslider-4.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stevenwanderski/bxslider-4/issues"
+  },
+  "devDependencies": {
+    "gulp": "^5.0.0",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.1"
+  },
+  "engines": {
+    "node": ">=0.10.28"
+  },
+  "keywords": [
+    "responsive",
+    "carousel",
+    "bxslider",
+    "jQuery",
+    "plugin"
+  ]
+}
