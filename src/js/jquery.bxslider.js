@@ -1429,7 +1429,7 @@
           slider.viewport.animate({height: getViewportHeight()}, slider.settings.adaptiveHeightSpeed);
         }
         // fade out the visible child and reset its z-index value
-        slider.children.filter(':visible').fadeOut(slider.settings.speed).css({zIndex: 0});
+        slider.children.fadeOut(slider.settings.speed).css({zIndex: 0});
         // fade in the newly requested slide
         slider.children.eq(slider.active.index).css('zIndex', slider.settings.slideZIndex + 1).fadeIn(slider.settings.speed, function() {
           $(this).css('zIndex', slider.settings.slideZIndex);
