@@ -534,8 +534,9 @@ options: boolean (true / false)
 Executes immediately after the slider is fully loaded
 ```
 default: function(){}
-options: function(currentIndex){ // your code here }
+options: function(slider, currentIndex){ // your code here }
 arguments:
+  slider: slider object containing settings, slider elements and state variables
   currentIndex: element index of the current slide
 ```
 
