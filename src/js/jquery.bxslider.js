@@ -20,6 +20,7 @@
     startSlide: 0,
     randomStart: false,
     captions: false,
+    captionsAttr: 'title',
     ticker: false,
     tickerHover: false,
     adaptiveHeight: false,
@@ -736,7 +737,7 @@
       // cycle through each child
       slider.children.each(function(index) {
         // get the image title attribute
-        var title = $(this).find('img:first').attr('title');
+        var title = $(this).find('img:first').attr(slider.settings.captionsAttr);
         // append the caption
         if (title !== undefined && ('' + title).length) {
           $(this).append('<div class="bx-caption"><span>' + title + '</span></div>');
