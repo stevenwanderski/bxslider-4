@@ -458,7 +458,7 @@
           slidesShowing = slider.settings.maxSlides;
         // if viewport is between min / max thresholds, divide viewport width by first child width
         } else {
-          childWidth = slider.children.first().width() + slider.settings.slideMargin;
+          childWidth = slider.children.first().outerWidth() + slider.settings.slideMargin;
           slidesShowing = Math.floor((slider.viewport.width() +
             slider.settings.slideMargin) / childWidth) || 1;
         }
