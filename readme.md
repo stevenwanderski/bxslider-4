@@ -599,7 +599,7 @@ arguments:
 
 **onAutoChange**
 
-Executes immediately after auto transtion starts or stops.
+Executes immediately after auto transition starts or stops.
 ```
 default: function(){}
 options: function(state){ // your code here }
