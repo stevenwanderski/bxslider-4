@@ -1389,9 +1389,18 @@
       slider.oldIndex = slider.active.index;
       //set new index
       slider.active.index = setSlideIndex(slideIndex);
-
-      // if plugin is currently in motion, ignore request
-      if (slider.working || slider.active.index === slider.oldIndex) { return; }
+    
+      // if already in the requested slide, ignore request
+      if (slider.active.index === slider.oldIndex) { return; }
+      // if plugin is not in fade mode and currently in motion, ignore request
+      if (slider.working) {
+        if (slider.settings.mode !== 'fade') {
+          return;
+        } else {
+          // in fade mode, finish all ongoing animations immediately and start a new animation
+          slider.children.stop(true, true);
+        }
+      }
       // declare that plugin is in motion
       slider.working = true;
 
@@ -1429,9 +1438,9 @@
           slider.viewport.animate({height: getViewportHeight()}, slider.settings.adaptiveHeightSpeed);
         }
         // fade out the visible child and reset its z-index value
-        slider.children.filter(':visible').fadeOut(slider.settings.speed).css({zIndex: 0});
+        slider.children.filter(':visible').stop(true, true).fadeOut(slider.settings.speed).css({zIndex: 0});
         // fade in the newly requested slide
-        slider.children.eq(slider.active.index).css('zIndex', slider.settings.slideZIndex + 1).fadeIn(slider.settings.speed, function() {
+        slider.children.eq(slider.active.index).css('zIndex', slider.settings.slideZIndex + 1).stop(true, true).fadeIn(slider.settings.speed, function() {
           $(this).css('zIndex', slider.settings.slideZIndex);
           updateAfterSlideTransition();
         });
