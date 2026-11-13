@@ -634,7 +634,7 @@
       for (var i = 0; i < pagerQty; i++) {
         linkContent = '';
         // if a buildPager function is supplied, use it to get pager link value, else use index + 1
-        if (slider.settings.buildPager && $.isFunction(slider.settings.buildPager) || slider.settings.pagerCustom) {
+        if (slider.settings.buildPager && typeof slider.settings.buildPager === 'function' || slider.settings.pagerCustom) {
           linkContent = slider.settings.buildPager(i);
           slider.pagerEl.addClass('bx-custom-pager');
         } else {
@@ -833,9 +833,9 @@
         return;
       }
       // remove all pager active classes
-      slider.pagerEl.find('a').removeClass('active');
+      slider.pagerEl.find('a').removeClass('active').removeAttr('aria-selected');
       // apply the active class for all pagers
-      slider.pagerEl.each(function(i, el) { $(el).find('a').eq(slideIndex).addClass('active'); });
+      slider.pagerEl.each(function(i, el) { $(el).find('a').eq(slideIndex).addClass('active').attr('aria-selected', true); });
     };
 
     /**
